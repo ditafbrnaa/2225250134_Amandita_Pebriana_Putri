@@ -2,6 +2,7 @@
 
 Aplikasi web + PWA interaktif untuk materi **Himpunan dan Diagram Venn (SMP)**, dirancang dari analisis beban kognitif siswa dan terintegrasi dengan instrumen pretest–posttest literasi matematika.
 
+Akses langsung ke aplikasi: https://2225250134-amandita-pebriana-putri.vercel.app/
 ```
 vennbuster/
 ├── frontend/   React + Vite + Tailwind v4 + Framer Motion (PWA)
