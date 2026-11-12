@@ -1,0 +1,9 @@
+[
+  { "symbol": "∈", "name": "anggota", "read": "x ∈ A dibaca \"x anggota A\"", "tip": "Seperti huruf e dari \"element\": x ada di dalam A.", "expr": null },
+  { "symbol": "∉", "name": "bukan anggota", "read": "x ∉ A dibaca \"x bukan anggota A\"", "tip": "Tanda ∈ yang dicoret berarti \"bukan\".", "expr": null },
+  { "symbol": "S", "name": "himpunan semesta", "read": "S memuat SEMUA anggota yang dibicarakan", "tip": "Kotak besar. Semua angka harus ada di dalam kotak, termasuk yang di luar lingkaran.", "expr": "S" },
+  { "symbol": "∩", "name": "irisan", "read": "A ∩ B dibaca \"A irisan B\"", "tip": "Bentuknya seperti atap/jembatan: hanya bagian yang dimiliki KEDUANYA.", "expr": "A∩B" },
+  { "symbol": "∪", "name": "gabungan", "read": "A ∪ B dibaca \"A gabungan B\"", "tip": "Bentuknya seperti huruf U → gabUngan, seperti mangkuk yang menampung SEMUA.", "expr": "A∪B" },
+  { "symbol": "ᶜ", "name": "komplemen", "read": "Aᶜ dibaca \"komplemen A\"", "tip": "Semua anggota S yang BUKAN anggota A.", "expr": "Aᶜ" },
+  { "symbol": "−", "name": "selisih", "read": "A − B dibaca \"A kurang B\"", "tip": "Anggota A dikurangi yang juga ada di B, jadi HANYA A.", "expr": "A−B" }
+]

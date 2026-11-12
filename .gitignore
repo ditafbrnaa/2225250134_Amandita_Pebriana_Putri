@@ -1,0 +1,10 @@
+node_modules/
+dist/
+dev-dist/
+.env
+.venv/
+__pycache__/
+*.db
+analysis/data/
+hasil_ngain.xlsx
+.DS_Store

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "tidak-keduanya",
+    "pattern": "(?:tidak|bukan)\\s+(?:\\S+\\s+){0,2}keduanya",
+    "masks": [0],
+    "label": "Bukan keduanya",
+    "hint": "Di dalam semesta S, tetapi di LUAR kedua lingkaran."
+  },
+  {
+    "id": "bukan-maupun",
+    "pattern": "bukan\\s+(?:\\S+\\s+){0,3}maupun(?:\\s+\\S+)?",
+    "masks": [0],
+    "label": "Bukan … maupun …",
+    "hint": "Bukan anggota A dan bukan anggota B → di luar kedua lingkaran."
+  },
+  {
+    "id": "setidaknya",
+    "pattern": "(?:setidaknya|paling\\s+sedikit|minimal)\\s+(?:salah\\s+)?satu",
+    "masks": [1, 2, 3],
+    "label": "Setidaknya satu",
+    "hint": "Semua bagian DI DALAM lingkaran (gabungan A ∪ B)."
+  },
+  {
+    "id": "hanya",
+    "pattern": "hanya",
+    "masks": [1, 2],
+    "label": "Hanya",
+    "hint": "Hanya SATU kelompok, irisan TIDAK termasuk."
+  },
+  {
+    "id": "saja",
+    "pattern": "saja",
+    "masks": [1, 2],
+    "label": "Saja",
+    "hint": "\"A saja\" artinya hanya A, irisan tidak ikut."
+  },
+  {
+    "id": "keduanya",
+    "pattern": "(?:keduanya|kedua\\s+\\S+(?:\\s+tersebut)?(?:\\s+sekaligus)?|sekaligus|dan\\s+juga)",
+    "masks": [3],
+    "label": "Keduanya",
+    "hint": "Masuk dua kelompok sekaligus → daerah irisan (tengah)."
+  },
+  {
+    "id": "kecuali",
+    "pattern": "kecuali|selain",
+    "masks": null,
+    "label": "Kecuali",
+    "hint": "Semua anggota semesta DIKURANGI kelompok yang disebut (komplemen)."
+  },
+  {
+    "id": "semesta",
+    "pattern": "(?:seluruh|semua)\\s+(?:siswa|warga|peserta|remaja|orang)|jumlah\\s+seluruh|total\\s+keseluruhan|keseluruhan\\s+semesta",
+    "masks": [0, 1, 2, 3],
+    "label": "Semesta",
+    "hint": "Himpunan semesta S: semua anggota yang dibicarakan."
+  },
+  {
+    "id": "atau",
+    "pattern": "atau",
+    "masks": [1, 2, 3],
+    "label": "Atau",
+    "hint": "\"A atau B\" berarti minimal salah satu → gabungan."
+  }
+]

@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+/* ===== Token desain VennBuster (Tailwind v4) ===== */
+@theme {
+  --color-ink: #1e1b4b;
+  --color-paper: #fffbf5;
+  --color-brand: #6d28d9;
+  --color-brand-dark: #4c1d95;
+
+  /* Warna daerah Venn — sama dengan REGION_COLORS di src/features/venn/lib/regions.js */
+  --color-venn-a: #3b82f6;
+  --color-venn-b: #f59e0b;
+  --color-venn-ab: #8b5cf6;
+  --color-venn-out: #94a3b8;
+  --color-venn-hl: #facc15;
+
+  --font-sans: ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI", Roboto, system-ui, sans-serif;
+  --font-math: "Cambria Math", "STIX Two Math", "Noto Sans Math", "Segoe UI Symbol", ui-serif, serif;
+
+  --shadow-card: 0 1px 0 rgba(30, 27, 75, 0.06), 0 6px 18px -8px rgba(30, 27, 75, 0.18);
+  --shadow-press: 0 4px 0 0 var(--color-brand-dark);
+}
+
+/* ===== Dasar ===== */
+html {
+  font-size: calc(16px * var(--font-scale, 1));
+  -webkit-tap-highlight-color: transparent;
+}
+body {
+  @apply bg-paper font-sans text-ink antialiased;
+  min-height: 100dvh;
+}
+
+/* ===== Komponen ===== */
+@layer components {
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition select-none;
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+    @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-venn-hl;
+  }
+  .btn-primary {
+    @apply bg-brand text-white;
+    box-shadow: var(--shadow-press);
+  }
+  .btn-primary:not(:disabled):active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 0 var(--color-brand-dark);
+  }
+  .btn-secondary {
+    @apply border-2 border-brand/30 bg-white text-brand hover:border-brand/60;
+  }
+  .btn-ghost {
+    @apply bg-transparent text-ink/70 hover:bg-ink/5;
+  }
+  .card {
+    @apply rounded-2xl bg-white p-4 shadow-card;
+  }
+  .input {
+    @apply min-h-11 w-full rounded-xl border-2 border-ink/15 bg-white px-3 py-2 text-base outline-none transition;
+    @apply focus:border-brand focus:ring-4 focus:ring-brand/15;
+  }
+  .label {
+    @apply mb-1 block text-sm font-bold text-ink/80;
+  }
+}
+
+/* ===== Diagram Venn ===== */
+.venn-region {
+  outline: none;
+  stroke: transparent;
+  stroke-width: 0;
+  transition: stroke-width 0.15s ease;
+}
+@media (hover: hover) {
+  .venn-region:hover {
+    stroke: #1e1b4b;
+    stroke-width: 3;
+  }
+}
+.venn-region:focus-visible {
+  stroke: var(--color-venn-hl);
+  stroke-width: 5;
+}
+.venn-label {
+  font-family: var(--font-sans);
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+/* Kata kunci pada soal cerita */
+mark.kw {
+  @apply cursor-pointer rounded-md px-0.5 font-bold;
+  background: linear-gradient(transparent 55%, rgb(250 204 21 / 0.65) 55%);
+  color: inherit;
+  transition: background 0.2s ease;
+}
+mark.kw[aria-pressed="true"] {
+  background: rgb(250 204 21 / 0.9);
+}
+
+/* Hormati preferensi pengguna */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+html[data-reduce-motion="true"] *,
+html[data-reduce-motion="true"] *::before,
+html[data-reduce-motion="true"] *::after {
+  transition-duration: 0.01ms !important;
+}
+
+/* Area aman untuk HP berponi */
+.safe-bottom {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
