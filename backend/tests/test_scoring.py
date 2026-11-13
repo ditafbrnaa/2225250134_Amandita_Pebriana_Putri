@@ -31,7 +31,7 @@ def test_summarize_with_manual_scores():
     a = lambda i, s, auto, status, manual=None: SimpleNamespace(item_no=i, stage_no=s, auto_score=auto, status=status, manual_score=manual)  # noqa: E731
     answers = [a(1, 1, 1, "auto"), a(1, 2, 2, "auto"), a(1, 5, None, "pending", manual=1), a(4, 6, None, "pending")]
     r = summarize(answers)
-    assert r["max"] == 23  # Soal 2 tahap 6 & Soal 3 tahap 5 menunggu konfirmasi peneliti
+    assert r["max"] == 24  # 4 soal × 6, sesuai max_total instrumen
     assert r["total"] == 4
     assert r["autoTotal"] == 3
     assert r["pendingCount"] == 1

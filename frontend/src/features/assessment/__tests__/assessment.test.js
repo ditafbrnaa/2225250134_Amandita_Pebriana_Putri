@@ -38,9 +38,10 @@ describe('penilaian instrumen', () => {
     '4.1': 'data', '4.2': '45', '4.3': '5', '4.4': 'Tidak wajar', '4.5': 'alasan', '4.6': '5 orang',
   };
 
-  it('skor maksimum tahap terkonfirmasi = 23 (Soal 2 tahap 6 & Soal 3 tahap 5 belum dikonfirmasi)', () => {
+  it('skor maksimum = 24 (4 soal × 6), sesuai max_total instrumen', () => {
     const r = scoreAttempt({}, keys);
-    expect(r.max).toBe(23);
+    expect(r.max).toBe(24);
+    r.items.forEach((it) => expect(it.max).toBe(6));
     expect(r.autoTotal).toBe(0);
   });
 

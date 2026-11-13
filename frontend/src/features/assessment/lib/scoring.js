@@ -1,5 +1,9 @@
 // Penilaian pretest/posttest per tahap — cermin dari backend/app/services/scoring.py.
 // Tahap numerik & pilihan dinilai otomatis; tahap uraian menunggu guru ("pending").
+import instrument from '@/data/generated/instrumen.public.json';
+
+/** Skor maksimum per soal menurut instrumen ({ 1: 6, ... }), total 24. */
+const ITEM_MAX = Object.fromEntries(instrument.items.map((it) => [it.no, it.max_score]));
 
 // ---------- Evaluator aritmetika kecil (tanpa eval) ----------
 function evalArithmetic(src, x) {
@@ -117,8 +121,9 @@ export function scoreStage(value, k) {
  * Nilai satu percobaan.
  * @param {Record<string, any>} answers  { "1.1": nilai }
  * @param {Record<string, object>} keys  isi instrumen.keys.json
+ * @param {Record<number, number>} [itemMax]  skor maksimum per soal (default: max_score di instrumen)
  */
-export function scoreAttempt(answers, keys) {
+export function scoreAttempt(answers, keys, itemMax = ITEM_MAX) {
   const items = {};
   for (const [stageKey, k] of Object.entries(keys)) {
     const [itemNo, stageNo] = stageKey.split('.').map(Number);
@@ -131,6 +136,8 @@ export function scoreAttempt(answers, keys) {
     else if (r.score) items[itemNo].auto += r.score;
   }
   const list = Object.values(items).sort((a, b) => a.no - b.no);
+  // Skor maksimum mengikuti instrumen (6 per soal), bukan hanya jumlah tahap yang sudah punya soal.
+  for (const it of list) if (itemMax[it.no] != null) it.max = itemMax[it.no];
   return {
     items: list,
     autoTotal: list.reduce((s, i) => s + i.auto, 0),

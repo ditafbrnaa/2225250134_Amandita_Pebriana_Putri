@@ -180,6 +180,11 @@ def summarize(answers: list) -> dict:
             if status == "auto":
                 it["auto"] += score
     lst = sorted(items.values(), key=lambda i: i["no"])
+    # Skor maksimum mengikuti instrumen (6 per soal), bukan hanya jumlah tahap yang sudah punya soal.
+    item_max = {item["no"]: item.get("max_score") for item in load_instrument()["items"]}
+    for it in lst:
+        if item_max.get(it["no"]) is not None:
+            it["max"] = item_max[it["no"]]
     return {
         "items": lst,
         "autoTotal": sum(i["auto"] for i in lst),
