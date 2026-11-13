@@ -169,10 +169,12 @@ export default function TeacherPage() {
 
   if (!backendEnabled) {
     return (
-      <div className="card space-y-2">
-        <p className="font-bold">Dasbor guru memerlukan backend.</p>
-        <p className="text-sm text-ink/70">Isi <code>VITE_API_URL</code> di file <code>.env</code> lalu jalankan server FastAPI (lihat README).</p>
-        <Link to="/" className="btn btn-ghost">← Beranda</Link>
+      // Pesan ramah untuk pengunjung; petunjuk teknis ada di README.
+      <div className="card space-y-3 text-center">
+        <p className="text-4xl" aria-hidden="true">👩‍🏫</p>
+        <p className="font-bold">Halaman guru belum tersedia</p>
+        <p className="text-sm text-ink/70">Versi ini adalah mode latihan. Semua progres kamu tersimpan di perangkat ini.</p>
+        <Link to="/" className="btn btn-ghost">← Kembali ke Beranda</Link>
       </div>
     );
   }

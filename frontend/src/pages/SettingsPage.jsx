@@ -81,9 +81,12 @@ export default function SettingsPage() {
       )}
 
       <div className="card space-y-2">
-        <Link to="/guru" className="btn btn-ghost w-full justify-start">
-          👩‍🏫 Halaman guru
-        </Link>
+        {/* Dasbor guru hanya muncul bila backend diatur (VITE_API_URL). */}
+        {backendEnabled && (
+          <Link to="/guru" className="btn btn-ghost w-full justify-start">
+            👩‍🏫 Halaman guru
+          </Link>
+        )}
         {!confirmReset ? (
           <button type="button" className="btn btn-ghost w-full justify-start text-red-700" onClick={() => setConfirmReset(true)}>
             🗑️ Keluar & hapus data di perangkat ini
