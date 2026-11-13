@@ -51,7 +51,7 @@ export default function ShadeChallenge({ challenges, labels, onComplete }) {
 
   if (done) {
     return (
-      <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="rounded-2xl bg-emerald-50 p-4 text-center">
+      <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="rounded-2xl border-2 border-line bg-mint p-4 text-center">
         <p className="text-3xl">🎉</p>
         <p className="font-bold text-emerald-900">Semua tantangan arsir selesai!</p>
         <button type="button" className="btn btn-ghost mt-2" onClick={() => setIdx(0)}>
@@ -69,7 +69,7 @@ export default function ShadeChallenge({ challenges, labels, onComplete }) {
         </p>
         <div className="flex gap-1" aria-hidden>
           {challenges.map((_, i) => (
-            <span key={i} className={`h-2 w-6 rounded-full ${i < idx ? 'bg-emerald-500' : i === idx ? 'bg-violet-500' : 'bg-ink/10'}`} />
+            <span key={i} className={`h-2 w-6 rounded-full ${i < idx ? 'border-2 border-line bg-mint0' : i === idx ? 'border-2 border-line bg-lavender0' : 'bg-ink/10'}`} />
           ))}
         </div>
       </div>
@@ -101,7 +101,7 @@ export default function ShadeChallenge({ challenges, labels, onComplete }) {
             animate={status === 'ok' ? { opacity: 1, y: 0, scale: [1, 1.05, 1] } : { opacity: 1, y: 0, x: [0, -6, 6, 0] }}
             exit={{ opacity: 0 }}
             role="status"
-            className={`rounded-xl px-3 py-2 text-sm font-semibold ${status === 'ok' ? 'bg-emerald-50 text-emerald-900' : 'bg-amber-50 text-amber-900'}`}
+            className={`rounded-xl px-3 py-2 text-sm font-semibold ${status === 'ok' ? 'border-2 border-line bg-mint text-emerald-900' : 'border-2 border-line bg-butter text-amber-900'}`}
           >
             {status === 'ok' ? '✔ Tepat sekali! Arsiranmu sudah benar.' : 'Belum tepat. Lihat garis berwarna: daerah putus-putus terlewat, garis merah tidak termasuk.'}
           </motion.p>

@@ -52,7 +52,7 @@ function Classes({ token, classes, reload, selected, onSelect }) {
             key={c.id}
             type="button"
             onClick={() => onSelect(c.id)}
-            className={`rounded-2xl border-2 p-3 text-left ${selected === c.id ? 'border-violet-600 bg-violet-50' : 'border-ink/10 bg-white'}`}
+            className={`rounded-2xl border-2 p-3 text-left ${selected === c.id ? 'border-line bg-butter text-ink' : 'border-line bg-white'}`}
           >
             <p className="font-bold">{c.name}</p>
             <p className="font-mono text-sm tracking-widest text-violet-700">{c.code}</p>
@@ -79,7 +79,7 @@ function Summary({ token, classId }) {
   const fmt = (v) => (v === null || v === undefined ? '–' : v);
   return (
     <div className="space-y-2">
-      <div className="overflow-x-auto rounded-2xl bg-white shadow-card">
+      <div className="overflow-x-auto rounded-2xl bg-white cartoon">
         <table className="w-full text-sm">
           <thead className="bg-ink/5 text-left">
             <tr>
@@ -134,7 +134,7 @@ function Grading({ token, classId }) {
           </p>
           <p className="text-sm text-ink/70">{q.prompt}</p>
           <p className="rounded-xl bg-ink/5 p-2 whitespace-pre-wrap">{typeof q.value === 'object' && q.value !== null ? `${q.value.choice ?? ''} — ${q.value.text ?? ''}` : String(q.value)}</p>
-          <p className="rounded-xl bg-emerald-50 p-2 text-sm text-emerald-900"><b>Rubrik:</b> {q.rubric}</p>
+          <p className="rounded-xl border-2 border-line bg-mint p-2 text-sm text-emerald-900"><b>Rubrik:</b> {q.rubric}</p>
           <div className="flex flex-wrap gap-2">
             {Array.from({ length: q.max + 1 }, (_, s) => (
               <button key={s} type="button" className="btn btn-secondary" onClick={() => give(q.answer_id, s)}>

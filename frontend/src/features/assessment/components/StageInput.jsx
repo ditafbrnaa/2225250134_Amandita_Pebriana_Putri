@@ -36,7 +36,7 @@ function EquationInput({ value = '', onChange, disabled, id }) {
             type="button"
             disabled={disabled}
             onClick={() => insert(k)}
-            className="min-h-10 min-w-10 rounded-lg border-2 border-ink/10 bg-white px-2 font-math text-lg font-bold hover:border-violet-400 active:bg-violet-50"
+            className="springy min-h-10 min-w-10 rounded-xl border-2 border-line bg-white px-2 font-math text-lg font-bold active:bg-lavender"
           >
             {k}
           </button>
@@ -67,7 +67,7 @@ export default function StageInput({ stage, value, onChange, disabled, id }) {
       return (
         <div className="flex flex-wrap gap-2" role="radiogroup">
           {stage.options.map((opt) => (
-            <label key={opt} className={`btn border-2 ${value === opt ? 'border-violet-600 bg-violet-50 text-violet-900' : 'border-ink/10 bg-white'}`}>
+            <label key={opt} className={`btn border-2 ${value === opt ? 'border-line bg-butter text-ink' : 'border-line bg-white'}`}>
               <input type="radio" className="sr-only" name={id} checked={value === opt} disabled={disabled} onChange={() => onChange(opt)} />
               {opt}
             </label>
@@ -80,7 +80,7 @@ export default function StageInput({ stage, value, onChange, disabled, id }) {
         <div className="space-y-2">
           <div className="flex flex-wrap gap-2" role="radiogroup">
             {stage.options.map((opt) => (
-              <label key={opt} className={`btn border-2 ${v.choice === opt ? 'border-violet-600 bg-violet-50 text-violet-900' : 'border-ink/10 bg-white'}`}>
+              <label key={opt} className={`btn border-2 ${v.choice === opt ? 'border-line bg-butter text-ink' : 'border-line bg-white'}`}>
                 <input type="radio" className="sr-only" name={id} checked={v.choice === opt} disabled={disabled} onChange={() => onChange({ ...v, choice: opt })} />
                 {opt}
               </label>

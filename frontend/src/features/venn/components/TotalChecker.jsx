@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FLOW_ORDER, REGION_COLORS } from '../lib/regions.js';
+import Mascot from '@/components/ui/Mascot.jsx';
 
 const toNum = (v) => (v === '' || v === null || v === undefined || Number.isNaN(Number(v)) ? null : Number(v));
 
@@ -53,36 +54,44 @@ export default function TotalChecker({ counts, total, onPulse, compact = false }
     );
   };
 
+  const barColor = sum === total ? 'bg-mint-deep' : sum > total ? 'bg-pop' : 'bg-butter-deep';
+
   return (
-    <div className={`rounded-2xl bg-white shadow-card ${compact ? 'p-2' : 'p-3'}`}>
-      <div className="flex flex-wrap items-center gap-1.5 font-math text-lg" aria-label="Penjumlahan semua daerah">
+    <div className={`rounded-3xl bg-white cartoon ${compact ? 'p-2' : 'p-3'}`}>
+      <div className="flex flex-wrap items-center gap-1.5 font-math text-xl" aria-label="Penjumlahan semua daerah">
         {values.map((v, i) => (
           <span key={v.mask} className="flex items-center gap-1.5">
             <motion.span
               animate={step === i ? { scale: [1, 1.25, 1], y: [0, -4, 0] } : { scale: 1 }}
               transition={{ duration: 0.45 }}
-              className="inline-grid min-w-9 place-items-center rounded-lg px-1.5 py-0.5 font-bold text-white"
-              style={{ background: REGION_COLORS[v.mask] }}
+              className="inline-grid min-w-10 place-items-center rounded-xl border-2 border-line px-1.5 py-0.5 font-bold text-ink"
+              style={{ background: REGION_COLORS[v.mask], boxShadow: '2px 2px 0 0 var(--color-ink)' }}
             >
               {v.value ?? '?'}
             </motion.span>
-            {i < values.length - 1 && <span className="text-ink/60">+</span>}
+            {i < values.length - 1 && <span className="font-bold text-ink">+</span>}
           </span>
         ))}
-        <span className="text-ink/60">=</span>
-        <motion.span key={running ? runningSum : sum} initial={{ scale: 0.6 }} animate={{ scale: 1 }} className="font-bold text-ink">
+        <span className="font-bold text-ink">=</span>
+        <motion.span
+          key={running ? runningSum : sum}
+          initial={{ scale: 0.6 }}
+          animate={{ scale: 1 }}
+          className="inline-grid min-w-10 place-items-center rounded-xl border-2 border-line bg-butter px-2 py-0.5 font-bold text-ink"
+          style={{ boxShadow: '2px 2px 0 0 var(--color-ink)' }}
+        >
           {running ? runningSum : sum}
         </motion.span>
-        <span className="ml-1 text-sm text-ink/60">vs n(S) = {total}</span>
+        <span className="ml-1 font-sans text-sm font-semibold text-ink">vs n(S) = {total}</span>
       </div>
 
-      <div className="mt-2 flex items-center gap-2">
-        <button type="button" className="btn btn-secondary" onClick={run} disabled={running}>
-          {running ? 'Menghitung…' : 'Cek Total'}
+      <div className="mt-3 flex items-center gap-2">
+        <button type="button" className="btn btn-primary" onClick={run} disabled={running}>
+          {running ? 'Menghitung…' : '🧮 Cek Total'}
         </button>
-        <div className="h-2 flex-1 overflow-hidden rounded-full bg-ink/10" aria-hidden>
+        <div className="h-4 flex-1 overflow-hidden rounded-full border-2 border-line bg-white" aria-hidden>
           <motion.div
-            className={`h-full ${sum === total ? 'bg-emerald-500' : sum > total ? 'bg-red-500' : 'bg-amber-400'}`}
+            className={`h-full border-r-2 border-white ${barColor}`}
             animate={{ width: `${Math.min(100, (sum / Math.max(total, 1)) * 100)}%` }}
             transition={{ type: 'spring', stiffness: 200, damping: 26 }}
           />
@@ -90,17 +99,26 @@ export default function TotalChecker({ counts, total, onPulse, compact = false }
       </div>
 
       <AnimatePresence>
+        {running && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-2 flex items-center gap-2 text-sm font-semibold text-ink">
+            <Mascot mood="think" size={36} />
+            Venni sedang menjumlahkan…
+          </motion.div>
+        )}
         {result && (
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             role="status"
-            className={`mt-2 rounded-xl px-3 py-2 text-sm ${result.ok ? 'bg-emerald-50 text-emerald-900' : 'bg-amber-50 text-amber-900'}`}
+            className={`mt-2 flex items-center gap-2 rounded-2xl border-2 border-line px-3 py-2 text-sm font-medium text-ink ${result.ok ? 'bg-mint' : 'bg-butter'}`}
           >
-            {result.ok ? '✔ ' : '🤔 '}
-            {result.msg}
-          </motion.p>
+            <Mascot mood={result.ok ? 'wow' : 'think'} size={44} />
+            <p>
+              <b>{result.ok ? 'Benar! ' : 'Hmm… '}</b>
+              {result.msg}
+            </p>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

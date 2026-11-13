@@ -89,7 +89,7 @@ export default function StoryPanel({ text, question, keywordsOn = true, chunked 
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-900"
+            className="rounded-xl border-2 border-line bg-butter px-3 py-2 text-sm text-amber-900"
             role="status"
           >
             🔑 <b>{tip.label}:</b> {tip.hint}

@@ -44,7 +44,7 @@ export default function InstallPrompt() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, height: 0 }}
-          className="flex items-center gap-3 rounded-2xl bg-violet-700 p-3 text-white"
+          className="flex items-center gap-3 rounded-3xl bg-linear-to-r from-brand-pink to-brand p-3 text-white cartoon"
         >
           <span className="text-2xl" aria-hidden>📲</span>
           <div className="flex-1 text-sm">

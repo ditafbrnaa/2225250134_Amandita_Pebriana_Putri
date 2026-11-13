@@ -19,7 +19,8 @@ function Token({ token, selected, onSelect, onDrop, shakeKey }) {
       dragSnapToOrigin
       dragElastic={0.6}
       whileDrag={{ scale: 1.2, zIndex: 50, boxShadow: '0 10px 24px rgba(30,27,75,.25)' }}
-      whileTap={{ scale: 0.92 }}
+      whileHover={{ y: -3, scale: 1.08 }}
+      whileTap={{ scale: 0.9 }}
       onDragStart={() => {
         if (ref.current) ref.current.style.pointerEvents = 'none';
       }}
@@ -38,7 +39,7 @@ function Token({ token, selected, onSelect, onDrop, shakeKey }) {
       aria-pressed={selected}
       aria-label={`Anggota ${token.value}${selected ? ', dipilih' : ''}`}
       className={`grid h-11 w-11 cursor-grab touch-none place-items-center rounded-full border-2 text-base font-extrabold active:cursor-grabbing ${
-        selected ? 'border-violet-600 bg-violet-600 text-white' : 'border-ink bg-white text-ink'
+        selected ? 'border-line bg-brand text-white cartoon-sm' : 'border-line bg-linear-to-br from-white to-lavender text-ink'
       }`}
     >
       {token.value}
@@ -53,7 +54,7 @@ function Token({ token, selected, onSelect, onDrop, shakeKey }) {
 export default function SemestaTray({ tokens, total, selectedId, onSelect, onDrop, shakeId, label = 'Semesta S' }) {
   const remaining = tokens.length;
   return (
-    <div className="rounded-2xl bg-white p-3 shadow-card">
+    <div className="rounded-3xl bg-white p-3 cartoon">
       <div className="mb-2 flex items-center justify-between gap-2 text-sm">
         <span className="font-bold text-ink">
           {label} <span className="font-normal text-ink/60">({total} anggota)</span>

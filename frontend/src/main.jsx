@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import { startSyncListeners } from '@/services/api.js';
+import '@fontsource-variable/fredoka';
 import './styles/index.css';
 
 startSyncListeners();

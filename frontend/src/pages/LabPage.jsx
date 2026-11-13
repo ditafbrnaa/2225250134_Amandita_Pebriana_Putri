@@ -1,9 +1,12 @@
 import { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
+import { buttonHover, buttonTap, tapSpring } from '@/features/venn/lib/motion.js';
 import ExploreActivity from '@/features/venn/components/ExploreActivity.jsx';
 import ShadeChallenge from '@/features/venn/components/ShadeChallenge.jsx';
 import PlacementActivity from '@/features/venn/components/PlacementActivity.jsx';
 import { StoryStep } from '@/features/learn/components/Steps.jsx';
+import ChibiDuo from '@/components/ui/ChibiDuo.jsx';
+import { chibiLine } from '@/utils/chibiLine.js';
 
 const LAB_SETS = {
   S: { label: 'Bilangan asli 1 sampai 12', members: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
@@ -33,36 +36,60 @@ const TABS = [
 export default function LabPage() {
   const [tab, setTab] = useState('explore');
   const [round, setRound] = useState(0);
+  // Balon chibi: kalimat pembuka per tab, berganti saat siswa memilih operasi.
+  const [opLine, setOpLine] = useState(null);
+  const line = opLine ?? chibiLine('lab', tab);
+  const changeTab = (id) => {
+    setTab(id);
+    setOpLine(null);
+  };
+  const onOperation = (opId) => setOpLine(chibiLine('operations', opId ?? 'cleared'));
 
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-extrabold">🧪 Venn Lab</h1>
-        <p className="text-sm text-ink/60">Ruang bereksperimen bebas. Tidak ada nilai di sini.</p>
+        <h1 className="text-2xl">
+          <span className="title-sticker">🧪 Venn Lab</span>
+        </h1>
+        <p className="mt-2 text-sm text-ink/75">Ruang bereksperimen bebas. Tidak ada nilai di sini.</p>
       </div>
 
-      <div className="relative flex gap-1 rounded-2xl bg-ink/5 p-1" role="tablist">
+      {/* Layar tugas: chibi membal sekali saat pesan berganti, tidak melayang terus (CLAUDE.md §6). */}
+      <ChibiDuo message={line.text} speaker={line.speaker} mood={line.mood} size={72} />
+
+      <div className="relative flex gap-1 rounded-3xl bg-white p-1 cartoon" role="tablist">
         {TABS.map((t) => (
-          <button
+          <motion.button
             key={t.id}
             role="tab"
             type="button"
             aria-selected={tab === t.id}
-            onClick={() => setTab(t.id)}
-            className="relative min-h-11 flex-1 rounded-xl px-2 text-sm font-bold"
+            onClick={() => changeTab(t.id)}
+            whileHover={buttonHover}
+            whileTap={buttonTap}
+            transition={tapSpring}
+            className={`relative min-h-11 flex-1 rounded-2xl px-2 text-sm font-semibold ${tab === t.id ? 'text-ink' : 'text-ink/70'}`}
           >
-            {tab === t.id && <motion.span layoutId="lab-tab" className="absolute inset-0 rounded-xl bg-white shadow-card" transition={{ type: 'spring', stiffness: 400, damping: 32 }} />}
+            {tab === t.id && (
+              <motion.span
+                layoutId="lab-tab"
+                className="absolute inset-0 rounded-2xl bg-linear-to-br from-blush to-peach cartoon-sm"
+                transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+              />
+            )}
             <span className="relative">{t.label}</span>
-          </button>
+          </motion.button>
         ))}
       </div>
 
+      <AnimatePresence mode="wait">
+      <motion.div key={`${tab}-${round}`} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.22, ease: 'easeOut' }}>
       {tab === 'explore' && (
         <div className="card">
           <p className="mb-2 text-sm text-ink/70">
             S = bilangan asli 1–12, <b className="text-blue-700">A</b> = kelipatan 2, <b className="text-amber-700">B</b> = kelipatan 3.
           </p>
-          <ExploreActivity labels={{ A: 'Kelipatan 2', B: 'Kelipatan 3' }} members={MEMBERS} />
+          <ExploreActivity labels={{ A: 'Kelipatan 2', B: 'Kelipatan 3' }} members={MEMBERS} onOperation={onOperation} />
         </div>
       )}
       {tab === 'shade' && (
@@ -72,6 +99,8 @@ export default function LabPage() {
       )}
       {tab === 'place' && <PlacementActivity key={round} sets={LAB_SETS} />}
       {tab === 'count' && <StoryStep key={round} step={COUNT_PRACTICE} onDone={() => {}} />}
+      </motion.div>
+      </AnimatePresence>
 
       {tab !== 'explore' && (
         <button type="button" className="btn btn-ghost" onClick={() => setRound((r) => r + 1)}>

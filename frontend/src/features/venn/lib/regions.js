@@ -7,10 +7,17 @@ export const FLOW_ORDER = [1, 3, 2, 0];
 
 /** Warna daerah (hex agar bisa diinterpolasi Framer Motion). Sama dengan token --color-venn-* di CSS. */
 export const REGION_COLORS = {
-  0: '#94A3B8', // luar
-  1: '#3B82F6', // A saja
-  2: '#F59E0B', // B saja
-  3: '#8B5CF6', // irisan
+  0: '#BFEAD6', // luar (mint pastel)
+  1: '#9CC9FF', // A saja (biru bayi)
+  2: '#FFC39B', // B saja (peach)
+  3: '#C9A9FF', // irisan (lavender)
+};
+/** Versi lebih pekat untuk garis tepi & pendar (glow) tiap daerah. */
+export const REGION_GLOW = {
+  0: '#4FBF8F',
+  1: '#4F8FEF',
+  2: '#F08A4B',
+  3: '#9B6BFF',
 };
 export const NEUTRAL_FILL = '#FFFFFF';
 export const SHADE_COLOR = '#7C3AED';

@@ -1,0 +1,24 @@
+{
+  "home": {
+    "guest": { "speaker": "girl", "mood": "cheer", "text": "Halo! Aku Pinka, ini Minto. Masuk dulu yuk, nanti kita belajar himpunan bareng~ ✨" },
+    "named": { "speaker": "girl", "mood": "cheer", "text": "Hai, {name}! Siap jadi jagoan Diagram Venn hari ini? 💖" },
+    "allDone": { "speaker": "boy", "mood": "wow", "text": "Wah, semua modul sudah selesai! Kamu keren banget, {name}! 🌟" }
+  },
+  "lab": {
+    "explore": { "speaker": "girl", "mood": "happy", "text": "Ketuk daerah atau pilih operasi, nanti warnanya mengalir. Coba deh!" },
+    "shade": { "speaker": "boy", "mood": "happy", "text": "Arsir daerah yang cocok dengan notasinya. Pelan-pelan saja, ya~" },
+    "place": { "speaker": "girl", "mood": "happy", "text": "Taruh tiap anggota di daerah yang tepat. Kamu pasti bisa! 💪" },
+    "count": { "speaker": "boy", "mood": "think", "text": "Isi semua daerah, lalu tekan Cek Total. Jumlahnya harus sama dengan n(S)!" }
+  },
+  "operations": {
+    "A∩B": { "speaker": "girl", "mood": "wow", "text": "Irisan (∩) itu daerah tengah: anggota yang ada di A dan juga di B! ✨" },
+    "A∪B": { "speaker": "boy", "mood": "cheer", "text": "Gabungan (∪) memeluk semuanya: A saja, irisan, dan B saja. 🤗" },
+    "A−B": { "speaker": "girl", "mood": "happy", "text": "A − B: anggota A yang bukan anggota B. Bagian A saja~" },
+    "B−A": { "speaker": "boy", "mood": "happy", "text": "B − A: anggota B yang bukan anggota A. Bagian B saja!" },
+    "Aᶜ": { "speaker": "girl", "mood": "think", "text": "Komplemen Aᶜ: semua anggota S yang di luar A. Hmm, lumayan luas ya?" },
+    "Bᶜ": { "speaker": "boy", "mood": "think", "text": "Komplemen Bᶜ: semua anggota S yang di luar B." },
+    "(A∪B)ᶜ": { "speaker": "girl", "mood": "wow", "text": "(A ∪ B)ᶜ: komplemen dari gabungan, yaitu anggota yang tidak ikut A maupun B. Daerah luar lingkaran!" },
+    "default": { "speaker": "girl", "mood": "cheer", "text": "Lihat warnanya berpindah? Seru, kan! 💕" },
+    "cleared": { "speaker": "boy", "mood": "happy", "text": "Oke, pilihan dihapus. Mau coba operasi lain?" }
+  }
+}
