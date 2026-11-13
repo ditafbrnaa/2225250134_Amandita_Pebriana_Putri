@@ -30,14 +30,12 @@
       "question": "ubahlah situasi cerita tersebut ke dalam model matematika (persamaan himpunan) untuk mencari tahu berapa siswa yang tidak menyukai keduanya, lalu hitung hasilnya.",
       "sets": { "S": 30, "A": { "label": "Soto", "n": 15 }, "B": { "label": "Bakso", "n": 12 }, "both": 6 },
       "max_score": 6,
-      "needs_confirmation": "Kisi-kisi hanya memuat 5 deskripsi tahap, tetapi kolom skor mencantumkan Tahap 1–6 (masing-masing 1). Deskripsi Tahap 6 belum ada. Tentukan deskripsinya atau ubah bobot agar total tetap 6.",
       "stages": [
         { "no": 1, "score": 1, "rubric": "Diketahui semesta N = 30, n(S) = 15, n(B) = 12, n(S ∩ B) = 6.", "prompt": "Tuliskan informasi yang diketahui dengan notasi himpunan.", "input": "text", "scoring": "manual" },
-        { "no": 2, "score": 1, "rubric": "Menghitung yang menyukai minimal salah satu makanan: (15 − 6) + 6 + (12 − 6) = 9 + 6 + 6 = 21.", "prompt": "Berapa siswa yang menyukai minimal salah satu makanan?", "input": "numeric", "key": 21 },
+        { "no": 2, "score": 2, "rubric": "Menghitung yang menyukai minimal salah satu makanan: (15 − 6) + 6 + (12 − 6) = 9 + 6 + 6 = 21.", "prompt": "Berapa siswa yang menyukai minimal salah satu makanan?", "input": "numeric", "key": 21 },
         { "no": 3, "score": 1, "rubric": "Memformulasikan model untuk bagian luar: 30 = 21 + tidak suka.", "prompt": "Tuliskan model matematika untuk mencari siswa yang tidak menyukai keduanya.", "input": "equation", "key": "30=21+x" },
         { "no": 4, "score": 1, "rubric": "Melakukan pengurangan: 30 − 21 = 9.", "prompt": "Hitung hasilnya.", "input": "numeric", "key": 9 },
-        { "no": 5, "score": 1, "rubric": "Menyimpulkan bahwa siswa yang tidak menyukai keduanya adalah 9 orang.", "prompt": "Tuliskan kesimpulanmu.", "input": "text", "scoring": "manual" },
-        { "no": 6, "score": 1, "rubric": null, "prompt": null, "input": null, "needs_confirmation": true }
+        { "no": 5, "score": 1, "rubric": "Menyimpulkan bahwa siswa yang tidak menyukai keduanya adalah 9 orang.", "prompt": "Tuliskan kesimpulanmu.", "input": "text", "scoring": "manual" }
       ]
     },
     {
@@ -48,13 +46,12 @@
       "question": "Menurut Anda, apakah cara perhitungan siswa tersebut tepat? Tuliskan prosedur perhitungan yang benar menggunakan prinsip himpunan.",
       "sets": { "S": 25, "A": { "label": "Jaket tebal", "n": 15 }, "B": { "label": "Jas hujan", "n": 12 }, "both": 4 },
       "max_score": 6,
-      "needs_confirmation": "Tahap 1–4 berbobot 1 + 2 + 2 + 1 = 6, sedangkan Tahap 5 (kesimpulan) tidak memiliki skor. Tentukan bobot Tahap 5 dan apakah skor maksimum tetap 6.",
       "stages": [
         { "no": 1, "score": 1, "rubric": "Menilai bahwa cara menjumlahkan langsung tanpa memperhitungkan irisan adalah keliru.", "prompt": "Apakah cara siswa tersebut tepat? Jelaskan.", "input": "choice+text", "options": ["Tepat", "Tidak tepat"], "key": "Tidak tepat", "scoring": "auto+manual" },
         { "no": 2, "score": 2, "rubric": "Menghitung pembawa jaket tebal saja: 15 − 4 = 11.", "prompt": "Berapa orang yang hanya membawa jaket tebal?", "input": "numeric", "key": 11 },
-        { "no": 3, "score": 2, "rubric": "Menghitung pembawa jas hujan saja: 12 − 4 = 8.", "prompt": "Berapa orang yang hanya membawa jas hujan?", "input": "numeric", "key": 8 },
+        { "no": 3, "score": 1, "rubric": "Menghitung pembawa jas hujan saja: 12 − 4 = 8.", "prompt": "Berapa orang yang hanya membawa jas hujan?", "input": "numeric", "key": 8 },
         { "no": 4, "score": 1, "rubric": "Menjumlahkan seluruh bagian: 11 + 8 + 4 = 23.", "prompt": "Berapa total pendaki yang membawa perlengkapan?", "input": "numeric", "key": 23 },
-        { "no": 5, "score": null, "rubric": "Menyimpulkan total pembawa perlengkapan 23 orang; 25 − 23 = 2 orang tidak membawa keduanya; data valid.", "prompt": "Tuliskan kesimpulanmu tentang data tersebut.", "input": "text", "scoring": "manual", "needs_confirmation": true }
+        { "no": 5, "score": 1, "rubric": "Menyimpulkan total pembawa perlengkapan 23 orang; 25 − 23 = 2 orang tidak membawa keduanya; data valid.", "prompt": "Tuliskan kesimpulanmu tentang data tersebut.", "input": "text", "scoring": "manual" }
       ]
     },
     {

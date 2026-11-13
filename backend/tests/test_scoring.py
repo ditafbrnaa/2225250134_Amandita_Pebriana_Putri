@@ -24,7 +24,7 @@ def test_score_stage():
     assert score_stage({"choice": "Tidak tepat", "text": ""}, idx[(3, 1)]) == (1, "auto")
     assert score_stage("", idx[(1, 1)]) == (0, "blank")
     assert score_stage("alasan", idx[(1, 5)]) == (None, "pending")
-    assert score_stage("valid", idx[(3, 5)]) == (None, "unscored")  # bobot belum dikonfirmasi
+    assert score_stage("valid", idx[(3, 5)]) == (None, "pending")  # kesimpulan dinilai guru
 
 
 def test_summarize_with_manual_scores():

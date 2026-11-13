@@ -88,7 +88,7 @@
         },
         {
           "no": 2,
-          "score": 1,
+          "score": 2,
           "prompt": "Berapa siswa yang menyukai minimal salah satu makanan?",
           "input": "numeric"
         },
@@ -152,7 +152,7 @@
         },
         {
           "no": 3,
-          "score": 2,
+          "score": 1,
           "prompt": "Berapa orang yang hanya membawa jas hujan?",
           "input": "numeric"
         },
@@ -164,7 +164,7 @@
         },
         {
           "no": 5,
-          "score": null,
+          "score": 1,
           "prompt": "Tuliskan kesimpulanmu tentang data tersebut.",
           "input": "text",
           "scoring": "manual"

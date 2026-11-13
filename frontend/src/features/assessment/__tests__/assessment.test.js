@@ -49,10 +49,10 @@ describe('penilaian instrumen', () => {
     const r = scoreAttempt(perfect, keys);
     const byNo = Object.fromEntries(r.items.map((i) => [i.no, i]));
     expect(byNo[1].auto).toBe(5); // tahap 1–4 = 1+2+1+1
-    expect(byNo[2].auto).toBe(3); // tahap 2,3,4
-    expect(byNo[3].auto).toBe(6); // tahap 1–4
+    expect(byNo[2].auto).toBe(4); // tahap 2,3,4 = 2+1+1
+    expect(byNo[3].auto).toBe(5); // tahap 1–4 = 1+2+1+1
     expect(byNo[4].auto).toBe(3); // tahap 2,3,4
-    expect(r.pendingCount).toBe(6); // 1.5, 2.1, 2.5, 4.1, 4.5, 4.6
+    expect(r.pendingCount).toBe(7); // 1.5, 2.1, 2.5, 3.5, 4.1, 4.5, 4.6
   });
 
   it('jawaban salah mendapat 0, persamaan tak dikenal diserahkan ke guru', () => {

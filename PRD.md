@@ -175,8 +175,8 @@ Buka/Install → Masuk (kode kelas + nama/NIS) → Pretest (mode ujian)
 
 ## 11. Isu Terbuka (Perlu Dikonfirmasi)
 
-1. **Soal 2**: kisi-kisi menuliskan 5 tahap, tetapi kolom skor berisi Tahap 1–6 (masing-masing 1; total 6). Tahap 6 tidak memiliki deskripsi. → Tentukan deskripsi tahap 6, atau ubah bobot 5 tahap agar totalnya tetap 6.
-2. **Soal 3**: Tahap 1–4 berbobot 1 + 2 + 2 + 1 = 6, sedangkan Tahap 5 (kesimpulan) tidak memiliki skor. → Tentukan bobot Tahap 5 dan apakah skor maksimum tetap 6.
+1. ~~**Soal 2**: Tahap 6 tidak memiliki deskripsi.~~ **Diputuskan:** Tahap 6 dihapus, Tahap 2 berbobot 2 → 1 + 2 + 1 + 1 + 1 = 6.
+2. ~~**Soal 3**: Tahap 5 (kesimpulan) tidak memiliki skor.~~ **Diputuskan:** Tahap 5 berbobot 1, Tahap 3 menjadi 1 → 1 + 2 + 1 + 1 + 1 = 6.
 3. Apakah pretest dan posttest memakai butir yang **identik** atau **paralel**?
 4. Rubrik skor parsial untuk tahap uraian (mis. tahap bernilai 2: kapan diberi 1?).
 5. **Notasi Soal 2**: kisi-kisi memakai `n(S) = 15` untuk Soto, padahal `S` juga lazim dipakai untuk himpunan semesta. Ini berpotensi membingungkan (terkait temuan IL01). → Pertimbangkan `n(T)`/`n(P)` untuk Soto pada versi aplikasi (perlu persetujuan karena mengubah teks instrumen).

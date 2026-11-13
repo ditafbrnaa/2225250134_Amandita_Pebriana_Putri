@@ -75,8 +75,7 @@ Hasilnya berupa rekap pre/post/N-gain per siswa, rata-rata N-gain, uji Shapiro-W
 
 ## 5. Catatan penting
 
-- **Skor maksimum 24** (4 soal × 6). Skor maksimum per soal diambil dari `max_score` di instrumen.
-- Dua tahap masih menunggu konfirmasi dosen (lihat `PRD.md` §11). **Soal 2 tahap 6** sudah berbobot 1, tetapi belum punya deskripsi/soal, jadi belum ditampilkan ke siswa. **Soal 3 tahap 5** sudah punya soal, tetapi belum punya bobot. Setelah dikonfirmasi, lengkapi `backend/app/data/instrumen_literasi.json` (isi `rubric`, `prompt`, `input`, `score`, dan hapus `needs_confirmation`), lalu jalankan `npm run sync-instrument`.
+- **Skor maksimum 24** (4 soal × 6). Instrumen ada di `backend/app/data/instrumen_literasi.json`. Setiap kali isinya diubah, jalankan `npm run sync-instrument` di folder `frontend`.
 - Pretest tidak menampilkan skor kepada siswa agar tidak memengaruhi posttest (butirnya sama).
 - Di mode ujian, seluruh bantuan (sorotan kata kunci, Cek Total, umpan balik) dimatikan oleh `examGuard.js` dan diuji otomatis.
 - Perbedaan dari rancangan awal: penyimpanan offline memakai Zustand `persist` (localStorage) karena lebih sederhana dan cukup untuk 1 siswa per perangkat. Tabel database dibuat otomatis tanpa Alembic.

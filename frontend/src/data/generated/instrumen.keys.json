@@ -37,7 +37,7 @@
   },
   "2.2": {
     "key": 21,
-    "score": 1,
+    "score": 2,
     "input": "numeric",
     "scoring": "auto"
   },
@@ -59,12 +59,6 @@
     "input": "text",
     "scoring": "manual"
   },
-  "2.6": {
-    "key": null,
-    "score": 1,
-    "input": null,
-    "scoring": "auto"
-  },
   "3.1": {
     "key": "Tidak tepat",
     "score": 1,
@@ -79,7 +73,7 @@
   },
   "3.3": {
     "key": 8,
-    "score": 2,
+    "score": 1,
     "input": "numeric",
     "scoring": "auto"
   },
@@ -91,7 +85,7 @@
   },
   "3.5": {
     "key": null,
-    "score": null,
+    "score": 1,
     "input": "text",
     "scoring": "manual"
   },
