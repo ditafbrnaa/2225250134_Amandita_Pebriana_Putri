@@ -30,7 +30,7 @@ export default function BottomNav() {
                   {isActive && (
                     <motion.span
                       layoutId="nav-pill"
-                      className="absolute inset-0.5 rounded-2xl border-2 border-line bg-linear-to-br from-butter to-blush"
+                      className="absolute inset-0.5 rounded-2xl border-2 border-line bg-linear-to-br from-blush to-babyblue"
                       transition={{ type: 'spring', stiffness: 400, damping: 28 }}
                     />
                   )}
@@ -43,6 +43,17 @@ export default function BottomNav() {
                     {it.icon}
                   </motion.span>
                   <span className={`relative ${isActive ? 'text-ink' : 'text-ink/70'}`}>{it.label}</span>
+                  {isActive && (
+                    <motion.span
+                      aria-hidden
+                      className="absolute -top-1 right-2 text-[10px] text-brand-blue"
+                      initial={{ scale: 0, rotate: -90, opacity: 0 }}
+                      animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 14, delay: 0.15 }}
+                    >
+                      ✦
+                    </motion.span>
+                  )}
                 </motion.span>
               )}
             </NavLink>

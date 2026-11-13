@@ -36,7 +36,7 @@ export function IntroStep({ step, onDone }) {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 * i }}
-          className={p.includes('=') && p.includes('n(') ? 'rounded-xl border-2 border-line bg-lavender px-3 py-2 text-center font-math text-lg font-bold text-violet-950' : ''}
+          className={p.includes('=') && p.includes('n(') ? 'rounded-xl border-2 border-line bg-babyblue px-3 py-2 text-center font-math text-lg font-bold text-violet-950' : ''}
         >
           {p}
         </motion.p>
@@ -70,7 +70,7 @@ export function SymbolsStep({ onDone }) {
               setSeen((v) => (v.includes(s.symbol) ? v : [...v, s.symbol]));
             }}
             className={`aspect-square rounded-2xl border-2 font-math text-3xl font-bold ${
-              open === s.symbol ? 'border-line bg-brand text-white cartoon-sm' : seen.includes(s.symbol) ? 'border-line bg-lavender' : 'border-line bg-white'
+              open === s.symbol ? 'border-line bg-brand text-white cartoon-sm' : seen.includes(s.symbol) ? 'border-line bg-babyblue' : 'border-line bg-white'
             }`}
             aria-label={`Simbol ${s.name}`}
           >

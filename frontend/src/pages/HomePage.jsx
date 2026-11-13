@@ -18,13 +18,21 @@ function Node({ to, open, done, icon, title, subtitle, index }) {
       whileHover={open ? { y: -3, scale: 1.01 } : undefined}
       whileTap={open ? { scale: 0.97 } : undefined}
       className={`flex items-center gap-3 rounded-3xl border-2 p-3 ${
-        done ? 'border-line bg-mint cartoon' : open ? 'border-line bg-white cartoon' : 'border-dashed border-line-deep bg-white/60 text-ink/70'
+        done
+          ? 'border-line bg-mint cartoon'
+          : open
+            ? index % 2 ? 'bg-white cartoon-blue' : 'border-line bg-white cartoon'
+            : `border-dashed bg-white/60 text-ink/70 ${index % 2 ? 'border-line-blue-deep' : 'border-line-deep'}`
       }`}
     >
       <motion.span
-        whileHover={open ? { rotate: [0, -8, 8, 0] } : undefined}
-        transition={{ duration: 0.4 }}
-        className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl border-2 border-line text-2xl ${done ? 'bg-white' : open ? 'bg-linear-to-br from-blush to-lavender' : 'bg-ink/5'}`}
+        initial={{ rotate: -20, scale: 0.6 }}
+        animate={{ rotate: 0, scale: 1 }}
+        whileHover={open ? { rotate: [0, -10, 10, 0], scale: 1.12 } : undefined}
+        transition={{ ...bouncyIn, delay: 0.1 + index * 0.05 }}
+        className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl border-2 text-2xl ${index % 2 ? 'border-line-blue' : 'border-line'} ${
+          done ? 'bg-white' : open ? (index % 2 ? 'bg-linear-to-br from-babyblue to-blush' : 'bg-linear-to-br from-blush to-babyblue') : 'bg-ink/5'
+        }`}
       >
         {done ? '✅' : open ? icon : '🔒'}
       </motion.span>
@@ -32,7 +40,16 @@ function Node({ to, open, done, icon, title, subtitle, index }) {
         <span className="block font-extrabold">{title}</span>
         <span className="block truncate text-sm text-ink/70">{subtitle}</span>
       </span>
-      {open && !done && <span className="chip-pastel">Mulai →</span>}
+      {open && !done && (
+        <motion.span
+          className={index % 2 ? 'chip-sky' : 'chip-pastel'}
+          initial={{ x: -6, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ ...bouncyIn, delay: 0.25 + index * 0.05 }}
+        >
+          Mulai →
+        </motion.span>
+      )}
     </motion.div>
   );
   return open && to ? (
@@ -60,15 +77,41 @@ export default function HomePage() {
           <Logo className="h-14 w-14" animated />
         </motion.div>
         <div>
-          <p className="text-sm font-semibold text-ink/75">Halo{firstName ? `, ${firstName}` : ''}! 👋</p>
+          <p className="text-sm font-semibold text-ink/75">
+            Halo{firstName ? `, ${firstName}` : ''}!{' '}
+            <motion.span
+              aria-hidden
+              className="inline-block origin-[70%_70%]"
+              animate={{ rotate: [0, 18, -8, 18, -4, 0] }}
+              transition={{ duration: 1.2, delay: 0.5 }}
+            >
+              👋
+            </motion.span>
+          </p>
           <h1 className="mt-1 text-2xl leading-tight">
-            <span className="title-sticker">Peta Belajar</span> <span aria-hidden>✨</span>
+            <motion.span
+              className="title-sticker"
+              initial={{ rotate: 4, scale: 0.8, opacity: 0 }}
+              animate={{ rotate: -1.5, scale: 1, opacity: 1 }}
+              transition={{ ...bouncyIn, delay: 0.15 }}
+            >
+              Peta Belajar
+            </motion.span>{' '}
+            <motion.span
+              aria-hidden
+              className="inline-block"
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: [0, 1.4, 1], rotate: 0 }}
+              transition={{ duration: 0.6, delay: 0.35 }}
+            >
+              ✨
+            </motion.span>
           </h1>
         </div>
       </header>
 
       {/* Layar sambutan: Pinka & Minto melayang lembut (bukan layar tugas). */}
-      <section className="card overflow-hidden bg-linear-to-br from-blush via-white to-lavender" aria-label="Sapaan">
+      <section className="card cartoon-blue overflow-hidden bg-linear-to-br from-blush via-white to-babyblue" aria-label="Sapaan">
         <ChibiDuo message={welcome.text} speaker={welcome.speaker} mood={welcome.mood} float size={92} />
       </section>
 
@@ -78,7 +121,7 @@ export default function HomePage() {
           animate={{ scale: 1, opacity: 1, y: 0 }}
           transition={bouncyIn}
           role="status"
-          className="rounded-3xl bg-linear-to-r from-mint to-lavender p-3 font-semibold text-ink cartoon"
+          className="rounded-3xl bg-linear-to-r from-mint to-babyblue p-3 font-semibold text-ink cartoon"
         >
           🎉 Modul "{justFinished.title}" selesai!
         </motion.div>
@@ -102,9 +145,9 @@ export default function HomePage() {
             {gates.doneCount}/{modules.length}
           </span>
         </div>
-        <div className="mt-2 h-5 overflow-hidden rounded-full border-2 border-line bg-lavender">
+        <div className="mt-2 h-5 overflow-hidden rounded-full border-2 border-line bg-babyblue">
           <motion.div
-            className="h-full rounded-full border-r-2 border-white bg-linear-to-r from-venn-a via-venn-ab to-pinky"
+            className="h-full rounded-full border-r-2 border-white bg-linear-to-r from-pinky via-pop-hover to-pop-blue"
             initial={{ width: 0 }}
             animate={{ width: `${(gates.doneCount / modules.length) * 100}%` }}
             transition={{ type: 'spring', stiffness: 90, damping: 16, delay: 0.2 }}
@@ -155,7 +198,7 @@ export default function HomePage() {
           whileHover={{ y: -3, scale: 1.01 }}
           whileTap={{ scale: 0.97 }}
           transition={tapSpring}
-          className="relative overflow-hidden rounded-3xl bg-linear-to-br from-lavender via-blush to-peach p-4 text-ink cartoon"
+          className="relative overflow-hidden rounded-3xl bg-linear-to-br from-babyblue via-sky-soft to-blush p-4 text-ink cartoon-blue"
         >
           <p className="text-lg font-extrabold">🧪 Venn Lab</p>
           <p className="text-sm text-ink/75">Bebas bereksperimen dengan warna, arsiran, dan anggota himpunan kapan saja.</p>

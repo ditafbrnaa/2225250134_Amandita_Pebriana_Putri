@@ -45,7 +45,7 @@ export default function ExploreActivity({ labels = {}, members, counts, task, on
   return (
     <div className="space-y-3">
       {task && (
-        <p className="rounded-2xl border-2 border-line bg-lavender px-3 py-2 font-semibold text-violet-950">
+        <p className="rounded-2xl border-2 border-line bg-babyblue px-3 py-2 font-semibold text-violet-950">
           🎯 {task.prompt}
           {task.multi && <span className="block text-xs font-normal text-violet-800">Boleh memilih lebih dari satu daerah.</span>}
         </p>

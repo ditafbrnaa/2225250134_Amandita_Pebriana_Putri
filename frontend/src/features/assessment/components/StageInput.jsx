@@ -36,7 +36,7 @@ function EquationInput({ value = '', onChange, disabled, id }) {
             type="button"
             disabled={disabled}
             onClick={() => insert(k)}
-            className="springy min-h-10 min-w-10 rounded-xl border-2 border-line bg-white px-2 font-math text-lg font-bold active:bg-lavender"
+            className="springy min-h-10 min-w-10 rounded-xl border-2 border-line bg-white px-2 font-math text-lg font-bold active:bg-babyblue"
           >
             {k}
           </button>

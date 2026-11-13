@@ -6,6 +6,8 @@ import { useOnline } from '@/hooks/useOnline.js';
 import BottomNav from '@/components/ui/BottomNav.jsx';
 import CuteBackdrop from '@/components/ui/CuteBackdrop.jsx';
 import Mascot from '@/components/ui/Mascot.jsx';
+import ClickFx from '@/components/ui/ClickFx.jsx';
+import { setSoundEnabled } from '@/utils/sound.js';
 import { pageFade } from '@/features/venn/lib/motion.js';
 import UpdateBanner from '@/features/pwa/UpdateBanner.jsx';
 import HomePage from '@/pages/HomePage.jsx';
@@ -45,12 +47,15 @@ const isTaskScreen = (path) => path.startsWith('/lab') || path.startsWith('/modu
 function Shell() {
   const location = useLocation();
   const examActive = useAppStore((s) => s.examActive);
+  const reduceMotion = useAppStore((s) => s.settings.reduceMotion);
   const hideNav = examActive || location.pathname === '/masuk';
 
   return (
     <div className="mx-auto min-h-dvh max-w-5xl px-4 pb-28 pt-4 md:pb-8">
+      {/* Percikan klik dimatikan di mode ujian & saat "Kurangi animasi" aktif. */}
+      <ClickFx sparkle={!examActive && !reduceMotion} />
       {/* Mode ujian: tanpa hiasan sama sekali agar siswa fokus. */}
-      {!examActive && <CuteBackdrop animated={!isTaskScreen(location.pathname)} />}
+      {!examActive && <CuteBackdrop animated={!isTaskScreen(location.pathname) && !reduceMotion} />}
       {!hideNav && (
         <div className="mb-4 hidden md:block">
           <BottomNav />
@@ -93,7 +98,10 @@ function Shell() {
 }
 
 export default function App() {
-  const { reduceMotion, fontScale } = useAppStore((s) => s.settings);
+  const { reduceMotion, fontScale, soundOn } = useAppStore((s) => s.settings);
+
+  // Data lama (sebelum ada pengaturan suara) → anggap suara menyala.
+  useEffect(() => setSoundEnabled(soundOn !== false), [soundOn]);
 
   useEffect(() => {
     const root = document.documentElement;

@@ -45,7 +45,7 @@ export default function ModuleRunner({ module }) {
             {index + 1} / {module.steps.length}
           </span>
         </div>
-        <div className="mt-1 h-3 overflow-hidden rounded-full bg-lavender">
+        <div className="mt-1 h-3 overflow-hidden rounded-full bg-babyblue">
           <motion.div className="h-full rounded-full bg-linear-to-r from-pinky to-brand" transition={{ type: 'spring', stiffness: 120, damping: 18 }} animate={{ width: `${((index + (canNext ? 1 : 0.5)) / module.steps.length) * 100}%` }} />
         </div>
       </div>

@@ -16,7 +16,7 @@ function ScoreBar({ label, value, max, color }) {
           {value} / {max}
         </span>
       </div>
-      <div className="mt-1 h-5 overflow-hidden rounded-full border-2 border-line bg-lavender">
+      <div className="mt-1 h-5 overflow-hidden rounded-full border-2 border-line bg-babyblue">
         <motion.div className={`h-full rounded-full border-r-2 border-white ${color}`} initial={{ width: 0 }} animate={{ width: `${(value / max) * 100}%` }} transition={{ type: 'spring', stiffness: 70, damping: 15, delay: 0.3 }} />
       </div>
     </div>
@@ -102,7 +102,7 @@ export default function TestResultPage() {
           {preScore !== null && <ScoreBar label="Pretest" value={preScore} max={max} color="bg-linear-to-r from-venn-a to-lilac" />}
           <ScoreBar label="Posttest" value={postScore} max={max} color="bg-linear-to-r from-pinky to-brand" />
           {g && (
-            <p className="rounded-xl border-2 border-line bg-lavender px-3 py-2 text-sm text-violet-950">
+            <p className="rounded-xl border-2 border-line bg-babyblue px-3 py-2 text-sm text-violet-950">
               Peningkatan (N-gain): <b>{g.value.toFixed(2)}</b>, kategori <b>{g.category}</b>
             </p>
           )}
@@ -118,7 +118,7 @@ export default function TestResultPage() {
                 initial={{ opacity: 0, y: 14, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ ...bouncyIn, delay: 0.5 + i * 0.08 }}
-                className={`rounded-2xl border-2 border-line p-2 text-center ${['bg-blush', 'bg-lavender', 'bg-mint', 'bg-peach'][i % 4]}`}
+                className={`rounded-2xl border-2 border-line p-2 text-center ${['bg-blush', 'bg-babyblue', 'bg-mint', 'bg-peach'][i % 4]}`}
               >
                 <p className="font-bold">Soal {it.no}</p>
                 <p className="text-lg font-extrabold">

@@ -18,7 +18,7 @@ export const useAppStore = create(
   persist(
     (set, get) => ({
       profile: null, // { name, nis, classCode, studentId?, token? }
-      settings: { reduceMotion: false, fontScale: 1 },
+      settings: { reduceMotion: false, fontScale: 1, soundOn: true },
       progress: {}, // { [moduleId]: { step: number, done: boolean } }
       reflections: {}, // { "moduleId.step": teks }
       attempts: {}, // { pre: Attempt, post: Attempt }

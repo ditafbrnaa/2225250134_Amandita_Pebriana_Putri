@@ -39,7 +39,7 @@ function Token({ token, selected, onSelect, onDrop, shakeKey }) {
       aria-pressed={selected}
       aria-label={`Anggota ${token.value}${selected ? ', dipilih' : ''}`}
       className={`grid h-11 w-11 cursor-grab touch-none place-items-center rounded-full border-2 text-base font-extrabold active:cursor-grabbing ${
-        selected ? 'border-line bg-brand text-white cartoon-sm' : 'border-line bg-linear-to-br from-white to-lavender text-ink'
+        selected ? 'border-line bg-brand text-white cartoon-sm' : 'border-line bg-linear-to-br from-white to-babyblue text-ink'
       }`}
     >
       {token.value}

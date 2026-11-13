@@ -34,6 +34,12 @@ export default function SettingsPage() {
 
       <div className="card divide-y divide-ink/10">
         <Toggle
+          label="Suara klik"
+          desc="Bunyi “pop” kecil setiap kali kamu menekan tombol."
+          checked={settings.soundOn !== false}
+          onChange={(v) => setSetting('soundOn', v)}
+        />
+        <Toggle
           label="Kurangi animasi"
           desc="Untuk HP yang lambat atau jika animasi terasa mengganggu."
           checked={settings.reduceMotion}

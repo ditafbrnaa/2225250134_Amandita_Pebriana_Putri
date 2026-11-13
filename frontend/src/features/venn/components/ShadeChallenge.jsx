@@ -69,7 +69,7 @@ export default function ShadeChallenge({ challenges, labels, onComplete }) {
         </p>
         <div className="flex gap-1" aria-hidden>
           {challenges.map((_, i) => (
-            <span key={i} className={`h-2 w-6 rounded-full ${i < idx ? 'border-2 border-line bg-mint0' : i === idx ? 'border-2 border-line bg-lavender0' : 'bg-ink/10'}`} />
+            <span key={i} className={`h-2 w-6 rounded-full ${i < idx ? 'border-2 border-line bg-mint0' : i === idx ? 'border-2 border-line bg-babyblue0' : 'bg-ink/10'}`} />
           ))}
         </div>
       </div>

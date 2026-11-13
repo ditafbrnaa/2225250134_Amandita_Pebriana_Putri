@@ -7,7 +7,7 @@ export default function Logo({ className = 'h-10 w-10', animated = false }) {
       <defs>
         <linearGradient id="vb-logo-bg" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#FFC2D6" />
-          <stop offset="1" stopColor="#C9A9FF" />
+          <stop offset="1" stopColor="#A9D4FF" />
         </linearGradient>
       </defs>
       <rect x="2" y="2" width="60" height="60" rx="19" fill="url(#vb-logo-bg)" stroke="#EB93B9" strokeWidth="3" />
