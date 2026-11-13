@@ -45,8 +45,8 @@ export default function ModuleRunner({ module }) {
             {index + 1} / {module.steps.length}
           </span>
         </div>
-        <div className="mt-1 h-2 overflow-hidden rounded-full bg-ink/10">
-          <motion.div className="h-full rounded-full bg-violet-600" animate={{ width: `${((index + (canNext ? 1 : 0.5)) / module.steps.length) * 100}%` }} />
+        <div className="mt-1 h-3 overflow-hidden rounded-full bg-lavender">
+          <motion.div className="h-full rounded-full bg-linear-to-r from-pinky to-brand" transition={{ type: 'spring', stiffness: 120, damping: 18 }} animate={{ width: `${((index + (canNext ? 1 : 0.5)) / module.steps.length) * 100}%` }} />
         </div>
       </div>
 
@@ -63,7 +63,7 @@ export default function ModuleRunner({ module }) {
         </motion.div>
       </AnimatePresence>
 
-      <div className="safe-bottom sticky bottom-16 z-20 flex gap-2 rounded-2xl bg-paper/90 py-2 backdrop-blur md:bottom-2">
+      <div className="safe-bottom sticky bottom-20 z-20 flex gap-2 rounded-3xl bg-white p-2 cartoon md:bottom-2">
         <button type="button" className="btn btn-ghost" onClick={() => go(index - 1)} disabled={index === 0}>
           ← Kembali
         </button>

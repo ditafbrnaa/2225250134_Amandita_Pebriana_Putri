@@ -130,19 +130,19 @@ export default function TestPage() {
               type="button"
               onClick={() => setItemIdx(i)}
               aria-current={i === itemIdx}
-              className={`relative grid h-10 w-10 place-items-center rounded-xl border-2 font-bold ${
-                i === itemIdx ? 'border-violet-600 bg-violet-600 text-white' : 'border-ink/10 bg-white'
+              className={`springy relative grid h-11 w-11 place-items-center rounded-2xl border-2 font-bold ${
+                i === itemIdx ? 'border-line bg-brand text-white cartoon-sm' : 'border-line bg-white'
               }`}
             >
               {it.no}
-              {answeredInItem(it) && <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-emerald-500 ring-2 ring-white" aria-label="sudah dijawab" />}
+              {answeredInItem(it) && <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-line bg-mint0 ring-2 ring-white" aria-label="sudah dijawab" />}
             </button>
           ))}
         </nav>
       </div>
 
       <AnimatePresence mode="wait">
-        <motion.div key={item.no} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
+        <motion.div key={item.no} initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -28 }} transition={{ duration: 0.22, ease: 'easeOut' }}>
           <ExamItem
             item={item}
             answers={attempt.answers}
@@ -154,7 +154,7 @@ export default function TestPage() {
         </motion.div>
       </AnimatePresence>
 
-      <div className="safe-bottom sticky bottom-2 z-20 flex gap-2 rounded-2xl bg-paper/90 py-2 backdrop-blur md:bottom-2">
+      <div className="safe-bottom sticky bottom-2 z-20 flex gap-2 rounded-3xl bg-white p-2 cartoon md:bottom-2">
         <button type="button" className="btn btn-ghost" disabled={itemIdx === 0} onClick={() => setItemIdx(itemIdx - 1)}>
           ← Soal sebelumnya
         </button>
@@ -173,10 +173,18 @@ export default function TestPage() {
       <AnimatePresence>
         {confirm && (
           <motion.div className="fixed inset-0 z-50 grid place-items-center bg-ink/40 p-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <motion.div role="dialog" aria-modal="true" className="card w-full max-w-sm space-y-3" initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }}>
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              className="card w-full max-w-sm space-y-3"
+              initial={{ scale: 0.8, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 20 }}
+            >
               <p className="text-lg font-extrabold">Kumpulkan jawaban?</p>
               {unanswered > 0 ? (
-                <p className="rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-900">Masih ada {unanswered} langkah yang kosong.</p>
+                <p className="rounded-xl border-2 border-line bg-butter px-3 py-2 text-sm text-amber-900">Masih ada {unanswered} langkah yang kosong.</p>
               ) : (
                 <p className="text-sm text-ink/70">Semua langkah sudah diisi.</p>
               )}

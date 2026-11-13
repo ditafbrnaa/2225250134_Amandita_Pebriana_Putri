@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { OPERATIONS } from '../lib/expression.js';
+import { buttonHover, buttonTap, tapSpring } from '../lib/motion.js';
 import symbols from '@/data/symbols.json';
 
 const MNEMONIC = Object.fromEntries(symbols.filter((s) => s.expr).map((s) => [s.expr, s.tip]));
@@ -21,15 +22,17 @@ export default function OperationBar({ active, onSelect, ops, showMnemonic = tru
             <motion.button
               key={op.id}
               type="button"
-              whileTap={{ scale: 0.94 }}
+              whileHover={buttonHover}
+              whileTap={buttonTap}
+              transition={tapSpring}
               onClick={() => onSelect(isActive ? null : op)}
               aria-pressed={isActive}
-              className={`relative min-h-11 rounded-xl border-2 px-3 py-1.5 text-left transition-colors ${
-                isActive ? 'border-ink bg-ink text-white' : 'border-ink/15 bg-white text-ink hover:border-ink/40'
+              className={`relative min-h-11 rounded-2xl border-2 px-3 py-1.5 text-left transition-colors ${
+                isActive ? 'border-line bg-linear-to-br from-butter to-blush text-ink cartoon-sm' : 'border-line bg-white text-ink'
               }`}
             >
               <span className="block font-math text-lg leading-tight">{op.label}</span>
-              <span className={`block text-[11px] font-semibold ${isActive ? 'text-white/80' : 'text-ink/60'}`}>{op.word}</span>
+              <span className={`block text-[11px] font-semibold ${isActive ? 'text-brand-dark/80' : 'text-ink/60'}`}>{op.word}</span>
             </motion.button>
           );
         })}
@@ -43,7 +46,7 @@ export default function OperationBar({ active, onSelect, ops, showMnemonic = tru
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.2 }}
-            className="rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-900"
+            className="rounded-2xl border-2 border-line bg-peach px-3 py-2 text-sm text-amber-950"
           >
             <b className="font-math">{activeOp.label}</b> ({activeOp.word}): {activeOp.hint}
             {MNEMONIC[activeOp.id] && <span className="block text-amber-800/80">💡 {MNEMONIC[activeOp.id]}</span>}

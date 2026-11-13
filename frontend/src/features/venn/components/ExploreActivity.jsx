@@ -12,7 +12,8 @@ const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x))
  * - Mode bebas: ketuk daerah / pilih operasi → warna mengalir ke daerah yang sesuai.
  * - Mode tugas (props.task): siswa memilih daerah sendiri lalu memeriksa (bilah operasi disembunyikan).
  */
-export default function ExploreActivity({ labels = {}, members, counts, task, onComplete }) {
+/** onOperation?: (opId|null) => void — dipanggil saat siswa memilih operasi (dipakai balon chibi di Lab). */
+export default function ExploreActivity({ labels = {}, members, counts, task, onComplete, onOperation }) {
   const [selected, setSelected] = useState([]);
   const [activeOp, setActiveOp] = useState(null);
   const [multi, setMulti] = useState(Boolean(task?.multi));
@@ -30,6 +31,7 @@ export default function ExploreActivity({ labels = {}, members, counts, task, on
   const selectOp = (op) => {
     setActiveOp(op?.id ?? null);
     setSelected(op ? regionsFor(op.id) : []);
+    onOperation?.(op?.id ?? null);
   };
 
   const compare = () => selectOp({ id: activeOp === 'A∩B' ? 'A∪B' : 'A∩B' });
@@ -43,7 +45,7 @@ export default function ExploreActivity({ labels = {}, members, counts, task, on
   return (
     <div className="space-y-3">
       {task && (
-        <p className="rounded-2xl bg-violet-50 px-3 py-2 font-semibold text-violet-950">
+        <p className="rounded-2xl border-2 border-line bg-lavender px-3 py-2 font-semibold text-violet-950">
           🎯 {task.prompt}
           {task.multi && <span className="block text-xs font-normal text-violet-800">Boleh memilih lebih dari satu daerah.</span>}
         </p>
@@ -59,7 +61,7 @@ export default function ExploreActivity({ labels = {}, members, counts, task, on
               Bandingkan ∩ ⇄ ∪
             </button>
             <label className="btn btn-ghost cursor-pointer">
-              <input type="checkbox" className="accent-violet-600" checked={multi} onChange={(e) => setMulti(e.target.checked)} />
+              <input type="checkbox" className="accent-pink-500" checked={multi} onChange={(e) => setMulti(e.target.checked)} />
               Pilih banyak daerah
             </label>
           </div>
@@ -73,7 +75,7 @@ export default function ExploreActivity({ labels = {}, members, counts, task, on
           </button>
           {!task.multi && (
             <label className="flex items-center gap-2 text-sm">
-              <input type="checkbox" className="accent-violet-600" checked={multi} onChange={(e) => setMulti(e.target.checked)} />
+              <input type="checkbox" className="accent-pink-500" checked={multi} onChange={(e) => setMulti(e.target.checked)} />
               Pilih banyak daerah
             </label>
           )}
@@ -88,7 +90,7 @@ export default function ExploreActivity({ labels = {}, members, counts, task, on
             animate={feedback === 'ok' ? { opacity: 1, scale: [1, 1.05, 1] } : { opacity: 1, x: [0, -6, 6, 0] }}
             exit={{ opacity: 0 }}
             role="status"
-            className={`rounded-xl px-3 py-2 text-sm font-semibold ${feedback === 'ok' ? 'bg-emerald-50 text-emerald-900' : 'bg-amber-50 text-amber-900'}`}
+            className={`rounded-xl px-3 py-2 text-sm font-semibold ${feedback === 'ok' ? 'border-2 border-line bg-mint text-emerald-900' : 'border-2 border-line bg-butter text-amber-900'}`}
           >
             {feedback === 'ok' ? '✔ Benar! ' + (task.success ?? '') : `Belum tepat. ${task.hint ?? 'Baca lagi kata kuncinya, lalu coba lagi.'}`}
           </motion.p>

@@ -10,7 +10,7 @@ function Toggle({ checked, onChange, label, desc }) {
         <span className="block font-bold">{label}</span>
         {desc && <span className="block text-sm text-ink/60">{desc}</span>}
       </span>
-      <input type="checkbox" className="h-6 w-6 accent-violet-600" checked={checked} onChange={(e) => onChange(e.target.checked)} />
+      <input type="checkbox" className="h-6 w-6 accent-pink-500" checked={checked} onChange={(e) => onChange(e.target.checked)} />
     </label>
   );
 }
@@ -51,7 +51,7 @@ export default function SettingsPage() {
                 key={v}
                 type="button"
                 onClick={() => setSetting('fontScale', v)}
-                className={`btn flex-1 border-2 ${settings.fontScale === v ? 'border-violet-600 bg-violet-50' : 'border-ink/10 bg-white'}`}
+                className={`btn flex-1 border-2 ${settings.fontScale === v ? 'border-line bg-butter text-ink' : 'border-line bg-white'}`}
               >
                 {l}
               </button>
@@ -89,7 +89,7 @@ export default function SettingsPage() {
             🗑️ Keluar & hapus data di perangkat ini
           </button>
         ) : (
-          <div className="rounded-xl bg-red-50 p-3 text-sm text-red-900">
+          <div className="rounded-xl border-2 border-line bg-blush p-3 text-sm text-red-900">
             <p className="mb-2">Semua progres & jawaban di perangkat ini akan dihapus. Lanjutkan?</p>
             <div className="flex gap-2">
               <button type="button" className="btn btn-ghost flex-1" onClick={() => setConfirmReset(false)}>

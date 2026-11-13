@@ -34,7 +34,7 @@ export default function NotationChip({ selected, labels = {}, members, guess = t
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-            className="rounded-2xl bg-white p-3 shadow-card"
+            className="rounded-2xl bg-white p-3 cartoon"
           >
             <div className="flex flex-wrap items-center gap-2">
               {ordered.map((m) => (

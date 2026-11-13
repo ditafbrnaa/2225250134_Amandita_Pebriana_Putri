@@ -17,7 +17,7 @@ const Feedback = ({ ok, children }) => (
     initial={{ opacity: 0, y: 6 }}
     animate={ok ? { opacity: 1, y: 0, scale: [1, 1.04, 1] } : { opacity: 1, y: 0, x: [0, -6, 6, 0] }}
     role="status"
-    className={`rounded-xl px-3 py-2 text-sm ${ok ? 'bg-emerald-50 text-emerald-900' : 'bg-amber-50 text-amber-900'}`}
+    className={`rounded-xl px-3 py-2 text-sm ${ok ? 'border-2 border-line bg-mint text-emerald-900' : 'border-2 border-line bg-butter text-amber-900'}`}
   >
     {ok ? '✔ ' : '🤔 '}
     {children}
@@ -36,7 +36,7 @@ export function IntroStep({ step, onDone }) {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 * i }}
-          className={p.includes('=') && p.includes('n(') ? 'rounded-xl bg-violet-50 px-3 py-2 text-center font-math text-lg font-bold text-violet-950' : ''}
+          className={p.includes('=') && p.includes('n(') ? 'rounded-xl border-2 border-line bg-lavender px-3 py-2 text-center font-math text-lg font-bold text-violet-950' : ''}
         >
           {p}
         </motion.p>
@@ -62,13 +62,15 @@ export function SymbolsStep({ onDone }) {
           <motion.button
             key={s.symbol}
             type="button"
+            whileHover={{ y: -3, scale: 1.05 }}
             whileTap={{ scale: 0.9 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 17 }}
             onClick={() => {
               setOpen(s.symbol);
               setSeen((v) => (v.includes(s.symbol) ? v : [...v, s.symbol]));
             }}
             className={`aspect-square rounded-2xl border-2 font-math text-3xl font-bold ${
-              open === s.symbol ? 'border-violet-600 bg-violet-600 text-white' : seen.includes(s.symbol) ? 'border-violet-200 bg-violet-50' : 'border-ink/10 bg-white'
+              open === s.symbol ? 'border-line bg-brand text-white cartoon-sm' : seen.includes(s.symbol) ? 'border-line bg-lavender' : 'border-line bg-white'
             }`}
             aria-label={`Simbol ${s.name}`}
           >
@@ -90,7 +92,7 @@ export function SymbolsStep({ onDone }) {
               <p className="font-math text-4xl font-bold">{card.symbol}</p>
               <p className="text-lg font-extrabold">{card.name}</p>
               <p className="text-sm text-ink/80">{card.read}</p>
-              <p className="mt-2 rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-900">💡 {card.tip}</p>
+              <p className="mt-2 rounded-xl border-2 border-line bg-butter px-3 py-2 text-sm text-amber-900">💡 {card.tip}</p>
             </div>
             {card.expr && <VennCanvas highlighted={regionsFor(card.expr)} interactive={false} title={`Daerah ${card.expr}`} />}
           </motion.div>
@@ -116,15 +118,16 @@ export function QuizStep({ step, onDone }) {
               <motion.button
                 key={i}
                 type="button"
-                whileTap={{ scale: 0.98 }}
+                whileHover={correct ? undefined : { y: -2, scale: 1.01 }}
+                whileTap={{ scale: 0.97 }}
                 disabled={correct}
                 onClick={() => {
                   setPicked(i);
                   if (i === step.answer) onDone();
                 }}
                 animate={state === 'wrong' ? { x: [0, -6, 6, 0] } : {}}
-                className={`min-h-11 rounded-xl border-2 px-3 py-2 text-left font-semibold transition-colors ${
-                  state === 'right' ? 'border-emerald-500 bg-emerald-50' : state === 'wrong' ? 'border-amber-500 bg-amber-50' : 'border-ink/10 bg-white hover:border-violet-300'
+                className={`min-h-11 rounded-2xl border-2 px-3 py-2 text-left font-semibold transition-colors ${
+                  state === 'right' ? 'border-emerald-500 bg-mint' : state === 'wrong' ? 'border-amber-500 bg-peach' : 'border-line bg-white'
                 }`}
               >
                 <span className="font-math">{opt}</span>

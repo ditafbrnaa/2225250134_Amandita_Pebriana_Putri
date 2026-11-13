@@ -54,7 +54,7 @@ export default function JoinPage() {
           <label className="label" htmlFor="code">Kode kelas</label>
           <input id="code" className="input font-mono tracking-widest" value={form.classCode} onChange={update('classCode')} placeholder="mis. 7A-VENN" />
         </div>
-        {error && <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">{error}</p>}
+        {error && <p className="rounded-xl border-2 border-line bg-blush px-3 py-2 text-sm text-red-800" role="alert">{error}</p>}
         <button type="submit" className="btn btn-primary w-full text-base" disabled={busy}>
           {busy ? 'Memproses…' : 'Masuk'}
         </button>

@@ -4,6 +4,8 @@ import { motion } from 'motion/react';
 import { useAppStore } from '@/store/useAppStore.js';
 import { api, backendEnabled, flushQueue } from '@/services/api.js';
 import { nGain } from '@/features/assessment/lib/scoring.js';
+import { bouncyIn } from '@/features/venn/lib/motion.js';
+import Mascot from '@/components/ui/Mascot.jsx';
 
 function ScoreBar({ label, value, max, color }) {
   return (
@@ -14,8 +16,8 @@ function ScoreBar({ label, value, max, color }) {
           {value} / {max}
         </span>
       </div>
-      <div className="mt-1 h-3 overflow-hidden rounded-full bg-ink/10">
-        <motion.div className={`h-full rounded-full ${color}`} initial={{ width: 0 }} animate={{ width: `${(value / max) * 100}%` }} transition={{ duration: 0.8, ease: 'easeOut' }} />
+      <div className="mt-1 h-5 overflow-hidden rounded-full border-2 border-line bg-lavender">
+        <motion.div className={`h-full rounded-full border-r-2 border-white ${color}`} initial={{ width: 0 }} animate={{ width: `${(value / max) * 100}%` }} transition={{ type: 'spring', stiffness: 70, damping: 15, delay: 0.3 }} />
       </div>
     </div>
   );
@@ -49,9 +51,12 @@ export default function TestResultPage() {
   if (type === 'pre') {
     return (
       <div className="mx-auto max-w-xl space-y-4 text-center">
-        <motion.p initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring' }} className="text-6xl">
-          📝
-        </motion.p>
+        <div className="flex items-end justify-center gap-1">
+          <Mascot mood="happy" size={88} />
+          <motion.p initial={{ scale: 0 }} animate={{ scale: 1 }} transition={bouncyIn} className="text-5xl">
+            📝
+          </motion.p>
+        </div>
         <h1 className="text-2xl font-extrabold">Pretest selesai. Terima kasih!</h1>
         <p className="text-ink/70">Jawabanmu sudah tersimpan. Sekarang modul belajar sudah terbuka. Selamat menjelajah!</p>
         {backendEnabled && pending > 0 && <p className="text-sm text-amber-800">⏳ Jawaban akan terkirim otomatis saat ada internet.</p>}
@@ -72,10 +77,15 @@ export default function TestResultPage() {
   return (
     <div className="mx-auto max-w-xl space-y-4">
       <div className="text-center">
-        <motion.p initial={{ scale: 0, rotate: -20 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: 'spring' }} className="text-6xl">
-          🏆
-        </motion.p>
-        <h1 className="text-2xl font-extrabold">Posttest selesai!</h1>
+        <div className="flex items-end justify-center gap-1">
+          <Mascot mood="wow" size={88} />
+          <motion.p initial={{ scale: 0, rotate: -20 }} animate={{ scale: 1, rotate: 0 }} transition={bouncyIn} className="text-5xl">
+            🏆
+          </motion.p>
+        </div>
+        <h1 className="mt-2 text-2xl">
+          <span className="title-sticker">Posttest selesai!</span>
+        </h1>
       </div>
 
       {!r ? (
@@ -88,31 +98,37 @@ export default function TestResultPage() {
           )}
         </div>
       ) : (
-        <div className="card space-y-3">
-          {preScore !== null && <ScoreBar label="Pretest" value={preScore} max={max} color="bg-slate-400" />}
-          <ScoreBar label="Posttest" value={postScore} max={max} color="bg-violet-600" />
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ ...bouncyIn, delay: 0.15 }} className="card space-y-3">
+          {preScore !== null && <ScoreBar label="Pretest" value={preScore} max={max} color="bg-linear-to-r from-venn-a to-lilac" />}
+          <ScoreBar label="Posttest" value={postScore} max={max} color="bg-linear-to-r from-pinky to-brand" />
           {g && (
-            <p className="rounded-xl bg-violet-50 px-3 py-2 text-sm text-violet-950">
+            <p className="rounded-xl border-2 border-line bg-lavender px-3 py-2 text-sm text-violet-950">
               Peningkatan (N-gain): <b>{g.value.toFixed(2)}</b>, kategori <b>{g.category}</b>
             </p>
           )}
           {provisional && (
-            <p className="rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-900">
+            <p className="rounded-xl border-2 border-line bg-butter px-3 py-2 text-sm text-amber-900">
               Skor ini <b>sementara</b>. Langkah yang berisi alasan/kesimpulan akan dinilai oleh guru.
             </p>
           )}
           <div className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
-            {r.items.map((it) => (
-              <div key={it.no} className="rounded-xl bg-ink/5 p-2 text-center">
+            {r.items.map((it, i) => (
+              <motion.div
+                key={it.no}
+                initial={{ opacity: 0, y: 14, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ ...bouncyIn, delay: 0.5 + i * 0.08 }}
+                className={`rounded-2xl border-2 border-line p-2 text-center ${['bg-blush', 'bg-lavender', 'bg-mint', 'bg-peach'][i % 4]}`}
+              >
                 <p className="font-bold">Soal {it.no}</p>
                 <p className="text-lg font-extrabold">
                   {it.total ?? it.auto}/{it.max}
                 </p>
                 {it.pending > 0 && <p className="text-xs text-amber-800">{it.pending} menunggu guru</p>}
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       )}
 
       <Link to="/" className="btn btn-primary w-full">

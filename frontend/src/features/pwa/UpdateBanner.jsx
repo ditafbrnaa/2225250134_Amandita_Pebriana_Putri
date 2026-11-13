@@ -23,7 +23,7 @@ export default function UpdateBanner() {
           initial={{ y: 80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
-          className="fixed inset-x-3 bottom-20 z-50 mx-auto flex max-w-md items-center gap-3 rounded-2xl bg-ink p-3 text-sm text-white shadow-card md:bottom-4"
+          className="fixed inset-x-3 bottom-20 z-50 mx-auto flex max-w-md items-center gap-3 rounded-2xl bg-ink p-3 text-sm text-white cartoon md:bottom-4"
           role="status"
         >
           <span className="flex-1">{needRefresh ? '✨ Versi baru VennBuster tersedia.' : '✔ VennBuster siap dipakai tanpa internet.'}</span>

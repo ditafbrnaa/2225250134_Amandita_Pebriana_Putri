@@ -1,24 +1,60 @@
 @import "tailwindcss";
 
-/* ===== Token desain VennBuster (Tailwind v4) ===== */
+/* ===== Token desain VennBuster (Tailwind v4) — tema "Chibi Pastel Pinky" ===== */
 @theme {
-  --color-ink: #1e1b4b;
-  --color-paper: #fffbf5;
-  --color-brand: #6d28d9;
-  --color-brand-dark: #4c1d95;
+  /* Teks utama: plum gelap → kontras tinggi (>10:1) di atas latar pastel */
+  --color-ink: #3a2448;
+  --color-paper: #fff6f9;
+  --color-brand: #c2417f;      /* aksen pink tua (teks/fokus) */
+  --color-brand-dark: #8e2a5c;
+  --color-brand-pink: #e0559a;
+
+  /* Pastel manis */
+  --color-cream: #fff6f9;
+  --color-blush: #ffdbe8;      /* soft pink */
+  --color-pinky: #ffb3cf;
+  --color-peach: #ffe4d4;      /* baby peach */
+  --color-mint: #ddf6ea;       /* mint cream */
+  --color-mint-deep: #8fdcb9;
+  --color-lavender: #ece2ff;   /* lavender */
+  --color-lilac: #cdb8ff;
+  --color-butter: #fff1c9;
+  --color-butter-deep: #ffd27a;
+
+  /* Garis lembut & bayangan stiker */
+  --color-line: #f6b9d1;
+  --color-line-deep: #eb93b9;
+
+  /* Tombol aksi utama (teks plum gelap di atas pink → AA) */
+  --color-pop: #ff9cc6;
+  --color-pop-hover: #ffb0d2;
 
   /* Warna daerah Venn — sama dengan REGION_COLORS di src/features/venn/lib/regions.js */
-  --color-venn-a: #3b82f6;
-  --color-venn-b: #f59e0b;
-  --color-venn-ab: #8b5cf6;
-  --color-venn-out: #94a3b8;
-  --color-venn-hl: #facc15;
+  --color-venn-a: #9cc9ff;
+  --color-venn-b: #ffc39b;
+  --color-venn-ab: #c9a9ff;
+  --color-venn-out: #bfead6;
+  --color-venn-hl: #ffd84d;
 
-  --font-sans: ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI", Roboto, system-ui, sans-serif;
+  --font-sans: "Fredoka Variable", "Fredoka", ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI", system-ui, sans-serif;
   --font-math: "Cambria Math", "STIX Two Math", "Noto Sans Math", "Segoe UI Symbol", ui-serif, serif;
 
-  --shadow-card: 0 1px 0 rgba(30, 27, 75, 0.06), 0 6px 18px -8px rgba(30, 27, 75, 0.18);
-  --shadow-press: 0 4px 0 0 var(--color-brand-dark);
+  /* Bayangan stiker: tebal di bawah + sedikit pendar pink */
+  --shadow-card: 0 6px 0 0 var(--color-line), 0 16px 28px -14px rgb(224 85 154 / 0.45);
+  --shadow-soft: 0 4px 0 0 var(--color-line);
+  --shadow-press: 0 5px 0 0 var(--color-line-deep);
+
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Kartu stiker: border lembut + bayangan tegas ke bawah */
+@utility cartoon {
+  border: 2.5px solid var(--color-line);
+  box-shadow: var(--shadow-card);
+}
+@utility cartoon-sm {
+  border: 2px solid var(--color-line);
+  box-shadow: 0 3px 0 0 var(--color-line);
 }
 
 /* ===== Dasar ===== */
@@ -29,38 +65,163 @@ html {
 body {
   @apply bg-paper font-sans text-ink antialiased;
   min-height: 100dvh;
+  font-weight: 450;
+  /* Latar polkadot pastel statis (tidak dianimasikan) */
+  background-image:
+    radial-gradient(circle at 2px 2px, rgb(235 147 185 / 0.18) 2px, transparent 2.5px),
+    radial-gradient(60rem 40rem at -10% -10%, rgb(255 219 232 / 0.95), transparent 60%),
+    radial-gradient(50rem 36rem at 110% 0%, rgb(236 226 255 / 0.95), transparent 60%),
+    radial-gradient(50rem 40rem at 50% 115%, rgb(221 246 234 / 0.95), transparent 60%),
+    radial-gradient(40rem 30rem at 100% 70%, rgb(255 228 212 / 0.8), transparent 60%);
+  background-size: 26px 26px, auto, auto, auto, auto;
+  background-attachment: fixed;
 }
+h1, h2, h3 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+/* Fredoka maksimum 700 */
+.font-extrabold, .font-black { font-weight: 700; }
 
 /* ===== Komponen ===== */
 @layer components {
+  /* Mikro-interaksi membal */
+  .springy,
   .btn {
-    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition select-none;
-    @apply disabled:cursor-not-allowed disabled:opacity-50;
-    @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-venn-hl;
+    transition:
+      transform 0.3s var(--ease-spring),
+      box-shadow 0.15s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+    will-change: transform;
+  }
+  @media (hover: hover) {
+    .springy:not(:disabled):hover {
+      transform: translateY(-2px) scale(1.04);
+    }
+  }
+  .springy:not(:disabled):active {
+    transform: translateY(1px) scale(0.95);
+    transition-duration: 0.1s;
+  }
+
+  /* Tombol pil 3D yang bisa "ditekan" */
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] font-semibold tracking-wide select-none;
+    border: 2.5px solid var(--color-line-deep);
+    box-shadow: var(--shadow-press);
+    @apply disabled:cursor-not-allowed disabled:opacity-55;
+    @apply focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand;
+  }
+  @media (hover: hover) {
+    .btn:not(:disabled):hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 7px 0 0 var(--color-line-deep);
+    }
+  }
+  .btn:not(:disabled):active {
+    transform: translateY(5px) scale(0.98);
+    box-shadow: 0 0 0 0 var(--color-line-deep);
+    transition-duration: 0.08s;
   }
   .btn-primary {
-    @apply bg-brand text-white;
-    box-shadow: var(--shadow-press);
+    @apply bg-pop text-ink;
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.45), transparent 60%);
   }
-  .btn-primary:not(:disabled):active {
-    transform: translateY(3px);
-    box-shadow: 0 1px 0 0 var(--color-brand-dark);
-  }
+  .btn-primary:not(:disabled):hover { @apply bg-pop-hover; }
   .btn-secondary {
-    @apply border-2 border-brand/30 bg-white text-brand hover:border-brand/60;
+    @apply bg-white text-ink hover:bg-blush;
   }
   .btn-ghost {
-    @apply bg-transparent text-ink/70 hover:bg-ink/5;
+    @apply bg-lavender text-ink hover:bg-blush;
+    border-color: var(--color-lilac);
+    box-shadow: 0 5px 0 0 var(--color-lilac);
   }
   .card {
-    @apply rounded-2xl bg-white p-4 shadow-card;
+    @apply rounded-3xl bg-white p-4;
+    border: 2.5px solid var(--color-line);
+    box-shadow: var(--shadow-card);
   }
   .input {
-    @apply min-h-11 w-full rounded-xl border-2 border-ink/15 bg-white px-3 py-2 text-base outline-none transition;
-    @apply focus:border-brand focus:ring-4 focus:ring-brand/15;
+    @apply min-h-11 w-full rounded-2xl bg-white px-3 py-2 text-base outline-none transition;
+    border: 2.5px solid var(--color-line);
+    @apply focus:border-brand-pink focus:ring-4 focus:ring-pinky/50;
   }
   .label {
-    @apply mb-1 block text-sm font-bold text-ink/80;
+    @apply mb-1 block text-sm font-semibold text-ink;
+  }
+  .chip-pastel {
+    @apply rounded-full bg-blush px-3 py-1 text-xs font-semibold text-ink;
+    border: 2px solid var(--color-line);
+  }
+  /* Pita judul bergaya stiker */
+  .title-sticker {
+    @apply inline-block rounded-2xl bg-white px-3 py-0.5;
+    border: 2.5px solid var(--color-line);
+    box-shadow: 0 4px 0 0 var(--color-line);
+    transform: rotate(-1.5deg);
+  }
+  /* Balon dialog komik */
+  .speech-bubble {
+    @apply relative rounded-3xl bg-white px-4 py-2.5 text-sm font-medium text-ink;
+    border: 2.5px solid var(--color-line);
+    box-shadow: 0 4px 0 0 var(--color-line);
+  }
+  .speech-bubble::before,
+  .speech-bubble::after {
+    content: "";
+    position: absolute;
+    border-style: solid;
+  }
+  /* ekor balon menunjuk ke karakter di kiri */
+  .speech-bubble[data-tail="left"]::before {
+    top: 50%;
+    left: -14px;
+    margin-top: -9px;
+    border-width: 9px 14px 9px 0;
+    border-color: transparent var(--color-line) transparent transparent;
+  }
+  .speech-bubble[data-tail="left"]::after {
+    top: 50%;
+    left: -9px;
+    margin-top: -6px;
+    border-width: 6px 10px 6px 0;
+    border-color: transparent #fff transparent transparent;
+  }
+  /* ekor balon menunjuk ke bawah (layar sempit) */
+  .speech-bubble[data-tail="bottom"]::before,
+  .speech-bubble[data-tail="auto"]::before {
+    bottom: -14px;
+    left: 28px;
+    border-width: 14px 9px 0 9px;
+    border-color: var(--color-line) transparent transparent transparent;
+  }
+  .speech-bubble[data-tail="bottom"]::after,
+  .speech-bubble[data-tail="auto"]::after {
+    bottom: -9px;
+    left: 31px;
+    border-width: 10px 6px 0 6px;
+    border-color: #fff transparent transparent transparent;
+  }
+  /* "auto": ekor ke bawah di HP (balon di atas karakter), ke kiri di layar lebar */
+  @media (min-width: 640px) {
+    .speech-bubble[data-tail="auto"]::before {
+      top: 50%;
+      bottom: auto;
+      left: -14px;
+      margin-top: -9px;
+      border-width: 9px 14px 9px 0;
+      border-color: transparent var(--color-line) transparent transparent;
+    }
+    .speech-bubble[data-tail="auto"]::after {
+      top: 50%;
+      bottom: auto;
+      left: -9px;
+      margin-top: -6px;
+      border-width: 6px 10px 6px 0;
+      border-color: transparent #fff transparent transparent;
+    }
   }
 }
 
@@ -72,14 +233,14 @@ body {
   transition: stroke-width 0.15s ease;
 }
 @media (hover: hover) {
-  .venn-region:hover {
-    stroke: #1e1b4b;
+  .venn-region[role="button"]:hover {
+    stroke: #ffffff;
     stroke-width: 3;
   }
 }
 .venn-region:focus-visible {
-  stroke: var(--color-venn-hl);
-  stroke-width: 5;
+  stroke: var(--color-brand-pink);
+  stroke-width: 4;
 }
 .venn-label {
   font-family: var(--font-sans);
@@ -92,12 +253,12 @@ body {
 /* Kata kunci pada soal cerita */
 mark.kw {
   @apply cursor-pointer rounded-md px-0.5 font-bold;
-  background: linear-gradient(transparent 55%, rgb(250 204 21 / 0.65) 55%);
+  background: linear-gradient(transparent 55%, rgb(255 216 77 / 0.7) 55%);
   color: inherit;
   transition: background 0.2s ease;
 }
 mark.kw[aria-pressed="true"] {
-  background: rgb(250 204 21 / 0.9);
+  background: rgb(255 216 77 / 0.95);
 }
 
 /* Hormati preferensi pengguna */
@@ -106,11 +267,19 @@ mark.kw[aria-pressed="true"] {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  .springy:hover, .springy:active, .btn:hover, .btn:active { transform: none !important; }
+  .title-sticker { transform: none; }
 }
 html[data-reduce-motion="true"] *,
 html[data-reduce-motion="true"] *::before,
 html[data-reduce-motion="true"] *::after {
   transition-duration: 0.01ms !important;
+}
+html[data-reduce-motion="true"] .springy:hover,
+html[data-reduce-motion="true"] .springy:active,
+html[data-reduce-motion="true"] .btn:hover,
+html[data-reduce-motion="true"] .btn:active {
+  transform: none !important;
 }
 
 /* Area aman untuk HP berponi */

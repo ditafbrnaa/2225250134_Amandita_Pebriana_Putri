@@ -66,7 +66,7 @@ export default function PlacementActivity({ sets, onComplete }) {
 
   return (
     <div className="space-y-3">
-      <div className="rounded-2xl bg-white p-3 text-sm shadow-card">
+      <div className="rounded-2xl bg-white p-3 text-sm cartoon">
         <p><b>S</b> = {sets.S.label}</p>
         <p><b className="text-blue-700">A</b> = {sets.A.label}</p>
         <p><b className="text-amber-700">B</b> = {sets.B.label}</p>
@@ -99,7 +99,7 @@ export default function PlacementActivity({ sets, onComplete }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             role="status"
-            className={`rounded-xl px-3 py-2 text-sm ${message.ok ? 'bg-emerald-50 text-emerald-900' : 'bg-amber-50 text-amber-900'}`}
+            className={`rounded-xl px-3 py-2 text-sm ${message.ok ? 'border-2 border-line bg-mint text-emerald-900' : 'border-2 border-line bg-butter text-amber-900'}`}
           >
             {message.text}
           </motion.p>
@@ -118,7 +118,7 @@ export default function PlacementActivity({ sets, onComplete }) {
       </div>
 
       {finished && (
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl bg-emerald-50 p-3 text-sm text-emerald-950">
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border-2 border-line bg-mint p-3 text-sm text-emerald-950">
           <p className="mb-1 font-bold">🎉 Semua anggota semesta sudah ditempatkan!</p>
           {FLOW_ORDER.map((m) => (
             <p key={m} className="font-math">
