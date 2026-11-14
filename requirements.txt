@@ -1,0 +1,6 @@
+# Dependensi fungsi serverless Vercel (api/index.py). Untuk pengembangan lokal pakai backend/requirements.txt.
+fastapi>=0.115
+sqlalchemy>=2.0
+pydantic>=2.7
+pydantic-settings>=2.3
+psycopg[binary]>=3.2

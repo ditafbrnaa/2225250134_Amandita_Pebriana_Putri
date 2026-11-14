@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { request, backendEnabled } from '@/services/api.js';
+import { request, backendEnabled, API_BASE } from '@/services/api.js';
 
 const TOKEN_KEY = 'vb-teacher-token';
-const API_BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '');
 
 function Login({ onLogin }) {
   const [pin, setPin] = useState('');

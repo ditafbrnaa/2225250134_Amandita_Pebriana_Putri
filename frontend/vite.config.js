@@ -32,6 +32,8 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,json,woff2}'],
         navigateFallback: '/index.html',
+        // Unduhan CSV guru (/api/...) harus ke server, bukan dibelokkan ke index.html.
+        navigateFallbackDenylist: [/^\/api\//],
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/api/v1/instrument'),

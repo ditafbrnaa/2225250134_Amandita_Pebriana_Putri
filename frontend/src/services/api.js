@@ -1,8 +1,11 @@
 // Komunikasi dengan backend FastAPI + antrean sinkronisasi offline.
 import { useAppStore } from '@/store/useAppStore.js';
 
-const BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '');
-export const backendEnabled = Boolean(BASE);
+// VITE_API_URL="/" → backend di domain yang sama (Vercel: folder api/). Kosong → mode demo tanpa backend.
+const RAW_API_URL = (import.meta.env.VITE_API_URL ?? '').trim();
+export const API_BASE = RAW_API_URL.replace(/\/+$/, '');
+const BASE = API_BASE;
+export const backendEnabled = RAW_API_URL !== '';
 export const demoMode = import.meta.env.VITE_DEMO_MODE === 'true';
 
 export class ApiError extends Error {
@@ -71,7 +74,18 @@ export async function flushQueue() {
   }
 }
 
+/**
+ * Profil dari versi demo (tanpa token server) tidak bisa mengirim jawaban.
+ * Siswa diminta masuk ulang dengan kode kelas, dan tes demo dihapus agar pretest dikerjakan ulang di server.
+ */
+export function dropDemoProfile() {
+  const { profile } = useAppStore.getState();
+  if (!backendEnabled || !profile || profile.token) return;
+  useAppStore.setState({ profile: null, attempts: {}, syncQueue: [] });
+}
+
 export function startSyncListeners() {
+  dropDemoProfile();
   window.addEventListener('online', flushQueue);
   document.addEventListener('visibilitychange', () => document.visibilityState === 'visible' && flushQueue());
   flushQueue();
