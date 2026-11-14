@@ -20,101 +20,108 @@ function Login({ onLogin }) {
   return (
     <form onSubmit={submit} className="card mx-auto max-w-sm space-y-3">
       <p className="text-lg font-extrabold">👩‍🏫 Masuk sebagai guru</p>
-      <input className="input" type="password" value={pin} onChange={(e) => setPin(e.target.value)} placeholder="PIN guru" autoComplete="current-password" />
-      {error && <p className="text-sm text-red-700">{error}</p>}
+      <input className="input" type="password" value={pin} onChange={(e) => setPin(e.target.value)} placeholder="PIN guru" autoComplete="current-password" aria-label="PIN guru" />
+      {error && <p className="text-sm text-red-700" role="alert">{error}</p>}
       <button className="btn btn-primary w-full" type="submit">Masuk</button>
     </form>
   );
 }
 
-function Classes({ token, classes, reload, selected, onSelect }) {
-  const [name, setName] = useState('');
-  const [code, setCode] = useState('');
+const fmt = (v) => (v === null || v === undefined ? '–' : v);
+const fmtDate = (iso) =>
+  iso ? new Date(iso).toLocaleString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '–';
+const TEST_LABEL = { pre: 'pretest', post: 'posttest' };
+
+/** Tabel rekap utama: seluruh siswa di database, tanpa filter kelas. */
+function Summary({ token, onUnauthorized }) {
+  const [rows, setRows] = useState(null);
   const [error, setError] = useState(null);
-  const create = async (e) => {
-    e.preventDefault();
-    setError(null);
-    try {
-      await request('/teacher/classes', { method: 'POST', token, body: { name, code: code || null } });
-      setName('');
-      setCode('');
-      reload();
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    request('/teacher/summary', { token })
+      .then(setRows)
+      .catch((e) => {
+        if (e.status === 401) onUnauthorized();
+        else setError(e.message);
+      });
+  }, [token, onUnauthorized]);
+
+  if (error) return <p className="card text-red-700" role="alert">{error}</p>;
+  if (!rows) return <p>Memuat…</p>;
+
+  const q = query.trim().toLowerCase();
+  const shown = q ? rows.filter((r) => r.name.toLowerCase().includes(q) || (r.nis ?? '').includes(q)) : rows;
+  const preDone = rows.filter((r) => r.pre !== null).length;
+  const postDone = rows.filter((r) => r.post !== null).length;
+
   return (
     <div className="space-y-3">
-      <div className="grid gap-2 sm:grid-cols-2">
-        {classes.map((c) => (
-          <button
-            key={c.id}
-            type="button"
-            onClick={() => onSelect(c.id)}
-            className={`rounded-2xl border-2 p-3 text-left ${selected === c.id ? 'border-line bg-butter text-ink' : 'border-line bg-white'}`}
-          >
-            <p className="font-bold">{c.name}</p>
-            <p className="font-mono text-sm tracking-widest text-violet-700">{c.code}</p>
-            <p className="text-xs text-ink/60">{c.student_count} siswa</p>
-          </button>
-        ))}
+      <div className="grid grid-cols-3 gap-2 text-center">
+        <div className="card p-2"><p className="text-2xl font-extrabold">{rows.length}</p><p className="text-xs text-ink/60">siswa</p></div>
+        <div className="card p-2"><p className="text-2xl font-extrabold">{preDone}</p><p className="text-xs text-ink/60">selesai pretest</p></div>
+        <div className="card p-2"><p className="text-2xl font-extrabold">{postDone}</p><p className="text-xs text-ink/60">selesai posttest</p></div>
       </div>
-      <form onSubmit={create} className="card flex flex-wrap gap-2">
-        <input className="input flex-1" value={name} onChange={(e) => setName(e.target.value)} placeholder="Nama kelas (mis. VII A)" required />
-        <input className="input w-36 font-mono" value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} placeholder="Kode (opsional)" />
-        <button className="btn btn-primary" type="submit">+ Kelas</button>
-        {error && <p className="w-full text-sm text-red-700">{error}</p>}
-      </form>
-    </div>
-  );
-}
-
-function Summary({ token, classId }) {
-  const [rows, setRows] = useState(null);
-  useEffect(() => {
-    request(`/teacher/classes/${classId}/summary`, { token }).then(setRows).catch(() => setRows([]));
-  }, [classId, token]);
-  if (!rows) return <p>Memuat…</p>;
-  const fmt = (v) => (v === null || v === undefined ? '–' : v);
-  return (
-    <div className="space-y-2">
+      <input
+        className="input"
+        type="search"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Cari nama atau NIS…"
+        aria-label="Cari siswa"
+      />
       <div className="overflow-x-auto rounded-2xl bg-white cartoon">
         <table className="w-full text-sm">
           <thead className="bg-ink/5 text-left">
             <tr>
+              <th className="p-2">No</th>
               <th className="p-2">Nama</th>
               <th className="p-2">NIS</th>
-              <th className="p-2 text-center">Pre</th>
-              <th className="p-2 text-center">Post</th>
+              <th className="p-2 text-center">Pretest</th>
+              <th className="p-2 text-center">Posttest</th>
               <th className="p-2 text-center">N-gain</th>
+              <th className="p-2">Status</th>
             </tr>
           </thead>
           <tbody>
-            {rows.map((r) => (
-              <tr key={r.student_id} className="border-t border-ink/5">
+            {shown.map((r, i) => (
+              <tr key={r.student_id} className="border-t border-ink/5 align-top">
+                <td className="p-2 text-ink/60">{i + 1}</td>
                 <td className="p-2 font-semibold">{r.name}</td>
-                <td className="p-2">{r.nis}</td>
-                <td className="p-2 text-center">{fmt(r.pre)}{r.pre_pending ? '*' : ''}</td>
-                <td className="p-2 text-center">{fmt(r.post)}{r.post_pending ? '*' : ''}</td>
+                <td className="p-2">{r.nis || '–'}</td>
+                <td className="p-2 text-center">
+                  {fmt(r.pre)}{r.pre_pending ? '*' : ''}
+                  {r.pre_submitted_at && <span className="block text-[11px] text-ink/50">{fmtDate(r.pre_submitted_at)}</span>}
+                </td>
+                <td className="p-2 text-center">
+                  {fmt(r.post)}{r.post_pending ? '*' : ''}
+                  {r.post_submitted_at && <span className="block text-[11px] text-ink/50">{fmtDate(r.post_submitted_at)}</span>}
+                </td>
                 <td className="p-2 text-center">{r.ngain === null ? '–' : `${r.ngain.toFixed(2)} (${r.category})`}</td>
+                <td className="p-2 text-xs text-ink/70">
+                  {r.in_progress?.length ? `Sedang mengerjakan ${r.in_progress.map((t) => TEST_LABEL[t] ?? t).join(' & ')}` : r.pre === null && r.post === null ? 'Belum tes' : '✔'}
+                </td>
               </tr>
             ))}
+            {!shown.length && (
+              <tr><td colSpan={7} className="p-4 text-center text-ink/60">{rows.length ? 'Tidak ada siswa yang cocok.' : 'Belum ada siswa yang masuk.'}</td></tr>
+            )}
           </tbody>
         </table>
       </div>
       <p className="text-xs text-ink/60">* masih ada langkah uraian yang belum dinilai. Skor maksimum 24.</p>
-      <a className="btn btn-secondary" href={`${API_BASE}/api/v1/teacher/classes/${classId}/export.csv?token=${encodeURIComponent(token)}`}>
-        ⬇️ Unduh CSV (per tahap)
+      <a className="btn btn-secondary" href={`${API_BASE}/api/v1/teacher/export.csv?token=${encodeURIComponent(token)}`}>
+        ⬇️ Unduh CSV semua jawaban (per tahap)
       </a>
     </div>
   );
 }
 
-function Grading({ token, classId }) {
+function Grading({ token }) {
   const [queue, setQueue] = useState(null);
   const load = useCallback(() => {
-    request(`/teacher/grading-queue?class_id=${classId}`, { token }).then(setQueue).catch(() => setQueue([]));
-  }, [classId, token]);
+    request('/teacher/grading-queue', { token }).then(setQueue).catch(() => setQueue([]));
+  }, [token]);
   useEffect(load, [load]);
 
   const give = async (id, score) => {
@@ -149,22 +156,12 @@ function Grading({ token, classId }) {
 
 export default function TeacherPage() {
   const [token, setToken] = useState(() => sessionStorage.getItem(TOKEN_KEY));
-  const [classes, setClasses] = useState([]);
-  const [selected, setSelected] = useState(null);
   const [tab, setTab] = useState('summary');
 
-  const reload = useCallback(() => {
-    if (!token) return;
-    request('/teacher/classes', { token })
-      .then(setClasses)
-      .catch((e) => {
-        if (e.status === 401) {
-          sessionStorage.removeItem(TOKEN_KEY);
-          setToken(null);
-        }
-      });
-  }, [token]);
-  useEffect(reload, [reload]);
+  const logout = useCallback(() => {
+    sessionStorage.removeItem(TOKEN_KEY);
+    setToken(null);
+  }, []);
 
   if (!backendEnabled) {
     return (
@@ -183,24 +180,19 @@ export default function TeacherPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-extrabold">👩‍🏫 Dasbor Guru</h1>
-        <button type="button" className="btn btn-ghost" onClick={() => { sessionStorage.removeItem(TOKEN_KEY); setToken(null); }}>
+        <button type="button" className="btn btn-ghost" onClick={logout}>
           Keluar
         </button>
       </div>
-      <Classes token={token} classes={classes} reload={reload} selected={selected} onSelect={setSelected} />
-      {selected && (
-        <>
-          <div className="flex gap-2">
-            <button type="button" className={`btn ${tab === 'summary' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setTab('summary')}>
-              Rekap nilai
-            </button>
-            <button type="button" className={`btn ${tab === 'grading' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setTab('grading')}>
-              Penilaian uraian
-            </button>
-          </div>
-          {tab === 'summary' ? <Summary key={selected} token={token} classId={selected} /> : <Grading key={selected} token={token} classId={selected} />}
-        </>
-      )}
+      <div className="flex gap-2">
+        <button type="button" className={`btn ${tab === 'summary' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setTab('summary')} aria-pressed={tab === 'summary'}>
+          Rekap semua siswa
+        </button>
+        <button type="button" className={`btn ${tab === 'grading' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setTab('grading')} aria-pressed={tab === 'grading'}>
+          Penilaian uraian
+        </button>
+      </div>
+      {tab === 'summary' ? <Summary token={token} onUnauthorized={logout} /> : <Grading token={token} />}
     </div>
   );
 }

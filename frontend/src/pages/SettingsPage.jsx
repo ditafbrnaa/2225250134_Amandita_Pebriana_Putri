@@ -26,9 +26,7 @@ export default function SettingsPage() {
       {profile && (
         <div className="card">
           <p className="font-bold">{profile.name}</p>
-          <p className="text-sm text-ink/60">
-            {profile.nis && `NIS ${profile.nis} · `}Kelas {profile.classCode}
-          </p>
+          {profile.nis && <p className="text-sm text-ink/60">NIS {profile.nis}</p>}
         </div>
       )}
 

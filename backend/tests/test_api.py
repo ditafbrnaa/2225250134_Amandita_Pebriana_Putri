@@ -13,14 +13,19 @@ API = "/api/v1"
 
 
 def test_alur_lengkap():
-    # Guru masuk & membuat kelas
+    # Guru masuk hanya dengan PIN
     assert client.post(f"{API}/teacher/login", json={"pin": "salah"}).status_code == 401
     t = client.post(f"{API}/teacher/login", json={"pin": "4321"}).json()["token"]
     th = {"Authorization": f"Bearer {t}"}
-    kelas = client.post(f"{API}/teacher/classes", json={"name": "VII A", "code": "7A-VENN"}, headers=th).json()
 
-    # Siswa masuk
-    j = client.post(f"{API}/students/join", json={"name": "Budi", "nis": "1", "class_code": "7a-venn"}).json()
+    # Siswa masuk tanpa kode kelas; nama + NIS yang sama → akun yang sama
+    r1 = client.post(f"{API}/students/join", json={"name": "Budi", "nis": "1"})
+    assert r1.status_code == 200
+    j = r1.json()
+    assert client.post(f"{API}/students/join", json={"name": " Budi ", "nis": "1"}).json()["student_id"] == j["student_id"]
+    assert client.post(f"{API}/students/join", json={"name": "Sari"}).status_code == 200  # NIS opsional
+    # Klien lama yang masih mengirim class_code tetap diterima
+    assert client.post(f"{API}/students/join", json={"name": "Budi", "nis": "1", "class_code": "X"}).status_code == 200
     sh = {"Authorization": f"Bearer {j['token']}"}
 
     # Instrumen publik tidak memuat kunci
@@ -37,11 +42,16 @@ def test_alur_lengkap():
     assert client.put(f"{API}/attempts/{aid}", json=body, headers=sh).status_code == 409
 
     # Guru menilai uraian
-    q = client.get(f"{API}/teacher/grading-queue", params={"class_id": kelas["id"]}, headers=th).json()
+    q = client.get(f"{API}/teacher/grading-queue", headers=th).json()
     assert len(q) == 1
     client.put(f"{API}/teacher/answers/{q[0]['answer_id']}/score", json={"score": 1}, headers=th)
-    rows = client.get(f"{API}/teacher/classes/{kelas['id']}/summary", headers=th).json()
-    assert rows[0]["pre"] == 3
 
-    csv = client.get(f"{API}/teacher/classes/{kelas['id']}/export.csv", params={"token": t})
+    # Rekap global: semua siswa tampil tanpa memilih kelas
+    assert client.get(f"{API}/teacher/summary").status_code == 401
+    rows = client.get(f"{API}/teacher/summary", headers=th).json()
+    assert [r["name"] for r in rows] == ["Budi", "Sari"]
+    assert rows[0]["pre"] == 3 and rows[0]["pre_submitted_at"]
+    assert rows[1]["pre"] is None
+
+    csv = client.get(f"{API}/teacher/export.csv", params={"token": t})
     assert csv.status_code == 200 and "Budi" in csv.text

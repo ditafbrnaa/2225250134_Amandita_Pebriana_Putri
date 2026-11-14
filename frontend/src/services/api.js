@@ -76,7 +76,7 @@ export async function flushQueue() {
 
 /**
  * Profil dari versi demo (tanpa token server) tidak bisa mengirim jawaban.
- * Siswa diminta masuk ulang dengan kode kelas, dan tes demo dihapus agar pretest dikerjakan ulang di server.
+ * Siswa diminta masuk ulang dengan namanya, dan tes demo dihapus agar pretest dikerjakan ulang di server.
  */
 export function dropDemoProfile() {
   const { profile } = useAppStore.getState();

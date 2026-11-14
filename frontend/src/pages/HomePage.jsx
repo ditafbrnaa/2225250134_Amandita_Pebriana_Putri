@@ -129,7 +129,7 @@ export default function HomePage() {
 
       {!profile && (
         <div className="card space-y-2">
-          <p className="font-semibold">Masuk dulu dengan kode kelas dari gurumu.</p>
+          <p className="font-semibold">Masuk dulu dengan nama lengkapmu.</p>
           <Link to="/masuk" className="btn btn-primary">
             Masuk
           </Link>

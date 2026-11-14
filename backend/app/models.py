@@ -11,24 +11,16 @@ def now() -> datetime:
     return datetime.now(timezone.utc)
 
 
-class Classroom(Base):
-    __tablename__ = "classrooms"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(80))
-    code: Mapped[str] = mapped_column(String(20), unique=True, index=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
-    students: Mapped[list["Student"]] = relationship(back_populates="classroom")
-
-
 class Student(Base):
+    """Siswa dikenali dari nama + NIS (tanpa kode kelas)."""
+
     __tablename__ = "students"
-    __table_args__ = (UniqueConstraint("classroom_id", "name", "nis", name="uq_student_in_class"),)
     id: Mapped[int] = mapped_column(primary_key=True)
-    classroom_id: Mapped[int] = mapped_column(ForeignKey("classrooms.id"), index=True)
-    name: Mapped[str] = mapped_column(String(100))
+    # Kolom lama dari versi berkode kelas. Tidak dipakai lagi; dibiarkan nullable agar data lama tetap terbaca.
+    classroom_id: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    name: Mapped[str] = mapped_column(String(100), index=True)
     nis: Mapped[str] = mapped_column(String(30), default="")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
-    classroom: Mapped[Classroom] = relationship(back_populates="students")
     attempts: Mapped[list["Attempt"]] = relationship(back_populates="student")
 
 

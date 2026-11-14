@@ -7,22 +7,21 @@ import Logo from '@/components/ui/Logo.jsx';
 export default function JoinPage() {
   const navigate = useNavigate();
   const setProfile = useAppStore((s) => s.setProfile);
-  const [form, setForm] = useState({ name: '', nis: '', classCode: '' });
+  const [form, setForm] = useState({ name: '', nis: '' });
   const [error, setError] = useState(null);
   const [busy, setBusy] = useState(false);
 
-  const update = (k) => (e) => setForm((f) => ({ ...f, [k]: k === 'classCode' ? e.target.value.toUpperCase() : e.target.value }));
+  const update = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
   const submit = async (e) => {
     e.preventDefault();
     setError(null);
     if (form.name.trim().length < 2) return setError('Tulis nama lengkapmu.');
-    if (!form.classCode.trim()) return setError('Kode kelas wajib diisi (minta ke gurumu).');
     setBusy(true);
     try {
-      let profile = { name: form.name.trim(), nis: form.nis.trim(), classCode: form.classCode.trim() };
+      let profile = { name: form.name.trim(), nis: form.nis.trim() };
       if (backendEnabled) {
-        const res = await api.join({ name: profile.name, nis: profile.nis, class_code: profile.classCode });
+        const res = await api.join({ name: profile.name, nis: profile.nis });
         profile = { ...profile, studentId: res.student_id, token: res.token };
       }
       setProfile(profile);
@@ -49,10 +48,6 @@ export default function JoinPage() {
         <div>
           <label className="label" htmlFor="nis">NIS / No. absen <span className="font-normal text-ink/50">(opsional)</span></label>
           <input id="nis" className="input" value={form.nis} onChange={update('nis')} inputMode="numeric" />
-        </div>
-        <div>
-          <label className="label" htmlFor="code">Kode kelas</label>
-          <input id="code" className="input font-mono tracking-widest" value={form.classCode} onChange={update('classCode')} placeholder="mis. 7A-VENN" />
         </div>
         {error && <p className="rounded-xl border-2 border-line bg-blush px-3 py-2 text-sm text-red-800" role="alert">{error}</p>}
         <button type="submit" className="btn btn-primary w-full text-base" disabled={busy}>
