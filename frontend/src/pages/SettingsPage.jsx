@@ -111,7 +111,7 @@ export default function SettingsPage() {
           </div>
         )}
       </div>
-      <p className="text-center text-xs text-ink/40">VennBuster v1.0 · Pendidikan Matematika UNTIRTA</p>
+      <p className="text-center text-xs text-ink/40">VennBuster v1.0 · ditafbrnaa · Math Edu UNTIRTA</p>
     </div>
   );
 }
