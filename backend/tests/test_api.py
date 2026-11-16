@@ -34,7 +34,7 @@ def test_alur_lengkap():
 
     # Simpan jawaban (dua kali → idempoten) lalu kumpulkan
     aid = "11111111-1111-4111-8111-111111111111"
-    body = {"type": "pre", "answers": {"1.1": "35", "1.4": "5", "1.5": "Ada 5 siswa"}, "scratch": {}}
+    body = {"type": "pre", "answers": {"1.1": "35", "1.4": "Sepak Bola", "1.5": "Peminat terbanyak"}, "scratch": {}}
     assert client.put(f"{API}/attempts/{aid}", json=body, headers=sh).status_code == 200
     assert client.put(f"{API}/attempts/{aid}", json=body, headers=sh).status_code == 200
     r = client.post(f"{API}/attempts/{aid}/submit", headers=sh).json()

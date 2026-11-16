@@ -30,7 +30,7 @@ export function tokenizeKeywords(text, entries = KEYWORDS) {
  */
 export function chunkStory(text) {
   return text
-    .split(/(?<=[.:?!])\s+|,\s+(?=(?:dan\s+)?(?:ada\s+|sebanyak\s+)?\d)/)
-    .map((s) => s.trim())
+    .split(/\s*\n\s*|(?<=[.:?!])\s+|,\s+(?=(?:dan\s+)?(?:ada\s+|sebanyak\s+)?\d)/)
+    .map((s) => s.replace(/^•\s*/, '').trim())
     .filter(Boolean);
 }

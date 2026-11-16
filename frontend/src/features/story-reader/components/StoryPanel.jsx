@@ -65,7 +65,7 @@ export default function StoryPanel({ text, question, keywordsOn = true, chunked 
           </AnimatePresence>
         </ol>
       ) : (
-        <p>
+        <p className="whitespace-pre-line">
           <Sentence text={text} keywordsOn={keywordsOn} activeId={activeId} onKeyword={handleKeyword} />
         </p>
       )}

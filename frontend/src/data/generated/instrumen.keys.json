@@ -6,21 +6,21 @@
     "scoring": "auto"
   },
   "1.2": {
-    "key": "n(A∪B)=n(A)+n(B)-n(A∩B)",
+    "key": "35=22+18-x",
     "score": 2,
     "input": "equation",
     "scoring": "auto"
   },
   "1.3": {
-    "key": "35=22+18-x",
+    "key": null,
     "score": 1,
-    "input": "equation",
-    "scoring": "auto"
+    "input": "text",
+    "scoring": "manual"
   },
   "1.4": {
-    "key": 5,
+    "key": "Sepak Bola",
     "score": 1,
-    "input": "numeric",
+    "input": "choice",
     "scoring": "auto"
   },
   "1.5": {

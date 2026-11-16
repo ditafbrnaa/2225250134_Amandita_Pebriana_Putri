@@ -19,7 +19,9 @@ def test_same_formula():
 
 def test_score_stage():
     idx = stage_index()
-    assert score_stage("5", idx[(1, 4)]) == (1, "auto")
+    assert score_stage("Sepak Bola", idx[(1, 4)]) == (1, "auto")
+    assert score_stage("Basket", idx[(1, 4)]) == (0, "auto")
+    assert score_stage("35 = 22 + 18 − n(A∩B)", idx[(1, 2)]) == (2, "auto")
     assert score_stage("31", idx[(3, 4)]) == (0, "auto")
     assert score_stage({"choice": "Tidak tepat", "text": ""}, idx[(3, 1)]) == (1, "auto")
     assert score_stage("", idx[(1, 1)]) == (0, "blank")

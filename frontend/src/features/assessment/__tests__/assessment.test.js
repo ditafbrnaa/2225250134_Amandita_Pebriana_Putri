@@ -32,7 +32,7 @@ describe('persamaan', () => {
 
 describe('penilaian instrumen', () => {
   const perfect = {
-    '1.1': '35', '1.2': 'n(A∪B) = n(A) + n(B) − n(A∩B)', '1.3': '35 = 22 + 18 − x', '1.4': '5', '1.5': 'Ada 5 siswa',
+    '1.1': '35', '1.2': '35 = 22 + 18 − x', '1.3': '17 > 13 > 5', '1.4': 'Sepak Bola', '1.5': 'peminat terbanyak',
     '2.1': 'N=30', '2.2': '21', '2.3': '30 = 21 + x', '2.4': '9', '2.5': '9 orang',
     '3.1': { choice: 'Tidak tepat', text: 'irisan terhitung dua kali' }, '3.2': '11', '3.3': '8', '3.4': '23', '3.5': 'valid',
     '4.1': 'data', '4.2': '45', '4.3': '5', '4.4': 'Tidak wajar', '4.5': 'alasan', '4.6': '5 orang',
@@ -48,11 +48,11 @@ describe('penilaian instrumen', () => {
   it('menilai jawaban benar secara otomatis, uraian menunggu guru', () => {
     const r = scoreAttempt(perfect, keys);
     const byNo = Object.fromEntries(r.items.map((i) => [i.no, i]));
-    expect(byNo[1].auto).toBe(5); // tahap 1–4 = 1+2+1+1
+    expect(byNo[1].auto).toBe(4); // tahap 1,2,4 = 1+2+1
     expect(byNo[2].auto).toBe(4); // tahap 2,3,4 = 2+1+1
     expect(byNo[3].auto).toBe(5); // tahap 1–4 = 1+2+1+1
     expect(byNo[4].auto).toBe(3); // tahap 2,3,4
-    expect(r.pendingCount).toBe(7); // 1.5, 2.1, 2.5, 3.5, 4.1, 4.5, 4.6
+    expect(r.pendingCount).toBe(8); // 1.3, 1.5, 2.1, 2.5, 3.5, 4.1, 4.5, 4.6
   });
 
   it('jawaban salah mendapat 0, persamaan tak dikenal diserahkan ke guru', () => {

@@ -26,15 +26,15 @@ describe('penyorot kata kunci', () => {
 });
 
 describe('segmenting soal cerita', () => {
-  it('memecah soal Pretest no. 1 menjadi potongan informasi', () => {
+  it('memecah soal Pretest no. 1 (berpoin) menjadi potongan informasi', () => {
     const t =
-      'Dalam sebuah kegiatan ekstrakurikuler, pendataan hobi siswa kelas VIII menunjukkan hasil sebagai berikut: dari 40 siswa di kelas tersebut, ada 22 siswa yang menyukai Sepak Bola, 18 siswa menyukai Basket, dan 5 siswa tidak menyukai keduanya.';
+      'Panitia OSIS akan mengadakan pelatihan olahraga dan hanya dapat membuka satu cabang ekstrakurikuler tambahan yang paling banyak diminati secara khusus oleh siswa kelas VIII. Dari survei terhadap 40 siswa, tercatat:\n• 22 siswa menyukai Sepak Bola,\n• 18 siswa menyukai Basket,\n• 5 siswa tidak menyukai keduanya.';
     expect(chunkStory(t)).toEqual([
-      'Dalam sebuah kegiatan ekstrakurikuler, pendataan hobi siswa kelas VIII menunjukkan hasil sebagai berikut:',
-      'dari 40 siswa di kelas tersebut',
-      'ada 22 siswa yang menyukai Sepak Bola',
-      '18 siswa menyukai Basket',
-      'dan 5 siswa tidak menyukai keduanya.',
+      'Panitia OSIS akan mengadakan pelatihan olahraga dan hanya dapat membuka satu cabang ekstrakurikuler tambahan yang paling banyak diminati secara khusus oleh siswa kelas VIII.',
+      'Dari survei terhadap 40 siswa, tercatat:',
+      '22 siswa menyukai Sepak Bola,',
+      '18 siswa menyukai Basket,',
+      '5 siswa tidak menyukai keduanya.',
     ]);
   });
 });

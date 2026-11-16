@@ -10,16 +10,16 @@
       "no": 1,
       "indicator": "Mathematical Reasoning",
       "indicator_desc": "Siswa mampu mengidentifikasi hubungan matematis, membandingkan alternatif, memberikan alasan, dan menentukan keputusan yang dapat dipertanggungjawabkan.",
-      "stem": "Dalam sebuah kegiatan ekstrakurikuler, pendataan hobi siswa kelas VIII menunjukkan hasil sebagai berikut: dari 40 siswa di kelas tersebut, ada 22 siswa yang menyukai Sepak Bola, 18 siswa menyukai Basket, dan 5 siswa tidak menyukai keduanya.",
-      "question": "Berapa banyak siswa yang menyukai kedua hobi tersebut (Sepak Bola dan Basket sekaligus)? Tunjukkan alasan matematis dan pembuktiannya dengan diagram Venn/rumus himpunan.",
+      "stem": "Panitia OSIS akan mengadakan pelatihan olahraga dan hanya dapat membuka satu cabang ekstrakurikuler tambahan yang paling banyak diminati secara khusus oleh siswa kelas VIII. Dari survei terhadap 40 siswa, tercatat:\n• 22 siswa menyukai Sepak Bola,\n• 18 siswa menyukai Basket,\n• 5 siswa tidak menyukai keduanya.",
+      "question": "Berdasarkan data himpunan tersebut, bandingkan banyaknya siswa yang hanya menyukai Sepak Bola saja, hanya menyukai Basket saja, dan yang menyukai keduanya. Cabang olahraga mana yang sebaiknya dipilih panitia? Jelaskan alasan matematis dan pembuktiannya menggunakan konsep himpunan/diagram Venn!",
       "sets": { "S": 40, "A": { "label": "Sepak Bola", "n": 22 }, "B": { "label": "Basket", "n": 18 }, "neither": 5 },
       "max_score": 6,
       "stages": [
-        { "no": 1, "score": 1, "rubric": "Mengidentifikasi informasi awal (N = 40, tidak suka keduanya = 5, sehingga menyukai setidaknya satu hobi = 40 − 5 = 35).", "prompt": "Tuliskan informasi yang diketahui. Berapa siswa yang menyukai setidaknya satu hobi?", "input": "numeric", "key": 35 },
-        { "no": 2, "score": 2, "rubric": "Menggunakan rumus gabungan himpunan: n(A ∪ B) = n(A) + n(B) − n(A ∩ B).", "prompt": "Tuliskan rumus/hubungan himpunan yang kamu gunakan.", "input": "equation", "key": "n(A∪B)=n(A)+n(B)-n(A∩B)" },
-        { "no": 3, "score": 1, "rubric": "Memasukkan angka ke dalam rumus: 35 = 22 + 18 − x.", "prompt": "Masukkan angka-angka ke dalam rumusmu.", "input": "equation", "key": "35=22+18-x" },
-        { "no": 4, "score": 1, "rubric": "Menyelesaikan perhitungan: 35 = 40 − x, sehingga x = 40 − 35 = 5.", "prompt": "Selesaikan perhitungannya.", "input": "numeric", "key": 5 },
-        { "no": 5, "score": 1, "rubric": "Menyimpulkan bahwa ada tepat 5 siswa yang menyukai kedua hobi tersebut.", "prompt": "Tuliskan kesimpulan dan alasanmu.", "input": "text", "scoring": "manual" }
+        { "no": 1, "score": 1, "rubric": "Mengidentifikasi informasi himpunan: n(S) = 40, siswa yang menyukai minimal satu olahraga n(A ∪ B) = 40 − 5 = 35 siswa.", "prompt": "Tuliskan informasi yang diketahui. Berapa siswa yang menyukai minimal satu olahraga?", "input": "numeric", "key": 35 },
+        { "no": 2, "score": 2, "rubric": "Menggunakan rumus gabungan himpunan untuk menentukan irisan (menyukai keduanya): 35 = 22 + 18 − n(A ∩ B) → n(A ∩ B) = 40 − 35 = 5 siswa.", "prompt": "Gunakan rumus gabungan himpunan untuk mencari banyak siswa yang menyukai keduanya. Tuliskan persamaannya.", "input": "equation", "key": "35=22+18-x" },
+        { "no": 3, "score": 1, "rubric": "Menghitung dan membandingkan masing-masing kelompok: hanya Sepak Bola = 22 − 5 = 17 siswa; hanya Basket = 18 − 5 = 13 siswa; menyukai keduanya = 5 siswa (17 > 13 > 5).", "prompt": "Hitung banyak siswa tiap kelompok (hanya Sepak Bola, hanya Basket, menyukai keduanya), lalu bandingkan.", "input": "text", "scoring": "manual" },
+        { "no": 4, "score": 1, "rubric": "Menentukan keputusan bahwa panitia sebaiknya memilih cabang Sepak Bola.", "prompt": "Cabang olahraga mana yang sebaiknya dipilih panitia?", "input": "choice", "options": ["Sepak Bola", "Basket"], "key": "Sepak Bola" },
+        { "no": 5, "score": 1, "rubric": "Memberikan alasan matematis bahwa Sepak Bola memiliki peminat murni terbanyak (17 siswa) maupun total peminat terbanyak (22 siswa) dibandingkan Basket.", "prompt": "Tuliskan alasan matematis untuk keputusanmu.", "input": "text", "scoring": "manual" }
       ]
     },
     {
