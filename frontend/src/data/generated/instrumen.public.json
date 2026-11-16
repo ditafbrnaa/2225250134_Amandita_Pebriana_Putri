@@ -122,55 +122,46 @@
       "no": 3,
       "indicator": "Employing Mathematical Concepts, Facts, and Procedures",
       "indicator_desc": "Siswa mampu memilih serta menggunakan konsep, operasi, prosedur, dan strategi matematika untuk memperoleh solusi.",
-      "stem": "Dalam sebuah kelompok pendaki gunung berjumlah 25 orang, tercatat 15 orang membawa jaket tebal, 12 orang membawa jas hujan, dan 4 orang membawa keduanya. Seorang siswa menghitung jumlah seluruh perlengkapan dengan menjumlahkan langsung: 15 + 12 + 4 = 31 orang, lalu menyimpulkan ada data yang salah karena melebihi jumlah pendaki.",
-      "question": "Menurut Anda, apakah cara perhitungan siswa tersebut tepat? Tuliskan prosedur perhitungan yang benar menggunakan prinsip himpunan.",
+      "stem": "Dalam suatu kegiatan perkemahan pramuka yang diikuti oleh 36 siswa, setiap peserta diwajibkan membawa minimal satu jenis perlengkapan masak. Tercatat 24 siswa membawa kompor portabel dan 19 siswa membawa peralatan makan lengkap.",
+      "question": "Tentukan: (a) banyak siswa yang membawa kedua perlengkapan tersebut, (b) banyak siswa yang hanya membawa kompor portabel saja, dan (c) banyak siswa yang hanya membawa peralatan makan saja. Tunjukkan prosedur perhitunganmu menggunakan konsep himpunan!",
       "sets": {
-        "S": 25,
+        "S": 36,
         "A": {
-          "label": "Jaket tebal",
-          "n": 15
+          "label": "Kompor portabel",
+          "n": 24
         },
         "B": {
-          "label": "Jas hujan",
-          "n": 12
+          "label": "Peralatan makan",
+          "n": 19
         },
-        "both": 4
+        "neither": 0
       },
       "max_score": 6,
       "stages": [
         {
           "no": 1,
           "score": 1,
-          "prompt": "Apakah cara siswa tersebut tepat? Jelaskan.",
-          "input": "choice+text",
-          "options": [
-            "Tepat",
-            "Tidak tepat"
-          ],
-          "scoring": "auto+manual"
+          "prompt": "Tuliskan informasi yang diketahui dengan notasi himpunan.",
+          "input": "text",
+          "scoring": "manual"
         },
         {
           "no": 2,
           "score": 2,
-          "prompt": "Berapa orang yang hanya membawa jaket tebal?",
-          "input": "numeric"
+          "prompt": "Gunakan rumus gabungan dua himpunan untuk mencari banyak siswa yang membawa keduanya. Tuliskan persamaannya.",
+          "input": "equation"
         },
         {
           "no": 3,
-          "score": 1,
-          "prompt": "Berapa orang yang hanya membawa jas hujan?",
-          "input": "numeric"
+          "score": 2,
+          "prompt": "Hitung banyak siswa yang hanya membawa kompor portabel saja dan yang hanya membawa peralatan makan saja.",
+          "input": "text",
+          "scoring": "manual"
         },
         {
           "no": 4,
           "score": 1,
-          "prompt": "Berapa total pendaki yang membawa perlengkapan?",
-          "input": "numeric"
-        },
-        {
-          "no": 5,
-          "score": 1,
-          "prompt": "Tuliskan kesimpulanmu tentang data tersebut.",
+          "prompt": "Tuliskan kesimpulanmu.",
           "input": "text",
           "scoring": "manual"
         }

@@ -42,16 +42,15 @@
       "no": 3,
       "indicator": "Employing Mathematical Concepts, Facts, and Procedures",
       "indicator_desc": "Siswa mampu memilih serta menggunakan konsep, operasi, prosedur, dan strategi matematika untuk memperoleh solusi.",
-      "stem": "Dalam sebuah kelompok pendaki gunung berjumlah 25 orang, tercatat 15 orang membawa jaket tebal, 12 orang membawa jas hujan, dan 4 orang membawa keduanya. Seorang siswa menghitung jumlah seluruh perlengkapan dengan menjumlahkan langsung: 15 + 12 + 4 = 31 orang, lalu menyimpulkan ada data yang salah karena melebihi jumlah pendaki.",
-      "question": "Menurut Anda, apakah cara perhitungan siswa tersebut tepat? Tuliskan prosedur perhitungan yang benar menggunakan prinsip himpunan.",
-      "sets": { "S": 25, "A": { "label": "Jaket tebal", "n": 15 }, "B": { "label": "Jas hujan", "n": 12 }, "both": 4 },
+      "stem": "Dalam suatu kegiatan perkemahan pramuka yang diikuti oleh 36 siswa, setiap peserta diwajibkan membawa minimal satu jenis perlengkapan masak. Tercatat 24 siswa membawa kompor portabel dan 19 siswa membawa peralatan makan lengkap.",
+      "question": "Tentukan: (a) banyak siswa yang membawa kedua perlengkapan tersebut, (b) banyak siswa yang hanya membawa kompor portabel saja, dan (c) banyak siswa yang hanya membawa peralatan makan saja. Tunjukkan prosedur perhitunganmu menggunakan konsep himpunan!",
+      "sets": { "S": 36, "A": { "label": "Kompor portabel", "n": 24 }, "B": { "label": "Peralatan makan", "n": 19 }, "neither": 0 },
       "max_score": 6,
       "stages": [
-        { "no": 1, "score": 1, "rubric": "Menilai bahwa cara menjumlahkan langsung tanpa memperhitungkan irisan adalah keliru.", "prompt": "Apakah cara siswa tersebut tepat? Jelaskan.", "input": "choice+text", "options": ["Tepat", "Tidak tepat"], "key": "Tidak tepat", "scoring": "auto+manual" },
-        { "no": 2, "score": 2, "rubric": "Menghitung pembawa jaket tebal saja: 15 − 4 = 11.", "prompt": "Berapa orang yang hanya membawa jaket tebal?", "input": "numeric", "key": 11 },
-        { "no": 3, "score": 1, "rubric": "Menghitung pembawa jas hujan saja: 12 − 4 = 8.", "prompt": "Berapa orang yang hanya membawa jas hujan?", "input": "numeric", "key": 8 },
-        { "no": 4, "score": 1, "rubric": "Menjumlahkan seluruh bagian: 11 + 8 + 4 = 23.", "prompt": "Berapa total pendaki yang membawa perlengkapan?", "input": "numeric", "key": 23 },
-        { "no": 5, "score": 1, "rubric": "Menyimpulkan total pembawa perlengkapan 23 orang; 25 − 23 = 2 orang tidak membawa keduanya; data valid.", "prompt": "Tuliskan kesimpulanmu tentang data tersebut.", "input": "text", "scoring": "manual" }
+        { "no": 1, "score": 1, "rubric": "Mengidentifikasi informasi himpunan dari konteks: n(S) = n(K ∪ M) = 36, n(K) = 24, dan n(M) = 19.", "prompt": "Tuliskan informasi yang diketahui dengan notasi himpunan.", "input": "text", "scoring": "manual" },
+        { "no": 2, "score": 2, "rubric": "Menerapkan rumus gabungan dua himpunan untuk mencari irisan: n(K ∩ M) = n(K) + n(M) − n(K ∪ M) = 24 + 19 − 36 = 7 siswa membawa keduanya.", "prompt": "Gunakan rumus gabungan dua himpunan untuk mencari banyak siswa yang membawa keduanya. Tuliskan persamaannya.", "input": "equation", "key": "x=24+19-36" },
+        { "no": 3, "score": 2, "rubric": "Menerapkan prosedur selisih himpunan untuk masing-masing bagian: hanya membawa kompor = 24 − 7 = 17 siswa, dan hanya membawa peralatan makan = 19 − 7 = 12 siswa.", "prompt": "Hitung banyak siswa yang hanya membawa kompor portabel saja dan yang hanya membawa peralatan makan saja.", "input": "text", "scoring": "manual" },
+        { "no": 4, "score": 1, "rubric": "Menyimpulkan bahwa terdapat 7 siswa membawa keduanya, 17 siswa hanya membawa kompor, dan 12 siswa hanya membawa peralatan makan.", "prompt": "Tuliskan kesimpulanmu.", "input": "text", "scoring": "manual" }
       ]
     },
     {

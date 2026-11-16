@@ -22,11 +22,12 @@ def test_score_stage():
     assert score_stage("Sepak Bola", idx[(1, 4)]) == (1, "auto")
     assert score_stage("Basket", idx[(1, 4)]) == (0, "auto")
     assert score_stage("35 = 22 + 18 − n(A∩B)", idx[(1, 2)]) == (2, "auto")
-    assert score_stage("31", idx[(3, 4)]) == (0, "auto")
-    assert score_stage({"choice": "Tidak tepat", "text": ""}, idx[(3, 1)]) == (1, "auto")
+    assert score_stage("31", idx[(2, 4)]) == (0, "auto")
+    assert score_stage("n(K∩M) = 24 + 19 − 36", idx[(3, 2)]) == (2, "auto")
+    assert score_stage("36 = 24 + 19 − x", idx[(3, 2)]) == (2, "auto")
     assert score_stage("", idx[(1, 1)]) == (0, "blank")
     assert score_stage("alasan", idx[(1, 5)]) == (None, "pending")
-    assert score_stage("valid", idx[(3, 5)]) == (None, "pending")  # kesimpulan dinilai guru
+    assert score_stage("7, 17, 12", idx[(3, 4)]) == (None, "pending")  # kesimpulan dinilai guru
 
 
 def test_summarize_with_manual_scores():

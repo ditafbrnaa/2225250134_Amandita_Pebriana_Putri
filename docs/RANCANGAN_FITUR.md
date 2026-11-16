@@ -227,7 +227,7 @@ Diambil dari `src/data/instrumen_literasi.json` (4 soal, masing-masing skor maks
 |---|---|---|---|
 | 1 | Mathematical Reasoning | Sepak Bola & Basket, N = 40 (pilih satu cabang) | Hanya SB 17, hanya Basket 13, keduanya 5 → pilih **Sepak Bola** |
 | 2 | Formulating Situations Mathematically | Soto & Bakso, N = 30 | Tidak suka keduanya = **9** |
-| 3 | Employing Concepts, Facts, Procedures | Jaket & Jas hujan, N = 25 | Cara siswa keliru; total = **23**, tidak membawa = **2** |
+| 3 | Employing Concepts, Facts, Procedures | Kompor portabel & Peralatan makan, N = 36 (semua membawa minimal satu) | Keduanya **7**, hanya kompor **17**, hanya peralatan makan **12** |
 | 4 | Interpreting, Applying, Evaluating | TikTok & Instagram, N = 50 | Kesimpulan 15 **tidak wajar**; irisan = **5** |
 
 ### 7.2 Tampilan jawaban bertahap

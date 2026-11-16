@@ -60,30 +60,24 @@
     "scoring": "manual"
   },
   "3.1": {
-    "key": "Tidak tepat",
+    "key": null,
     "score": 1,
-    "input": "choice+text",
-    "scoring": "auto+manual"
+    "input": "text",
+    "scoring": "manual"
   },
   "3.2": {
-    "key": 11,
+    "key": "x=24+19-36",
     "score": 2,
-    "input": "numeric",
+    "input": "equation",
     "scoring": "auto"
   },
   "3.3": {
-    "key": 8,
-    "score": 1,
-    "input": "numeric",
-    "scoring": "auto"
+    "key": null,
+    "score": 2,
+    "input": "text",
+    "scoring": "manual"
   },
   "3.4": {
-    "key": 23,
-    "score": 1,
-    "input": "numeric",
-    "scoring": "auto"
-  },
-  "3.5": {
     "key": null,
     "score": 1,
     "input": "text",
