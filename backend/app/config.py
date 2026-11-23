@@ -21,11 +21,15 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
 
     # Tutor AI (opsional). Kunci HANYA disimpan di server, tidak pernah dikirim ke HP siswa.
-    # Bawaan: OpenRouter (format OpenAI) dengan model gratis. Untuk DeepSeek (berbayar, murah) cukup ganti
-    # AI_MODEL=deepseek/deepseek-v4.1-flash. Daftar model: https://openrouter.ai/models
+    # AI_MODEL berisi satu atau beberapa model (pisahkan koma). Bila model pertama penuh/gagal,
+    # model berikutnya langsung dicoba. Bawaan: deretan model gratis OpenRouter.
+    # Paling andal (berbayar, murah): AI_MODEL=deepseek/deepseek-v4.1-flash,google/gemma-4-31b-it:free
     ai_api_key: str = ""
     ai_base_url: str = "https://openrouter.ai/api/v1"
-    ai_model: str = "google/gemma-4-31b-it:free"
+    ai_model: str = (
+        "google/gemma-4-31b-it:free,google/gemma-4-26b-a4b-it:free,"
+        "nvidia/nemotron-3-ultra-550b-a55b:free,nvidia/nemotron-3.5-super-vl:free"
+    )
 
     @model_validator(mode="after")
     def _require_secrets_in_production(self) -> "Settings":

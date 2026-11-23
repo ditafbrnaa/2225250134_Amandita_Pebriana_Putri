@@ -10,6 +10,7 @@ Prinsip pedagogis (dari arahan dosen pembimbing):
 Kunci API hanya dibaca di sini (server). Nama/NIS siswa tidak pernah dikirim ke layanan AI.
 """
 import re
+import time
 
 import httpx
 
@@ -88,33 +89,58 @@ def split_phase(text: str) -> tuple[str, int | None]:
     return text[m.end() :].strip(), int(m.group(1))
 
 
-def ask_tutor(problem: str, messages: list[dict], hint_level: int = 0) -> tuple[str, int | None]:
-    settings = get_settings()
-    if not settings.ai_api_key:
-        raise TutorUnavailable("Tutor AI belum diaktifkan. Minta guru mengisi AI_API_KEY di server.")
+def model_list(value: str) -> list[str]:
+    """AI_MODEL boleh berisi beberapa model dipisah koma: dicoba berurutan sebagai cadangan."""
+    return [m.strip() for m in value.split(",") if m.strip()]
+
+
+def _try_model(settings, model: str, payload: list[dict], timeout: float) -> str:
+    """Satu percobaan ke satu model. Mengembalikan teks balasan, atau melempar _Skip agar model berikutnya dicoba."""
     try:
         res = httpx.post(
             f"{settings.ai_base_url.rstrip('/')}/chat/completions",
             headers={"Authorization": f"Bearer {settings.ai_api_key}"},
-            json={
-                "model": settings.ai_model,
-                "messages": build_messages(problem, messages, hint_level),
-                "temperature": 0.4,
-                "max_tokens": 400,
-            },
-            timeout=45,
+            json={"model": model, "messages": payload, "temperature": 0.4, "max_tokens": 400},
+            timeout=timeout,
         )
     except httpx.HTTPError as e:
-        raise TutorUnavailable("Kak Venn sedang tidak bisa dihubungi. Coba lagi sebentar lagi.") from e
-    if res.status_code == 429:
-        raise TutorUnavailable("Kak Venn sedang ramai dipakai. Tunggu sebentar, lalu coba lagi.")
+        raise _Skip("timeout/jaringan") from e
+    if res.status_code == 401:
+        # Kunci salah → model lain pun pasti gagal, jadi langsung berhenti.
+        raise TutorUnavailable("Kunci AI di server tidak valid. Minta guru memeriksa AI_API_KEY.")
     if res.status_code >= 400:
-        raise TutorUnavailable(f"Layanan AI menolak permintaan ({res.status_code}). Minta guru memeriksa pengaturan AI.")
+        raise _Skip(str(res.status_code))  # 429 penuh, 402 saldo habis, 404 model hilang, 5xx gangguan
     try:
         content = res.json()["choices"][0]["message"]["content"] or ""
     except (ValueError, KeyError, IndexError, TypeError) as e:
-        raise TutorUnavailable("Balasan Kak Venn tidak terbaca. Coba lagi.") from e
-    reply, phase = split_phase(content)
-    if not reply:
-        raise TutorUnavailable("Kak Venn belum menjawab. Coba kirim ulang pesanmu.")
-    return reply, phase
+        raise _Skip("balasan rusak") from e
+    if not content.strip():
+        raise _Skip("balasan kosong")
+    return content
+
+
+class _Skip(Exception):
+    pass
+
+
+TIME_BUDGET = 50  # detik; batas fungsi Vercel 60 detik (vercel.json)
+
+
+def ask_tutor(problem: str, messages: list[dict], hint_level: int = 0) -> tuple[str, int | None]:
+    settings = get_settings()
+    if not settings.ai_api_key:
+        raise TutorUnavailable("Tutor AI belum diaktifkan. Minta guru mengisi AI_API_KEY di server.")
+    payload = build_messages(problem, messages, hint_level)
+    deadline = time.monotonic() + TIME_BUDGET
+    for model in model_list(settings.ai_model):
+        remaining = deadline - time.monotonic()
+        if remaining < 3:
+            break
+        try:
+            content = _try_model(settings, model, payload, timeout=min(25.0, remaining))
+        except _Skip:
+            continue  # model ini penuh/bermasalah → langsung coba cadangan berikutnya
+        reply, phase = split_phase(content)
+        if reply:
+            return reply, phase
+    raise TutorUnavailable("Kak Venn sedang tidak bisa menjawab. Coba kirim ulang pesanmu.")

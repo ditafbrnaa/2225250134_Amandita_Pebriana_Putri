@@ -67,3 +67,48 @@ def test_tutor_ditolak_saat_tes_berlangsung(monkeypatch):
     assert client.post(f"{API}/tutor/chat", json=_body(), headers=h).status_code == 423
     client.post(f"{API}/attempts/{aid}/submit", headers=h)
     assert client.post(f"{API}/tutor/chat", json=_body(), headers=h).status_code == 200
+
+
+class _Res:
+    def __init__(self, status: int, content: str = ""):
+        self.status_code = status
+        self._content = content
+
+    def json(self):
+        return {"choices": [{"message": {"content": self._content}}]}
+
+
+def test_model_penuh_langsung_pindah_ke_cadangan(monkeypatch):
+    s = get_settings()
+    monkeypatch.setattr(s, "ai_api_key", "k")
+    monkeypatch.setattr(s, "ai_model", "a:free, b:free ,c:free")
+    tried = []
+    replies = {"a:free": _Res(429), "b:free": _Res(200, "  "), "c:free": _Res(200, "TAHAP: 1\nApa yang ditanyakan?")}
+
+    def fake_post(url, json, **kw):
+        tried.append(json["model"])
+        return replies[json["model"]]
+
+    monkeypatch.setattr(tutor.httpx, "post", fake_post)
+    assert tutor.ask_tutor(PROBLEM, [{"role": "user", "content": "hai"}]) == ("Apa yang ditanyakan?", 1)
+    assert tried == ["a:free", "b:free", "c:free"]
+
+
+def test_kunci_salah_berhenti_dan_semua_gagal(monkeypatch):
+    s = get_settings()
+    monkeypatch.setattr(s, "ai_api_key", "k")
+    monkeypatch.setattr(s, "ai_model", "a,b")
+    tried = []
+    monkeypatch.setattr(tutor.httpx, "post", lambda url, json, **kw: tried.append(json["model"]) or _Res(401))
+    try:
+        tutor.ask_tutor(PROBLEM, [{"role": "user", "content": "hai"}])
+    except tutor.TutorUnavailable as e:
+        assert "AI_API_KEY" in str(e)
+    assert tried == ["a"]
+
+    monkeypatch.setattr(tutor.httpx, "post", lambda url, json, **kw: _Res(503))
+    try:
+        tutor.ask_tutor(PROBLEM, [{"role": "user", "content": "hai"}])
+        raise AssertionError("harus gagal")
+    except tutor.TutorUnavailable as e:
+        assert "tidak bisa menjawab" in str(e)

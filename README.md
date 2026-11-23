@@ -101,10 +101,10 @@ Cara mengaktifkan:
    | Nama | Isi |
    |---|---|
    | `AI_API_KEY` | kunci dari OpenRouter (**jangan** diawali `VITE_`, agar tidak ikut ke HP siswa) |
-   | `AI_MODEL` | opsional. Bawaan `google/gemma-4-31b-it:free` (gratis). Untuk DeepSeek: `deepseek/deepseek-v4.1-flash` (perlu isi saldo) |
+   | `AI_MODEL` | opsional. Satu atau beberapa model dipisah koma; bila model pertama penuh, model berikutnya langsung dicoba. Bawaan: deretan model gratis. Paling andal (perlu isi saldo): `deepseek/deepseek-v4.1-flash,google/gemma-4-31b-it:free` |
 3. *Redeploy*.
 
-Model gratis di OpenRouter dibatasi ±50 permintaan/hari per akun (naik ke ±1.000/hari setelah pernah isi saldo $10) dan bisa sibuk di jam ramai. Daftar model gratis bisa berubah sewaktu-waktu. Kalau tutor menampilkan pesan "Layanan AI menolak permintaan (404)", cek nama model di openrouter.ai/models lalu perbarui `AI_MODEL`.
+Model gratis di OpenRouter dibatasi ±50 permintaan/hari per akun untuk semua model gratis sekaligus (naik ke ±1.000/hari setelah pernah isi saldo $10) dan bisa sibuk di jam ramai. Untuk dipakai satu kelas, gunakan model berbayar. Daftar model gratis bisa berubah sewaktu-waktu. Kalau tutor menampilkan pesan "Layanan AI menolak permintaan (404)", cek nama model di openrouter.ai/models lalu perbarui `AI_MODEL`.
 
 ## 4. Analisis data penelitian
 
