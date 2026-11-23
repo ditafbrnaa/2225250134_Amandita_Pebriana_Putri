@@ -7,9 +7,9 @@ import { describeRegion, maskOf, FLOW_ORDER, REGION_NOTATION } from '../lib/regi
 
 /**
  * Menempatkan anggota semesta ke daerah Venn (IL02 & K03).
- * @param {{sets:{S:{label:string,members:any[]},A:{label:string,members:any[]},B:{label:string,members:any[]}}, onComplete?:()=>void}} props
+ * @param {{sets:{S:{label:string,members:any[]},A:{label:string,members:any[]},B:{label:string,members:any[]}}, onComplete?:()=>void, onMistake?:()=>void}} props
  */
-export default function PlacementActivity({ sets, onComplete }) {
+export default function PlacementActivity({ sets, onComplete, onMistake }) {
   const initial = useMemo(
     () => sets.S.members.map((v, i) => ({ id: `t${i}-${v}`, value: v, mask: null, attempts: 0, shakeCount: 0 })),
     [sets],
@@ -38,6 +38,7 @@ export default function PlacementActivity({ sets, onComplete }) {
       setTokens((ts) => ts.map((t) => (t.id === tokenId ? { ...t, attempts: t.attempts + 1, shakeCount: t.shakeCount + 1 } : t)));
       setShakeId(tokenId);
       setMessage({ ok: false, text: res.hint });
+      onMistake?.();
       if (token.attempts + 1 >= 3) setPulse((p) => ({ mask: res.correctMask, key: p.key + 1 }));
     }
   };

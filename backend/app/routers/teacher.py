@@ -11,9 +11,10 @@ from sqlalchemy.orm import Session, selectinload
 
 from ..config import get_settings
 from ..database import get_db
-from ..models import Answer, Attempt, Student
+from ..models import Answer, Attempt, ModuleLog, Student
 from ..schemas import ScoreIn, TeacherLoginIn
 from ..security import require_teacher, teacher_token
+from ..services.rmt import help_level, student_profile
 from ..services.scoring import n_gain, stage_index, summarize
 
 router = APIRouter(prefix="/teacher", tags=["guru"])
@@ -145,6 +146,45 @@ def export_csv(db: Session = Depends(get_db)) -> StreamingResponse:
     filename = f"vennbuster_rekap_{datetime.now(timezone.utc):%Y%m%d}.csv"
     return StreamingResponse(
         iter(["﻿" + buf.getvalue()]),  # BOM agar Excel membaca UTF-8
+        media_type="text/csv",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
+
+
+def _students_with_learning(db: Session) -> list[Student]:
+    stmt = select(Student).options(selectinload(Student.learning)).order_by(Student.name, Student.id)
+    return list(db.scalars(stmt).all())
+
+
+@router.get("/learning", dependencies=[Depends(require_teacher)])
+def learning(db: Session = Depends(get_db)) -> list[dict]:
+    """Asesmen dinamis (RMT): seberapa banyak bantuan yang dibutuhkan tiap siswa di modul, dan trennya."""
+    out = []
+    for s in _students_with_learning(db):
+        logs: dict[str, ModuleLog] = {log.module_id: log for log in s.learning}
+        profile = student_profile({mid: log.steps for mid, log in logs.items()})
+        for mid, summary in profile["modules"].items():
+            summary["done"] = logs[mid].done
+        out.append({"student_id": s.id, "name": s.name, "nis": s.nis, **profile})
+    return out
+
+
+@router.get("/learning.csv", dependencies=[Depends(require_teacher)])
+def learning_csv(db: Session = Depends(get_db)) -> StreamingResponse:
+    """Data proses belajar format panjang: 1 baris = 1 langkah modul (untuk analisis asesmen dinamis)."""
+    level_name = {0: "mandiri", 1: "bantuan_ringan", 2: "bantuan_banyak"}
+    buf = io.StringIO()
+    w = csv.writer(buf)
+    w.writerow(["student_id", "nama", "nis", "modul", "langkah", "salah", "petunjuk", "selesai", "tingkat_bantuan"])
+    for s in _students_with_learning(db):
+        for log in sorted(s.learning, key=lambda x: x.module_id):
+            for step, e in sorted(log.steps.items(), key=lambda kv: int(kv[0])):
+                lv = level_name[help_level(e)] if e.get("solved") else ""
+                w.writerow([s.id, s.name, s.nis, log.module_id, int(step) + 1, e.get("wrong", 0), e.get("hints", 0), int(bool(e.get("solved"))), lv])
+    buf.seek(0)
+    filename = f"vennbuster_proses_belajar_{datetime.now(timezone.utc):%Y%m%d}.csv"
+    return StreamingResponse(
+        iter(["﻿" + buf.getvalue()]),
         media_type="text/csv",
         headers={"Content-Disposition": f'attachment; filename="{filename}"'},
     )

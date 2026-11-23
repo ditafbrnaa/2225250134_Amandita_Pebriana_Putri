@@ -13,7 +13,7 @@ const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x))
  * - Mode tugas (props.task): siswa memilih daerah sendiri lalu memeriksa (bilah operasi disembunyikan).
  */
 /** onOperation?: (opId|null) => void — dipanggil saat siswa memilih operasi (dipakai balon chibi di Lab). */
-export default function ExploreActivity({ labels = {}, members, counts, task, onComplete, onOperation }) {
+export default function ExploreActivity({ labels = {}, members, counts, task, onComplete, onMistake, onOperation }) {
   const [selected, setSelected] = useState([]);
   const [activeOp, setActiveOp] = useState(null);
   const [multi, setMulti] = useState(Boolean(task?.multi));
@@ -40,6 +40,7 @@ export default function ExploreActivity({ labels = {}, members, counts, task, on
     const ok = sameSet(selected, regionsFor(task.expr));
     setFeedback(ok ? 'ok' : 'retry');
     if (ok) onComplete?.();
+    else onMistake?.();
   };
 
   return (

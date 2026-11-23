@@ -1,0 +1,91 @@
+{
+  "source": "Kinard, J. T., & Kozulin, A. (2008). Rigorous Mathematical Thinking: Conceptual Formation in the Mathematics Classroom.",
+  "phases": [
+    {
+      "no": 1,
+      "name": "Siapkan Alat Berpikir",
+      "short": "Fungsi kognitif",
+      "desc": "Melatih cara berpikir (mengamati, membandingkan, mengelompokkan) dengan alat bantu seperti simbol dan Diagram Venn."
+    },
+    {
+      "no": 2,
+      "name": "Bentuk Konsep",
+      "short": "Pembentukan konsep",
+      "desc": "Memakai alat berpikir tadi untuk memahami konsep himpunan, dengan bimbingan."
+    },
+    {
+      "no": 3,
+      "name": "Terapkan & Refleksi",
+      "short": "Penerapan",
+      "desc": "Menyelesaikan soal secara mandiri, memeriksa hasil, lalu merenungkan prosesnya."
+    }
+  ],
+  "cognitiveFunctions": {
+    "mengamati": {
+      "label": "Mengamati dengan teliti",
+      "what": "Mengumpulkan informasi secara lengkap dan tepat.",
+      "how": "Lihat setiap bagian satu per satu. Jangan ada yang terlewat."
+    },
+    "mengidentifikasi": {
+      "label": "Mengidentifikasi",
+      "what": "Mengenali dan menamai sesuatu berdasarkan ciri-cirinya.",
+      "how": "Tanyakan: ini apa? Apa cirinya? Apa namanya?"
+    },
+    "membandingkan": {
+      "label": "Membandingkan",
+      "what": "Menemukan persamaan dan perbedaan dua hal.",
+      "how": "Letakkan berdampingan, lalu cari: apa yang sama? Apa yang beda?"
+    },
+    "mengelompokkan": {
+      "label": "Mengelompokkan",
+      "what": "Menyusun anggota ke dalam kelompok berdasarkan aturan.",
+      "how": "Tentukan aturannya dulu, lalu cek setiap anggota satu per satu."
+    },
+    "orientasi-ruang": {
+      "label": "Orientasi ruang",
+      "what": "Memahami letak: di dalam, di luar, di tengah, di antara.",
+      "how": "Tanyakan: daerah ini ada di dalam lingkaran mana saja?"
+    },
+    "bagian-keseluruhan": {
+      "label": "Hubungan bagian–keseluruhan",
+      "what": "Melihat bahwa semua bagian bersama-sama membentuk keseluruhan.",
+      "how": "Jumlahkan semua bagian, lalu bandingkan dengan keseluruhannya (n(S))."
+    },
+    "menghubungkan": {
+      "label": "Membentuk hubungan",
+      "what": "Menghubungkan kata dalam cerita dengan simbol dan daerah.",
+      "how": "Cari kata kunci, lalu cocokkan dengan daerah di diagram."
+    },
+    "merencanakan": {
+      "label": "Merencanakan langkah",
+      "what": "Menyusun urutan langkah sebelum menghitung.",
+      "how": "Tanyakan: mulai dari mana? Lalu apa? Lalu apa?"
+    },
+    "memeriksa": {
+      "label": "Memeriksa ketepatan",
+      "what": "Mengecek apakah hasil sesuai dengan data.",
+      "how": "Hitung ulang dengan cara lain, misalnya Cek Total."
+    },
+    "menalar": {
+      "label": "Bernalar logis",
+      "what": "Menarik kesimpulan dan memberi alasan yang masuk akal.",
+      "how": "Gunakan kata \"karena…\" dan \"jadi…\" untuk menyusun alasan."
+    },
+    "merefleksi": {
+      "label": "Merefleksi",
+      "what": "Merenungkan cara berpikirmu sendiri.",
+      "how": "Tanyakan: apa yang sulit? Apa yang membantu? Apa yang akan kulakukan lain kali?"
+    }
+  },
+  "hintLevels": ["Pemantik", "Strategi", "Langkah"],
+  "helpLevels": [
+    { "key": "mandiri", "label": "Mandiri", "desc": "Benar tanpa petunjuk dan tanpa salah." },
+    { "key": "sedikit", "label": "Bantuan ringan", "desc": "Benar setelah 1–2 kali mencoba atau 1 petunjuk." },
+    { "key": "banyak", "label": "Bantuan banyak", "desc": "Benar setelah banyak mencoba atau 2+ petunjuk." }
+  ],
+  "potential": [
+    { "min": 0.75, "label": "Mandiri" },
+    { "min": 0.4, "label": "Berkembang dengan bantuan" },
+    { "min": 0, "label": "Perlu pendampingan" }
+  ]
+}

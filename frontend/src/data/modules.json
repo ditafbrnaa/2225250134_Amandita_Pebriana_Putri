@@ -5,6 +5,11 @@
     "process": "Pengenalan awal",
     "icon": "🔣",
     "summary": "Kenali simbol ∈, ∉, S, ∩, ∪, ᶜ, dan − sebelum mulai berhitung.",
+    "mediation": {
+      "goal": "Membedakan simbol himpunan (∈, ∉, ∩ irisan, ∪ gabungan, ᶜ komplemen) dan menunjukkan daerahnya di Diagram Venn.",
+      "meaning": "Simbol adalah alat berpikir. Dengan simbol, kalimat panjang bisa ditulis singkat dan jelas.",
+      "transcendence": "Simbol juga dipakai di luar matematika: rambu lalu lintas, ikon di HP, dan tanda di peta. Semuanya memadatkan makna menjadi satu tanda."
+    },
     "steps": [
       {
         "type": "intro",
@@ -12,42 +17,94 @@
         "body": [
           "Banyak siswa tertukar antara ∩ (irisan) dan ∪ (gabungan) karena bentuknya mirip.",
           "Di modul ini kamu akan mengenal setiap simbol bersama gambarnya, supaya tidak tertukar lagi."
-        ]
+        ],
+        "phase": 1,
+        "cognitive": "mengamati"
       },
-      { "type": "symbols" },
+      {
+        "type": "symbols",
+        "phase": 1,
+        "cognitive": "membandingkan"
+      },
       {
         "type": "quiz",
         "question": "Simbol untuk GABUNGAN adalah …",
-        "options": ["∩", "∪", "∈", "ᶜ"],
+        "options": [
+          "∩",
+          "∪",
+          "∈",
+          "ᶜ"
+        ],
         "answer": 1,
         "explain": "∪ bentuknya seperti huruf U → gabUngan. Seperti mangkuk yang menampung semua anggota A dan B.",
-        "highlight": [1, 2, 3]
+        "highlight": [
+          1,
+          2,
+          3
+        ],
+        "phase": 2,
+        "cognitive": "membandingkan",
+        "hints": [
+          "Perhatikan bentuk setiap simbol. Mana yang mirip sebuah huruf?",
+          "Gabungan berarti semua anggota dikumpulkan dalam satu wadah. Simbol mana yang bentuknya seperti mangkuk?",
+          "Ingat: ∪ mirip huruf U → gabUngan."
+        ]
       },
       {
         "type": "quiz",
         "question": "A ∩ B dibaca …",
-        "options": ["A gabungan B", "A irisan B", "A komplemen B", "A anggota B"],
+        "options": [
+          "A gabungan B",
+          "A irisan B",
+          "A komplemen B",
+          "A anggota B"
+        ],
         "answer": 1,
         "explain": "∩ seperti atap/jembatan: hanya bagian yang dimiliki A DAN B sekaligus, yaitu daerah tengah.",
-        "highlight": [3]
+        "highlight": [
+          3
+        ],
+        "phase": 2,
+        "cognitive": "mengidentifikasi",
+        "hints": [
+          "Simbol di antara A dan B itu yang mana: ∩ atau ∪?",
+          "∩ bentuknya seperti atap atau jembatan yang menghubungkan dua hal.",
+          "∩ dibaca \"irisan\": bagian yang dimiliki A dan B sekaligus."
+        ]
       },
       {
         "type": "explore",
         "prompt": "Ketuk daerah yang menunjukkan A ∩ B (irisan).",
         "expr": "A∩B",
         "hint": "Irisan adalah daerah yang berada di dalam kedua lingkaran sekaligus.",
-        "success": "Daerah tengah adalah irisan."
+        "success": "Daerah tengah adalah irisan.",
+        "phase": 3,
+        "cognitive": "orientasi-ruang",
+        "hints": [
+          "Irisan berarti anggota A DAN anggota B sekaligus.",
+          "Cari daerah yang ada di dalam lingkaran A dan juga di dalam lingkaran B.",
+          "Daerah itu ada di tengah, tempat kedua lingkaran saling bertumpuk."
+        ]
       },
       {
         "type": "explore",
         "prompt": "Ketuk daerah untuk anggota semesta yang BUKAN anggota A maupun B.",
         "expr": "(A∪B)ᶜ",
         "hint": "Anggota itu tetap ada di dalam kotak S, tetapi di luar kedua lingkaran.",
-        "success": "Anggota yang bukan A maupun B ditaruh di dalam kotak S, di luar lingkaran."
+        "success": "Anggota yang bukan A maupun B ditaruh di dalam kotak S, di luar lingkaran.",
+        "phase": 3,
+        "cognitive": "orientasi-ruang",
+        "hints": [
+          "Anggota itu tetap anggota semesta S. Di mana batas S?",
+          "Bukan anggota A dan bukan anggota B berarti di luar kedua lingkaran.",
+          "Ketuk daerah di dalam kotak S, tetapi di luar kedua lingkaran."
+        ]
       },
       {
         "type": "reflection",
-        "prompt": "Dengan kata-katamu sendiri: bagaimana cara kamu membedakan ∩ dan ∪?"
+        "prompt": "Dengan kata-katamu sendiri: bagaimana cara kamu membedakan ∩ dan ∪?",
+        "phase": 3,
+        "cognitive": "merefleksi"
       }
     ]
   },
@@ -57,6 +114,11 @@
     "process": "Employ",
     "icon": "🎨",
     "summary": "Warnai, arsir, dan tempatkan anggota di daerah Diagram Venn.",
+    "mediation": {
+      "goal": "Mengenali setiap daerah Diagram Venn (hanya A, irisan, hanya B, di luar keduanya) dan menempatkan anggota di daerah yang tepat.",
+      "meaning": "Diagram Venn adalah alat untuk mengelompokkan. Kalau setiap daerah sudah jelas, soal cerita jadi lebih mudah dihitung.",
+      "transcendence": "Kamu juga mengelompokkan setiap hari: memilah sampah organik dan anorganik, atau menyusun buku menurut jenisnya."
+    },
     "steps": [
       {
         "type": "intro",
@@ -64,24 +126,84 @@
         "body": [
           "Ketuk daerah atau tombol operasi, lalu lihat warnanya berpindah.",
           "Coba tombol \"Bandingkan ∩ ⇄ ∪\" untuk melihat perbedaan irisan dan gabungan."
-        ]
+        ],
+        "phase": 1,
+        "cognitive": "mengamati"
       },
-      { "type": "explore", "free": true },
+      {
+        "type": "explore",
+        "free": true,
+        "phase": 1,
+        "cognitive": "membandingkan"
+      },
       {
         "type": "shade",
-        "challenges": ["A∩B", "A∪B", "A−B", "Bᶜ", "(A∪B)ᶜ"]
+        "challenges": [
+          "A∩B",
+          "A∪B",
+          "A−B",
+          "Bᶜ",
+          "(A∪B)ᶜ"
+        ],
+        "phase": 2,
+        "cognitive": "orientasi-ruang",
+        "hints": [
+          "Baca notasinya pelan-pelan. Ada simbol apa saja di sana?",
+          "∩ irisan = di dalam keduanya. ∪ gabungan = di dalam salah satu atau keduanya. − = milik yang pertama saja. ᶜ = di luar.",
+          "Untuk setiap daerah, tanyakan: apakah daerah ini memenuhi notasinya? Arsir hanya yang memenuhi."
+        ]
       },
       {
         "type": "place",
         "sets": {
-          "S": { "label": "Bilangan asli 1 sampai 10", "members": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
-          "A": { "label": "Bilangan genap", "members": [2, 4, 6, 8, 10] },
-          "B": { "label": "Bilangan prima", "members": [2, 3, 5, 7] }
-        }
+          "S": {
+            "label": "Bilangan asli 1 sampai 10",
+            "members": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ]
+          },
+          "A": {
+            "label": "Bilangan genap",
+            "members": [
+              2,
+              4,
+              6,
+              8,
+              10
+            ]
+          },
+          "B": {
+            "label": "Bilangan prima",
+            "members": [
+              2,
+              3,
+              5,
+              7
+            ]
+          }
+        },
+        "phase": 3,
+        "cognitive": "mengelompokkan",
+        "hints": [
+          "Untuk setiap bilangan, jawab dua pertanyaan: genapkah? primakah?",
+          "Genap dan prima → irisan. Hanya genap → A saja. Hanya prima → B saja. Bukan keduanya → di luar lingkaran.",
+          "Ingat: 2 adalah satu-satunya bilangan genap yang juga prima. Bilangan 1 bukan prima."
+        ]
       },
       {
         "type": "reflection",
-        "prompt": "Angka berapa yang paling membuatmu ragu saat menempatkannya? Mengapa?"
+        "prompt": "Angka berapa yang paling membuatmu ragu saat menempatkannya? Mengapa?",
+        "phase": 3,
+        "cognitive": "merefleksi"
       }
     ]
   },
@@ -91,6 +213,11 @@
     "process": "Formulate",
     "icon": "📖",
     "summary": "Ubah soal cerita menjadi Diagram Venn dengan bantuan kata kunci.",
+    "mediation": {
+      "goal": "Mengubah soal cerita menjadi Diagram Venn dengan membaca kata kunci (hanya, keduanya, tidak … keduanya).",
+      "meaning": "Kata kunci adalah jembatan dari bahasa sehari-hari ke bahasa matematika. Salah membaca satu kata, hasilnya bisa salah semua.",
+      "transcendence": "Membaca teliti juga penting saat membaca resep, aturan lomba, atau petunjuk ujian. Kata seperti \"hanya\" dan \"kecuali\" mengubah makna."
+    },
     "steps": [
       {
         "type": "intro",
@@ -98,57 +225,153 @@
         "body": [
           "Kata seperti \"hanya\", \"saja\", \"keduanya\", dan \"tidak … keduanya\" menentukan daerah mana yang dimaksud.",
           "Kata kunci akan disorot kuning. Ketuk kata itu untuk melihat daerahnya menyala di diagram."
-        ]
+        ],
+        "phase": 1,
+        "cognitive": "mengidentifikasi"
       },
       {
         "type": "worked",
         "title": "Contoh: diselesaikan bersama",
         "story": "Di kelas 7A ada 32 siswa. Sebanyak 20 siswa suka Matematika, 15 siswa suka IPA, dan 8 siswa suka keduanya.",
-        "labels": { "A": "Matematika", "B": "IPA" },
+        "labels": {
+          "A": "Matematika",
+          "B": "IPA"
+        },
         "total": 32,
         "steps": [
-          { "text": "Mulai dari IRISAN. \"Suka keduanya\" = 8, tulis di daerah tengah.", "highlight": [3], "counts": { "3": 8 } },
-          { "text": "Hanya Matematika = 20 − 8 = 12. Angka 20 sudah termasuk 8 siswa di irisan.", "highlight": [1], "counts": { "1": 12 } },
-          { "text": "Hanya IPA = 15 − 8 = 7.", "highlight": [2], "counts": { "2": 7 } },
-          { "text": "Tidak suka keduanya = 32 − (12 + 8 + 7) = 32 − 27 = 5. Daerah ini ada DI DALAM kotak S, di luar lingkaran.", "highlight": [0], "counts": { "0": 5 } },
-          { "text": "Cek total: 12 + 8 + 7 + 5 = 32 = n(S). ✔ Semua siswa sudah terhitung.", "highlight": [0, 1, 2, 3], "counts": {} }
-        ]
+          {
+            "text": "Mulai dari IRISAN. \"Suka keduanya\" = 8, tulis di daerah tengah.",
+            "highlight": [
+              3
+            ],
+            "counts": {
+              "3": 8
+            }
+          },
+          {
+            "text": "Hanya Matematika = 20 − 8 = 12. Angka 20 sudah termasuk 8 siswa di irisan.",
+            "highlight": [
+              1
+            ],
+            "counts": {
+              "1": 12
+            }
+          },
+          {
+            "text": "Hanya IPA = 15 − 8 = 7.",
+            "highlight": [
+              2
+            ],
+            "counts": {
+              "2": 7
+            }
+          },
+          {
+            "text": "Tidak suka keduanya = 32 − (12 + 8 + 7) = 32 − 27 = 5. Daerah ini ada DI DALAM kotak S, di luar lingkaran.",
+            "highlight": [
+              0
+            ],
+            "counts": {
+              "0": 5
+            }
+          },
+          {
+            "text": "Cek total: 12 + 8 + 7 + 5 = 32 = n(S). ✔ Semua siswa sudah terhitung.",
+            "highlight": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": {}
+          }
+        ],
+        "phase": 1,
+        "cognitive": "merencanakan"
       },
       {
         "type": "story",
         "title": "Giliranmu (irisan sudah diisi)",
         "story": "Dari 36 siswa, 21 siswa ikut Pramuka, 16 siswa ikut PMR, dan 6 siswa ikut keduanya.",
         "question": "Lengkapi isi setiap daerah Diagram Venn.",
-        "labels": { "A": "Pramuka", "B": "PMR" },
+        "labels": {
+          "A": "Pramuka",
+          "B": "PMR"
+        },
         "total": 36,
-        "answers": { "3": 6, "1": 15, "2": 10, "0": 5 },
-        "given": [3],
-        "chunked": true
+        "answers": {
+          "3": 6,
+          "1": 15,
+          "2": 10,
+          "0": 5
+        },
+        "given": [
+          3
+        ],
+        "chunked": true,
+        "phase": 2,
+        "cognitive": "menghubungkan",
+        "hints": [
+          "Irisan sudah diisi. Angka 21 (Pramuka) itu meliputi daerah mana saja?",
+          "Hanya Pramuka = 21 − irisan. Hanya PMR = 16 − irisan. Sisanya ada di luar lingkaran."
+        ]
       },
       {
         "type": "quiz",
         "story": "Dari 30 siswa, 17 siswa hanya suka voli, 6 siswa suka voli dan bulu tangkis, dan 4 siswa tidak suka keduanya.",
         "question": "Angka 17 ditulis di daerah mana?",
-        "options": ["Irisan (tengah)", "Hanya voli", "Seluruh lingkaran voli", "Di luar lingkaran"],
+        "options": [
+          "Irisan (tengah)",
+          "Hanya voli",
+          "Seluruh lingkaran voli",
+          "Di luar lingkaran"
+        ],
         "answer": 1,
         "explain": "Kata \"hanya\" berarti irisan TIDAK termasuk. Jadi 17 langsung ditulis di daerah \"hanya voli\", tidak perlu dikurangi lagi.",
-        "labels": { "A": "Voli", "B": "Bulu tangkis" },
-        "highlight": [1]
+        "labels": {
+          "A": "Voli",
+          "B": "Bulu tangkis"
+        },
+        "highlight": [
+          1
+        ],
+        "phase": 2,
+        "cognitive": "menghubungkan",
+        "hints": [
+          "Kata apa yang ada di depan angka 17?",
+          "\"Hanya\" berarti irisan tidak ikut dihitung. Jadi angka itu tidak perlu dikurangi lagi."
+        ]
       },
       {
         "type": "story",
         "title": "Giliranmu (mandiri)",
         "story": "Dari 30 siswa, 17 siswa hanya suka voli, 6 siswa suka voli dan bulu tangkis, dan 4 siswa tidak suka keduanya.",
         "question": "Isi semua daerah. Berapa siswa yang hanya suka bulu tangkis?",
-        "labels": { "A": "Voli", "B": "Bulu tangkis" },
+        "labels": {
+          "A": "Voli",
+          "B": "Bulu tangkis"
+        },
         "total": 30,
-        "answers": { "1": 17, "3": 6, "0": 4, "2": 3 },
+        "answers": {
+          "1": 17,
+          "3": 6,
+          "0": 4,
+          "2": 3
+        },
         "given": [],
-        "chunked": true
+        "chunked": true,
+        "phase": 3,
+        "cognitive": "merencanakan",
+        "hints": [
+          "Mulai dari angka yang tempatnya sudah pasti: irisan, hanya voli, dan di luar lingkaran.",
+          "Hanya bulu tangkis = 30 − (17 + 6 + 4)."
+        ]
       },
       {
         "type": "reflection",
-        "prompt": "Kata kunci apa yang hampir kamu lewatkan hari ini?"
+        "prompt": "Kata kunci apa yang hampir kamu lewatkan hari ini?",
+        "phase": 3,
+        "cognitive": "merefleksi"
       }
     ]
   },
@@ -158,6 +381,11 @@
     "process": "Employ",
     "icon": "🧮",
     "summary": "Gunakan n(A ∪ B) = n(A) + n(B) − n(A ∩ B) dan pahami alasannya.",
+    "mediation": {
+      "goal": "Menghitung n(A ∪ B) dengan prinsip n(A) + n(B) − n(A ∩ B) dan menjelaskan mengapa irisan dikurangi.",
+      "meaning": "Rumus ini bukan untuk dihafal. Rumus ini lahir dari masalah nyata: anggota irisan terhitung dua kali.",
+      "transcendence": "Masalah \"terhitung dua kali\" juga muncul saat menghitung peserta yang ikut dua acara, atau tamu yang tercatat di dua daftar."
+    },
     "steps": [
       {
         "type": "intro",
@@ -165,51 +393,117 @@
         "body": [
           "n(A ∪ B) = n(A) + n(B) − n(A ∩ B)",
           "Saat menjumlahkan n(A) + n(B), anggota irisan terhitung DUA kali: sekali di A, sekali di B. Karena itu, irisan dikurangi satu kali."
-        ]
+        ],
+        "phase": 1,
+        "cognitive": "bagian-keseluruhan"
       },
       {
         "type": "worked",
         "title": "Lihat irisan terhitung dua kali",
         "story": "Di sebuah kelas, 18 siswa membawa bekal, 14 siswa membawa botol minum, dan 9 siswa membawa keduanya.",
-        "labels": { "A": "Bekal", "B": "Botol minum" },
+        "labels": {
+          "A": "Bekal",
+          "B": "Botol minum"
+        },
         "total": null,
         "steps": [
-          { "text": "n(A) = 18 → seluruh lingkaran Bekal (hanya bekal 9 + irisan 9).", "highlight": [1, 3], "counts": { "1": 9, "3": 9 } },
-          { "text": "n(B) = 14 → seluruh lingkaran Botol (hanya botol 5 + irisan 9).", "highlight": [2, 3], "counts": { "2": 5 } },
-          { "text": "18 + 14 = 32. Daerah irisan (9 siswa) ikut dua kali!", "highlight": [3], "counts": {} },
-          { "text": "Jadi n(A ∪ B) = 18 + 14 − 9 = 23. Cek: 9 + 9 + 5 = 23 ✔", "highlight": [1, 2, 3], "counts": {} }
-        ]
+          {
+            "text": "n(A) = 18 → seluruh lingkaran Bekal (hanya bekal 9 + irisan 9).",
+            "highlight": [
+              1,
+              3
+            ],
+            "counts": {
+              "1": 9,
+              "3": 9
+            }
+          },
+          {
+            "text": "n(B) = 14 → seluruh lingkaran Botol (hanya botol 5 + irisan 9).",
+            "highlight": [
+              2,
+              3
+            ],
+            "counts": {
+              "2": 5
+            }
+          },
+          {
+            "text": "18 + 14 = 32. Daerah irisan (9 siswa) ikut dua kali!",
+            "highlight": [
+              3
+            ],
+            "counts": {}
+          },
+          {
+            "text": "Jadi n(A ∪ B) = 18 + 14 − 9 = 23. Cek: 9 + 9 + 5 = 23 ✔",
+            "highlight": [
+              1,
+              2,
+              3
+            ],
+            "counts": {}
+          }
+        ],
+        "phase": 1,
+        "cognitive": "bagian-keseluruhan"
       },
       {
         "type": "fill",
         "story": "Dari 45 siswa, 27 siswa suka bakso, 22 siswa suka mie ayam, dan 10 siswa suka keduanya.",
         "prompt": "Berapa siswa yang suka setidaknya satu makanan (bakso atau mie ayam)?",
         "answer": 39,
-        "hint": "Gunakan n(A ∪ B) = n(A) + n(B) − n(A ∩ B).",
-        "explain": "27 + 22 − 10 = 39 siswa."
+        "explain": "27 + 22 − 10 = 39 siswa.",
+        "phase": 2,
+        "cognitive": "merencanakan",
+        "hints": [
+          "\"Setidaknya satu\" itu irisan atau gabungan?",
+          "Gabungan: n(A) + n(B) − n(A ∩ B). Masukkan angka dari cerita."
+        ]
       },
       {
         "type": "fill",
         "story": "Dari 45 siswa, 27 siswa suka bakso, 22 siswa suka mie ayam, dan 10 siswa suka keduanya.",
         "prompt": "Berapa siswa yang tidak suka keduanya?",
         "answer": 6,
-        "hint": "Semesta dikurangi yang suka setidaknya satu.",
-        "explain": "45 − 39 = 6 siswa berada di luar kedua lingkaran."
+        "explain": "45 − 39 = 6 siswa berada di luar kedua lingkaran.",
+        "phase": 2,
+        "cognitive": "bagian-keseluruhan",
+        "hints": [
+          "Semua siswa = yang suka setidaknya satu + yang tidak suka keduanya.",
+          "Kurangi n(S) dengan banyak siswa yang suka setidaknya satu (jawaban soal sebelumnya)."
+        ]
       },
       {
         "type": "story",
         "title": "Tantangan: irisan belum diketahui",
         "story": "Sebanyak 40 warga diwawancarai. 25 orang memelihara kucing, 18 orang memelihara ayam, dan 7 orang tidak memelihara keduanya.",
         "question": "Isi semua daerah. Petunjuk: hitung dulu warga yang memelihara setidaknya satu hewan.",
-        "labels": { "A": "Kucing", "B": "Ayam" },
+        "labels": {
+          "A": "Kucing",
+          "B": "Ayam"
+        },
         "total": 40,
-        "answers": { "0": 7, "3": 10, "1": 15, "2": 8 },
+        "answers": {
+          "0": 7,
+          "3": 10,
+          "1": 15,
+          "2": 8
+        },
         "given": [],
-        "chunked": true
+        "chunked": true,
+        "phase": 3,
+        "cognitive": "merencanakan",
+        "hints": [
+          "Yang tidak memelihara keduanya sudah diketahui. Berapa yang memelihara setidaknya satu hewan?",
+          "Setidaknya satu = 40 − 7. Lalu irisan = 25 + 18 − (hasil tadi)."
+        ]
       },
       {
         "type": "reflection",
-        "prompt": "Jelaskan dengan kata-katamu: mengapa n(A ∩ B) harus dikurangi?"
+        "prompt": "Jelaskan dengan kata-katamu: mengapa n(A ∩ B) harus dikurangi?",
+        "phase": 3,
+        "cognitive": "menalar"
       }
     ]
   },
@@ -219,6 +513,11 @@
     "process": "Interpret & Evaluate",
     "icon": "🕵️",
     "summary": "Nilai apakah sebuah kesimpulan wajar berdasarkan himpunan semesta.",
+    "mediation": {
+      "goal": "Menilai apakah sebuah kesimpulan masuk akal dengan memeriksa jumlah semua daerah terhadap n(S).",
+      "meaning": "Matematikawan selalu memeriksa hasilnya. Cek Total membuatmu yakin, bukan sekadar menebak.",
+      "transcendence": "Memeriksa data juga berguna saat membaca berita atau iklan: apakah angkanya masuk akal?"
+    },
     "steps": [
       {
         "type": "intro",
@@ -226,42 +525,87 @@
         "body": [
           "Hasil hitungan harus cocok dengan semesta: jumlah SEMUA daerah = n(S).",
           "Jika tidak cocok, berarti ada kesimpulan yang keliru."
-        ]
+        ],
+        "phase": 1,
+        "cognitive": "bagian-keseluruhan"
       },
       {
         "type": "quiz",
         "story": "Survei terhadap 30 siswa: 12 siswa hanya suka komik, 10 siswa hanya suka novel, dan 5 siswa tidak suka keduanya. Rina menyimpulkan ada 8 siswa yang suka keduanya.",
         "question": "Apakah kesimpulan Rina masuk akal?",
-        "options": ["Masuk akal", "Tidak masuk akal, seharusnya 3 siswa", "Tidak masuk akal, seharusnya 13 siswa"],
+        "options": [
+          "Masuk akal",
+          "Tidak masuk akal, seharusnya 3 siswa",
+          "Tidak masuk akal, seharusnya 13 siswa"
+        ],
         "answer": 1,
         "explain": "12 + 10 + 5 = 27, jadi irisan = 30 − 27 = 3. Jika irisan 8, totalnya 35, lebih dari 30 siswa.",
-        "labels": { "A": "Komik", "B": "Novel" },
-        "highlight": [3]
+        "labels": {
+          "A": "Komik",
+          "B": "Novel"
+        },
+        "highlight": [
+          3
+        ],
+        "phase": 2,
+        "cognitive": "memeriksa",
+        "hints": [
+          "Jumlahkan dulu semua daerah yang sudah diketahui, lalu bandingkan dengan 30."
+        ]
       },
       {
         "type": "story",
         "title": "Buktikan dengan Cek Total",
         "story": "Survei terhadap 30 siswa: 12 siswa hanya suka komik, 10 siswa hanya suka novel, dan 5 siswa tidak suka keduanya.",
         "question": "Isi semua daerah, lalu tekan Cek Total.",
-        "labels": { "A": "Komik", "B": "Novel" },
+        "labels": {
+          "A": "Komik",
+          "B": "Novel"
+        },
         "total": 30,
-        "answers": { "1": 12, "2": 10, "0": 5, "3": 3 },
+        "answers": {
+          "1": 12,
+          "2": 10,
+          "0": 5,
+          "3": 3
+        },
         "given": [],
-        "chunked": false
+        "chunked": false,
+        "phase": 2,
+        "cognitive": "memeriksa",
+        "hints": [
+          "Irisan = n(S) − (hanya komik + hanya novel + tidak keduanya)."
+        ]
       },
       {
         "type": "quiz",
         "story": "Dari 20 siswa, 14 siswa suka menyanyi, 11 siswa suka menari, dan 3 siswa tidak suka keduanya. Budi berkata: \"Datanya pasti salah, karena 14 + 11 = 25, lebih dari 20.\"",
         "question": "Bagaimana pendapatmu tentang Budi?",
-        "options": ["Budi benar, datanya salah", "Budi keliru; ada 8 siswa yang suka keduanya", "Budi keliru; ada 5 siswa yang suka keduanya"],
+        "options": [
+          "Budi benar, datanya salah",
+          "Budi keliru; ada 8 siswa yang suka keduanya",
+          "Budi keliru; ada 5 siswa yang suka keduanya"
+        ],
         "answer": 1,
         "explain": "Setidaknya satu = 20 − 3 = 17. Irisan = 14 + 11 − 17 = 8. Data valid: 6 + 8 + 3 + 3 = 20.",
-        "labels": { "A": "Menyanyi", "B": "Menari" },
-        "highlight": [3]
+        "labels": {
+          "A": "Menyanyi",
+          "B": "Menari"
+        },
+        "highlight": [
+          3
+        ],
+        "phase": 3,
+        "cognitive": "menalar",
+        "hints": [
+          "Ingat, angka 14 dan 11 sama-sama memuat siswa di irisan. Hitung irisannya dulu sebelum menilai Budi."
+        ]
       },
       {
         "type": "reflection",
-        "prompt": "Bagaimana cara cepatmu mengecek apakah sebuah jawaban masuk akal?"
+        "prompt": "Bagaimana cara cepatmu mengecek apakah sebuah jawaban masuk akal?",
+        "phase": 3,
+        "cognitive": "merefleksi"
       }
     ]
   },
@@ -271,6 +615,11 @@
     "process": "Reasoning",
     "icon": "💬",
     "summary": "Bandingkan dua cara penyelesaian dan jelaskan mana yang benar.",
+    "mediation": {
+      "goal": "Membandingkan dua cara penyelesaian dan memberi alasan mengapa satu cara benar.",
+      "meaning": "Jawaban benar belum cukup. Kamu juga perlu bisa menjelaskan MENGAPA jawaban itu benar.",
+      "transcendence": "Memberi alasan juga kamu pakai saat berdiskusi atau meyakinkan teman. Alasan yang kuat selalu didukung bukti."
+    },
     "steps": [
       {
         "type": "intro",
@@ -278,21 +627,69 @@
         "body": [
           "Matematikawan tidak hanya menghitung. Mereka juga menjelaskan MENGAPA jawabannya benar.",
           "Di sini kamu akan membandingkan dua cara dan memberi alasan."
-        ]
+        ],
+        "phase": 1,
+        "cognitive": "membandingkan"
       },
       {
         "type": "worked",
         "title": "Cara Dimas vs Cara Sari",
         "story": "Dari 30 peserta, 16 orang ikut lomba lari, 13 orang ikut lomba lompat, dan 5 orang ikut keduanya. Berapa peserta yang ikut setidaknya satu lomba?",
-        "labels": { "A": "Lari", "B": "Lompat" },
+        "labels": {
+          "A": "Lari",
+          "B": "Lompat"
+        },
         "total": 30,
         "steps": [
-          { "text": "Cara Dimas: 16 + 13 = 29 peserta.", "highlight": [1, 3], "counts": { "1": 11, "3": 5 } },
-          { "text": "Tapi lingkaran Lompat juga memuat irisan yang sama…", "highlight": [2, 3], "counts": { "2": 8 } },
-          { "text": "5 peserta di irisan terhitung dua kali oleh Dimas!", "highlight": [3], "counts": {} },
-          { "text": "Cara Sari: 16 + 13 − 5 = 24. Cek: 11 + 5 + 8 = 24 ✔", "highlight": [1, 2, 3], "counts": {} },
-          { "text": "Sisanya 30 − 24 = 6 peserta tidak ikut lomba apa pun.", "highlight": [0], "counts": { "0": 6 } }
-        ]
+          {
+            "text": "Cara Dimas: 16 + 13 = 29 peserta.",
+            "highlight": [
+              1,
+              3
+            ],
+            "counts": {
+              "1": 11,
+              "3": 5
+            }
+          },
+          {
+            "text": "Tapi lingkaran Lompat juga memuat irisan yang sama…",
+            "highlight": [
+              2,
+              3
+            ],
+            "counts": {
+              "2": 8
+            }
+          },
+          {
+            "text": "5 peserta di irisan terhitung dua kali oleh Dimas!",
+            "highlight": [
+              3
+            ],
+            "counts": {}
+          },
+          {
+            "text": "Cara Sari: 16 + 13 − 5 = 24. Cek: 11 + 5 + 8 = 24 ✔",
+            "highlight": [
+              1,
+              2,
+              3
+            ],
+            "counts": {}
+          },
+          {
+            "text": "Sisanya 30 − 24 = 6 peserta tidak ikut lomba apa pun.",
+            "highlight": [
+              0
+            ],
+            "counts": {
+              "0": 6
+            }
+          }
+        ],
+        "phase": 1,
+        "cognitive": "membandingkan"
       },
       {
         "type": "quiz",
@@ -304,20 +701,36 @@
         ],
         "answer": 1,
         "explain": "Penjumlahan langsung menghitung anggota irisan dua kali. Prinsip gabungan mengurangi irisan satu kali.",
-        "labels": { "A": "Lari", "B": "Lompat" },
-        "highlight": [3]
+        "labels": {
+          "A": "Lari",
+          "B": "Lompat"
+        },
+        "highlight": [
+          3
+        ],
+        "phase": 2,
+        "cognitive": "menalar",
+        "hints": [
+          "Lihat diagramnya: berapa kali 5 peserta di irisan dihitung oleh Dimas?"
+        ]
       },
       {
         "type": "fill",
         "story": "Dari 30 peserta, 16 orang ikut lomba lari, 13 orang ikut lomba lompat, dan 5 orang ikut keduanya.",
         "prompt": "Berapa peserta yang tidak ikut lomba apa pun?",
         "answer": 6,
-        "hint": "Semesta − peserta yang ikut setidaknya satu lomba.",
-        "explain": "30 − 24 = 6 peserta."
+        "explain": "30 − 24 = 6 peserta.",
+        "phase": 3,
+        "cognitive": "bagian-keseluruhan",
+        "hints": [
+          "Semesta − peserta yang ikut setidaknya satu lomba (pakai cara yang benar)."
+        ]
       },
       {
         "type": "reflection",
-        "prompt": "Tulis alasanmu (2–3 kalimat) untuk meyakinkan Dimas bahwa caranya keliru."
+        "prompt": "Tulis alasanmu (2–3 kalimat) untuk meyakinkan Dimas bahwa caranya keliru.",
+        "phase": 3,
+        "cognitive": "menalar"
       }
     ]
   }

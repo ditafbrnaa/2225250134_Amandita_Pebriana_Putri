@@ -21,7 +21,7 @@ export default function ModulePage() {
       <h1 className="text-2xl font-extrabold">
         Modul {index + 1}: {module.title}
       </h1>
-      <ModuleRunner key={module.id} module={module} />
+      <ModuleRunner key={module.id} module={module} moduleIndex={index} />
     </div>
   );
 }

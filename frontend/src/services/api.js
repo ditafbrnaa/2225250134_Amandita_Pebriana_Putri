@@ -53,6 +53,20 @@ export function queueSync(job) {
   flushQueue();
 }
 
+/**
+ * Mengirim catatan proses belajar satu modul (asesmen dinamis RMT): banyak salah & petunjuk per langkah.
+ * Tidak ada data pribadi baru, hanya angka. Dikirim ulang utuh (idempoten), job lama untuk modul yang sama diganti.
+ */
+export function syncLearning(moduleId) {
+  const { rmtLog, progress } = useAppStore.getState();
+  queueSync({
+    method: 'PUT',
+    path: `/learning/${moduleId}`,
+    body: { steps: rmtLog[moduleId] ?? {}, done: Boolean(progress[moduleId]?.done) },
+    dedupeKey: `learn:${moduleId}`,
+  });
+}
+
 let flushing = false;
 /** Mengirim antrean berurutan. Berhenti di kegagalan jaringan, lalu dicoba lagi saat online. */
 export async function flushQueue() {

@@ -87,6 +87,20 @@ Kalau `SECRET_KEY`/`TEACHER_PIN` masih bawaan atau `DATABASE_URL` belum diatur, 
 
 > Catatan: siswa yang sudah membuka versi demo lama akan mendapat versi baru setelah menekan tombol pembaruan aplikasi. Mereka otomatis diminta **masuk ulang** dengan namanya, dan pretest versi demo di HP mereka dihapus agar dikerjakan ulang dan tercatat di server. Progres modul tetap tersimpan.
 
+## 3b-2. Modul belajar berbasis Rigorous Mathematical Thinking (RMT)
+
+Keenam modul dirancang mengikuti RMT (Kinard & Kozulin, 2008), yang memadukan teori sosiokultural Vygotsky dan *Mediated Learning Experience* (MLE) Feuerstein:
+
+| Prinsip RMT | Wujud di aplikasi | Letak |
+|---|---|---|
+| Tiga tahap RMT: fungsi kognitif → pembentukan konsep → penerapan | Penanda tahap di atas setiap langkah modul | `RmtPhaseBar.jsx`, field `phase` di `modules.json` |
+| Fungsi kognitif (komponen *apa* + *bagaimana*) | Label "Latih cara berpikir: Membandingkan/Mengelompokkan/…" yang bisa dibuka | `src/data/rmt.json`, field `cognitive` |
+| MLE: *intentionality*, *meaning*, *transcendence* | Kartu "Tujuan belajar kita" + "Kenapa ini penting?" di awal modul, "Di mana lagi ini dipakai?" di akhir modul | `MediationCard.jsx`, field `mediation` |
+| ZPD: bantuan sesuai kebutuhan lalu dikurangi bertahap | Bantuan Kak Venn bertingkat (Pemantik → Strategi → Langkah). Modul 1–2: 3 tingkat, Modul 3–4: 2 tingkat (setelah mencoba dulu), Modul 5–6: 1 tingkat | `HintLadder.jsx`, `features/learn/lib/rmt.js` |
+| Asesmen formatif & *dynamic assessment* | Setiap tugas mencatat banyak salah & petunjuk. Siswa melihat "Catatan belajarmu" di akhir modul. Guru melihat indeks kemandirian, tren, dan potensi belajar di tab **Proses belajar (RMT)**, plus CSV per langkah | `backend/app/services/rmt.py`, `GET /teacher/learning`, `/teacher/learning.csv` |
+
+Bantuan ini hanya ada di modul belajar. Pretest/posttest tetap tanpa scaffold.
+
 ## 3c. Tutor AI "Kak Venn" (opsional)
 
 Menu **Tutor** berisi chatbot yang membimbing siswa memecahkan soal literasi secara bertahap mengikuti **Rigorous Mathematical Thinking (RMT)**: *Pahami Soal → Gunakan Konsep → Cek & Refleksi*. Tutor memberi petunjuk bertingkat (pemantik → strategi → langkah → contoh serupa) dan **tidak memberikan jawaban akhir**. Aturannya ada di `backend/app/services/tutor.py`.

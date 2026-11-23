@@ -21,6 +21,8 @@ export const useAppStore = create(
       settings: { reduceMotion: false, fontScale: 1, soundOn: true },
       progress: {}, // { [moduleId]: { step: number, done: boolean } }
       reflections: {}, // { "moduleId.step": teks }
+      // Asesmen dinamis (RMT): bantuan yang dibutuhkan per langkah. { [moduleId]: { [step]: { wrong, hints, solved } } }
+      rmtLog: {},
       attempts: {}, // { pre: Attempt, post: Attempt }
       unlockAll: false, // hanya untuk mode demo/uji coba
       syncQueue: [], // [{ id, method, path, body, dedupeKey }]
@@ -36,6 +38,21 @@ export const useAppStore = create(
       completeModule: (moduleId) =>
         set((s) => ({ progress: { ...s.progress, [moduleId]: { ...(s.progress[moduleId] ?? {}), done: true } } })),
       saveReflection: (key, text) => set((s) => ({ reflections: { ...s.reflections, [key]: text } })),
+
+      /** Mencatat percobaan salah / petunjuk / selesai. Langkah yang sudah selesai tidak dicatat ulang (agar skor proses tidak naik turun). */
+      logStep: (moduleId, step, event) =>
+        set((s) => {
+          const mod = s.rmtLog[moduleId] ?? {};
+          const cur = mod[step] ?? { wrong: 0, hints: 0, solved: false };
+          if (cur.solved) return {};
+          const next =
+            event.type === 'mistake'
+              ? { ...cur, wrong: cur.wrong + 1 }
+              : event.type === 'hint'
+                ? { ...cur, hints: Math.max(cur.hints, event.level) }
+                : { ...cur, solved: true };
+          return { rmtLog: { ...s.rmtLog, [moduleId]: { ...mod, [step]: next } } };
+        }),
 
       startAttempt: (type) => {
         const existing = get().attempts[type];
@@ -72,7 +89,7 @@ export const useAppStore = create(
       dequeue: (id) => set((s) => ({ syncQueue: s.syncQueue.filter((j) => j.id !== id) })),
 
       resetAll: () =>
-        set({ profile: null, progress: {}, reflections: {}, attempts: {}, syncQueue: [], unlockAll: false, examActive: false }),
+        set({ profile: null, progress: {}, reflections: {}, rmtLog: {}, attempts: {}, syncQueue: [], unlockAll: false, examActive: false }),
     }),
     {
       name: 'vennbuster-v1',

@@ -154,6 +154,85 @@ function Grading({ token }) {
   );
 }
 
+const MODULE_IDS = ['m1', 'm2', 'm3', 'm4', 'm5', 'm6'];
+const pct = (v) => (v === null || v === undefined ? '–' : `${Math.round(v * 100)}%`);
+const trendText = (t) => (t === null || t === undefined ? '–' : t > 0 ? `↑ +${Math.round(t * 100)}` : t < 0 ? `↓ ${Math.round(t * 100)}` : '→ 0');
+
+/**
+ * Asesmen dinamis (RMT): bukan hanya hasil akhir, tetapi seberapa banyak bantuan yang dibutuhkan siswa
+ * dan apakah kebutuhan itu berkurang dari modul ke modul (potensi belajar).
+ */
+function Learning({ token, onUnauthorized }) {
+  const [rows, setRows] = useState(null);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    request('/teacher/learning', { token })
+      .then(setRows)
+      .catch((e) => {
+        if (e.status === 401) onUnauthorized();
+        else setError(e.message);
+      });
+  }, [token, onUnauthorized]);
+
+  if (error) return <p className="card text-red-700" role="alert">{error}</p>;
+  if (!rows) return <p>Memuat…</p>;
+  const active = rows.filter((r) => r.index !== null);
+
+  return (
+    <div className="space-y-3">
+      <div className="card space-y-1 text-sm">
+        <p className="font-bold">📈 Asesmen dinamis (Rigorous Mathematical Thinking)</p>
+        <p className="text-ink/70">
+          <b>Indeks kemandirian</b> = rata-rata tingkat bantuan pada tugas modul (100% = semua benar tanpa salah &amp; tanpa petunjuk).{' '}
+          <b>Tren</b> = modul terakhir − modul pertama. Tren naik berarti siswa makin mandiri setelah dibimbing (potensi belajar).
+        </p>
+      </div>
+      <div className="overflow-x-auto rounded-2xl bg-white cartoon">
+        <table className="w-full text-sm">
+          <thead className="bg-ink/5 text-left">
+            <tr>
+              <th className="p-2">Nama</th>
+              {MODULE_IDS.map((m) => (
+                <th key={m} className="p-2 text-center">{m.toUpperCase()}</th>
+              ))}
+              <th className="p-2 text-center">Kemandirian</th>
+              <th className="p-2 text-center">Tren</th>
+              <th className="p-2 text-center">Petunjuk</th>
+              <th className="p-2">Potensi belajar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {active.map((r) => (
+              <tr key={r.student_id} className="border-t border-ink/5">
+                <td className="p-2 font-semibold">{r.name}</td>
+                {MODULE_IDS.map((m) => {
+                  const x = r.modules[m];
+                  return (
+                    <td key={m} className="p-2 text-center" title={x ? `${x.mandiri} mandiri · ${x.sedikit} bantuan ringan · ${x.banyak} bantuan banyak` : 'Belum dikerjakan'}>
+                      {x ? pct(x.index) : '–'}
+                      {x && !x.done && <span className="block text-[11px] text-ink/50">belum tamat</span>}
+                    </td>
+                  );
+                })}
+                <td className="p-2 text-center font-bold">{pct(r.index)}</td>
+                <td className="p-2 text-center">{trendText(r.trend)}</td>
+                <td className="p-2 text-center">{r.hints}</td>
+                <td className="p-2">{r.potential}</td>
+              </tr>
+            ))}
+            {!active.length && (
+              <tr><td colSpan={MODULE_IDS.length + 5} className="p-4 text-center text-ink/60">Belum ada siswa yang mengerjakan modul.</td></tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+      <a className="btn btn-secondary" href={`${API_BASE}/api/v1/teacher/learning.csv?token=${encodeURIComponent(token)}`}>
+        ⬇️ Unduh CSV proses belajar (per langkah)
+      </a>
+    </div>
+  );
+}
+
 /** Info layanan AI Tutor Kak Venn. Kunci tidak pernah ditampilkan utuh (hanya 4 karakter terakhir). */
 function AiStatus({ token }) {
   const [status, setStatus] = useState(null);
@@ -233,15 +312,20 @@ export default function TeacherPage() {
         </button>
       </div>
       <AiStatus token={token} />
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <button type="button" className={`btn ${tab === 'summary' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setTab('summary')} aria-pressed={tab === 'summary'}>
           Rekap semua siswa
         </button>
         <button type="button" className={`btn ${tab === 'grading' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setTab('grading')} aria-pressed={tab === 'grading'}>
           Penilaian uraian
         </button>
+        <button type="button" className={`btn ${tab === 'learning' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setTab('learning')} aria-pressed={tab === 'learning'}>
+          Proses belajar (RMT)
+        </button>
       </div>
-      {tab === 'summary' ? <Summary token={token} onUnauthorized={logout} /> : <Grading token={token} />}
+      {tab === 'summary' && <Summary token={token} onUnauthorized={logout} />}
+      {tab === 'grading' && <Grading token={token} />}
+      {tab === 'learning' && <Learning token={token} onUnauthorized={logout} />}
     </div>
   );
 }

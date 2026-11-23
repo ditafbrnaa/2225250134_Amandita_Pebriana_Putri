@@ -103,7 +103,7 @@ export function SymbolsStep({ onDone }) {
 }
 
 // ---------------------------------------------------------------- kuis pilihan ganda
-export function QuizStep({ step, onDone }) {
+export function QuizStep({ step, onDone, onMistake }) {
   const [picked, setPicked] = useState(null);
   const correct = picked === step.answer;
   return (
@@ -124,6 +124,7 @@ export function QuizStep({ step, onDone }) {
                 onClick={() => {
                   setPicked(i);
                   if (i === step.answer) onDone();
+                  else onMistake?.();
                 }}
                 animate={state === 'wrong' ? { x: [0, -6, 6, 0] } : {}}
                 className={`min-h-11 rounded-2xl border-2 px-3 py-2 text-left font-semibold transition-colors ${
@@ -143,7 +144,7 @@ export function QuizStep({ step, onDone }) {
 }
 
 // ---------------------------------------------------------------- eksplorasi / tugas daerah
-export function ExploreStep({ step, onDone }) {
+export function ExploreStep({ step, onDone, onMistake }) {
   useEffect(() => {
     if (step.free) onDone();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -153,21 +154,22 @@ export function ExploreStep({ step, onDone }) {
         labels={step.labels}
         task={step.free ? undefined : { prompt: step.prompt, expr: step.expr, hint: step.hint, success: step.success, multi: step.multi }}
         onComplete={onDone}
+        onMistake={onMistake}
       />
     </div>
   );
 }
 
-export function ShadeStep({ step, onDone }) {
+export function ShadeStep({ step, onDone, onMistake }) {
   return (
     <div className="card">
-      <ShadeChallenge challenges={step.challenges} labels={step.labels} onComplete={onDone} />
+      <ShadeChallenge challenges={step.challenges} labels={step.labels} onComplete={onDone} onMistake={onMistake} />
     </div>
   );
 }
 
-export function PlaceStep({ step, onDone }) {
-  return <PlacementActivity sets={step.sets} onComplete={onDone} />;
+export function PlaceStep({ step, onDone, onMistake }) {
+  return <PlacementActivity sets={step.sets} onComplete={onDone} onMistake={onMistake} />;
 }
 
 // ---------------------------------------------------------------- contoh soal (worked example)
@@ -211,7 +213,7 @@ export function WorkedStep({ step, onDone }) {
 }
 
 // ---------------------------------------------------------------- soal cerita → isi daerah
-export function StoryStep({ step, onDone }) {
+export function StoryStep({ step, onDone, onMistake }) {
   const given = step.given ?? [];
   const [values, setValues] = useState(() => Object.fromEntries(given.map((m) => [m, String(step.answers[m])])));
   const [focus, setFocus] = useState([]);
@@ -235,6 +237,7 @@ export function StoryStep({ step, onDone }) {
     const ok = Object.values(m).every((x) => x === 'correct');
     setStatus(ok ? 'ok' : 'retry');
     if (ok) onDone();
+    else onMistake?.();
   };
 
   return (
@@ -291,7 +294,7 @@ export function StoryStep({ step, onDone }) {
 }
 
 // ---------------------------------------------------------------- isian angka
-export function FillStep({ step, onDone }) {
+export function FillStep({ step, onDone, onMistake }) {
   const [value, setValue] = useState('');
   const [tries, setTries] = useState(0);
   const [ok, setOk] = useState(false);
@@ -300,6 +303,7 @@ export function FillStep({ step, onDone }) {
     setOk(good);
     setTries((t) => t + 1);
     if (good) onDone();
+    else onMistake?.();
   };
   return (
     <div className="space-y-3">
@@ -312,7 +316,7 @@ export function FillStep({ step, onDone }) {
             Periksa
           </button>
         </div>
-        {tries > 0 && <Feedback ok={ok}>{ok ? step.explain : tries >= 2 ? `Petunjuk: ${step.hint}` : 'Belum tepat. Coba lagi.'}</Feedback>}
+        {tries > 0 && <Feedback ok={ok}>{ok ? step.explain : 'Belum tepat. Coba lagi, atau buka Bantuan Kak Venn di bawah.'}</Feedback>}
       </div>
     </div>
   );

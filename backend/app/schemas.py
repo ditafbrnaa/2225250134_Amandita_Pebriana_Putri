@@ -44,3 +44,16 @@ class TutorIn(BaseModel):
 class TutorOut(BaseModel):
     reply: str
     phase: int | None = None  # 1–3 sesuai tahapan RMT, None bila tidak terbaca
+
+
+class StepLog(BaseModel):
+    wrong: int = Field(default=0, ge=0, le=999)
+    hints: int = Field(default=0, ge=0, le=3)
+    solved: bool = False
+
+
+class LearningIn(BaseModel):
+    """Catatan proses belajar satu modul. Kunci = indeks langkah ("0", "1", ...)."""
+
+    steps: dict[str, StepLog] = Field(default_factory=dict, max_length=40)
+    done: bool = False

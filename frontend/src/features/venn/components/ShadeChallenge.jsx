@@ -9,9 +9,9 @@ const pretty = (expr) => expr.replace(/([∪∩−])/g, ' $1 ');
 
 /**
  * Mode Arsir (GL01): siswa mengarsir sendiri daerah sesuai ekspresi, lalu memeriksa.
- * @param {{challenges:string[], labels?:object, onComplete?:()=>void}} props
+ * @param {{challenges:string[], labels?:object, onComplete?:()=>void, onMistake?:()=>void}} props
  */
-export default function ShadeChallenge({ challenges, labels, onComplete }) {
+export default function ShadeChallenge({ challenges, labels, onComplete, onMistake }) {
   const [idx, setIdx] = useState(0);
   const [shaded, setShaded] = useState([]);
   const [marks, setMarks] = useState({});
@@ -37,7 +37,9 @@ export default function ShadeChallenge({ challenges, labels, onComplete }) {
       else if (!isT && isS) m[mask] = 'wrong';
     });
     setMarks(m);
-    setStatus(Object.values(m).every((v) => v === 'correct') ? 'ok' : 'retry');
+    const ok = Object.values(m).every((v) => v === 'correct');
+    setStatus(ok ? 'ok' : 'retry');
+    if (!ok) onMistake?.();
   };
 
   const next = () => {
