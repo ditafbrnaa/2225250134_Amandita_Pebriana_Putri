@@ -20,6 +20,13 @@ class Settings(BaseSettings):
     teacher_pin: str = DEFAULT_PIN
     cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
 
+    # Tutor AI (opsional). Kunci HANYA disimpan di server, tidak pernah dikirim ke HP siswa.
+    # Bawaan: OpenRouter (format OpenAI) dengan model gratis. Untuk DeepSeek (berbayar, murah) cukup ganti
+    # AI_MODEL=deepseek/deepseek-v4.1-flash. Daftar model: https://openrouter.ai/models
+    ai_api_key: str = ""
+    ai_base_url: str = "https://openrouter.ai/api/v1"
+    ai_model: str = "google/gemma-4-31b-it:free"
+
     @model_validator(mode="after")
     def _require_secrets_in_production(self) -> "Settings":
         """Di server online (Vercel), PIN & kunci bawaan ditolak agar dasbor guru tidak bisa ditebak."""

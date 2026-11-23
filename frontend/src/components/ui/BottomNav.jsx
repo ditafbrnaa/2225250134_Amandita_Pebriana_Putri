@@ -5,6 +5,7 @@ import { tapSpring } from '@/features/venn/lib/motion.js';
 const ITEMS = [
   { to: '/', label: 'Belajar', icon: '🗺️', end: true },
   { to: '/lab', label: 'Lab', icon: '🧪' },
+  { to: '/tutor', label: 'Tutor', icon: '🤖' },
   { to: '/pengaturan', label: 'Profil', icon: '⚙️' },
 ];
 

@@ -87,6 +87,25 @@ Kalau `SECRET_KEY`/`TEACHER_PIN` masih bawaan atau `DATABASE_URL` belum diatur, 
 
 > Catatan: siswa yang sudah membuka versi demo lama akan mendapat versi baru setelah menekan tombol pembaruan aplikasi. Mereka otomatis diminta **masuk ulang** dengan namanya, dan pretest versi demo di HP mereka dihapus agar dikerjakan ulang dan tercatat di server. Progres modul tetap tersimpan.
 
+## 3c. Tutor AI "Kak Venn" (opsional)
+
+Menu **Tutor** berisi chatbot yang membimbing siswa memecahkan soal literasi secara bertahap mengikuti **Rigorous Mathematical Thinking (RMT)**: *Pahami Soal → Gunakan Konsep → Cek & Refleksi*. Tutor memberi petunjuk bertingkat (pemantik → strategi → langkah → contoh serupa) dan **tidak memberikan jawaban akhir**. Aturannya ada di `backend/app/services/tutor.py`.
+
+- Tutor **terkunci** sebelum pretest dikumpulkan dan selama pretest/posttest berlangsung (dicek di aplikasi *dan* di server).
+- Nama/NIS siswa **tidak** dikirim ke layanan AI. Yang dikirim hanya teks soal dan isi percakapan.
+- Soal latihan tutor ada di `frontend/src/data/tutorProblems.json` (bukan soal instrumen).
+
+Cara mengaktifkan:
+1. Daftar di **openrouter.ai** → *Keys* → *Create Key*, lalu salin kuncinya (`sk-or-...`).
+2. Di Vercel → Settings → Environment Variables, tambahkan:
+   | Nama | Isi |
+   |---|---|
+   | `AI_API_KEY` | kunci dari OpenRouter (**jangan** diawali `VITE_`, agar tidak ikut ke HP siswa) |
+   | `AI_MODEL` | opsional. Bawaan `google/gemma-4-31b-it:free` (gratis). Untuk DeepSeek: `deepseek/deepseek-v4.1-flash` (perlu isi saldo) |
+3. *Redeploy*.
+
+Model gratis di OpenRouter dibatasi ±50 permintaan/hari per akun (naik ke ±1.000/hari setelah pernah isi saldo $10) dan bisa sibuk di jam ramai. Daftar model gratis bisa berubah sewaktu-waktu. Kalau tutor menampilkan pesan "Layanan AI menolak permintaan (404)", cek nama model di openrouter.ai/models lalu perbarui `AI_MODEL`.
+
 ## 4. Analisis data penelitian
 
 ```bash

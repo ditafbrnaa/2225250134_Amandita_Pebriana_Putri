@@ -27,3 +27,20 @@ class TeacherLoginIn(BaseModel):
 
 class ScoreIn(BaseModel):
     score: int = Field(ge=0)
+
+
+class TutorMessage(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str = Field(min_length=1, max_length=1200)
+
+
+class TutorIn(BaseModel):
+    problem: str = Field(min_length=10, max_length=1500)
+    messages: list[TutorMessage] = Field(min_length=1, max_length=30)
+    # 0 = belum minta petunjuk; 1–4 = tingkat petunjuk yang diminta siswa (makin tinggi makin spesifik)
+    hint_level: int = Field(default=0, ge=0, le=4)
+
+
+class TutorOut(BaseModel):
+    reply: str
+    phase: int | None = None  # 1–3 sesuai tahapan RMT, None bila tidak terbaca

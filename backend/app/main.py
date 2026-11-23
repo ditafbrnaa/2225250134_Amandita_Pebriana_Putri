@@ -4,7 +4,7 @@ from sqlalchemy import text
 
 from .config import get_settings
 from .database import Base, engine
-from .routers import attempts, students, teacher
+from .routers import attempts, students, teacher, tutor
 
 # Untuk proyek skripsi, tabel dibuat otomatis. Jika skema berubah setelah ada data, gunakan Alembic.
 Base.metadata.create_all(bind=engine)
@@ -28,7 +28,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-for r in (students.router, attempts.router, teacher.router):
+for r in (students.router, attempts.router, teacher.router, tutor.router):
     app.include_router(r, prefix="/api/v1")
 
 

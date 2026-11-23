@@ -1,0 +1,26 @@
+[
+  {
+    "id": "t1",
+    "title": "Ekstrakurikuler",
+    "level": "Mudah",
+    "text": "Di kelas VII B ada 34 siswa. Sebanyak 19 siswa ikut ekstrakurikuler tari, 14 siswa ikut paduan suara, dan 6 siswa ikut keduanya. Berapa siswa yang tidak ikut tari maupun paduan suara?"
+  },
+  {
+    "id": "t2",
+    "title": "Bacaan Favorit",
+    "level": "Sedang",
+    "text": "Dari survei 40 siswa, 23 siswa suka membaca komik dan 17 siswa suka membaca novel. Ada 7 siswa yang tidak suka keduanya. Berapa siswa yang suka membaca komik saja?"
+  },
+  {
+    "id": "t3",
+    "title": "Minuman Kantin",
+    "level": "Sedang",
+    "text": "Penjaga kantin mencatat 45 siswa membeli minuman hari ini. Sebanyak 28 siswa membeli es teh, 22 siswa membeli jus, dan setiap siswa membeli paling sedikit satu jenis minuman. Besok penjaga kantin ingin menyiapkan gelas khusus untuk siswa yang membeli kedua minuman. Berapa gelas yang perlu disiapkan, dan apakah hasilmu masuk akal?"
+  },
+  {
+    "id": "t4",
+    "title": "Berangkat Sekolah",
+    "level": "Sulit",
+    "text": "Dari 50 siswa, 21 siswa pernah berangkat sekolah naik sepeda, 30 siswa pernah naik angkot, dan 9 siswa belum pernah naik keduanya. Guru berkata, \"Lebih dari separuh siswa pernah naik angkot saja.\" Apakah pernyataan guru itu benar? Jelaskan alasanmu."
+  }
+]

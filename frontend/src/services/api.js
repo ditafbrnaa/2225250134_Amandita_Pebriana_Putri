@@ -42,6 +42,8 @@ export const api = {
   join: (payload) => request('/students/join', { method: 'POST', body: payload }),
   submitAttempt: (attemptId) => request(`/attempts/${attemptId}/submit`, { method: 'POST', token: studentToken() }),
   getAttempt: (attemptId) => request(`/attempts/${attemptId}`, { token: studentToken() }),
+  /** Tutor AI: kunci API ada di server, aplikasi hanya mengirim soal + percakapan (tanpa nama siswa). */
+  tutorChat: (payload) => request('/tutor/chat', { method: 'POST', body: payload, token: studentToken() }),
 };
 
 /** Menjadwalkan sinkronisasi (aman diulang; job dengan dedupeKey sama diganti yang terbaru). */

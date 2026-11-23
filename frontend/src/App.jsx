@@ -17,6 +17,7 @@ import ModulePage from '@/pages/ModulePage.jsx';
 import TestPage from '@/pages/TestPage.jsx';
 import TestResultPage from '@/pages/TestResultPage.jsx';
 import SettingsPage from '@/pages/SettingsPage.jsx';
+import TutorPage from '@/pages/TutorPage.jsx';
 
 // Dasbor guru jarang dibuka siswa → dimuat terpisah agar bundle awal kecil.
 const TeacherPage = lazy(() => import('@/pages/teacher/TeacherPage.jsx'));
@@ -42,7 +43,7 @@ function OfflineBadge() {
 }
 
 /** Layar tugas: hiasan latar dibuat diam agar tidak ada animasi berulang tanpa henti (CLAUDE.md §6). */
-const isTaskScreen = (path) => path.startsWith('/lab') || path.startsWith('/modul') || (path.startsWith('/tes/') && !path.endsWith('/hasil'));
+const isTaskScreen = (path) => path.startsWith('/lab') || path.startsWith('/tutor') || path.startsWith('/modul') || (path.startsWith('/tes/') && !path.endsWith('/hasil'));
 
 function Shell() {
   const location = useLocation();
@@ -80,6 +81,7 @@ function Shell() {
             <Route path="/modul/:id" element={<ModulePage />} />
             <Route path="/tes/:type" element={<TestPage />} />
             <Route path="/tes/:type/hasil" element={<TestResultPage />} />
+            <Route path="/tutor" element={<TutorPage />} />
             <Route path="/pengaturan" element={<SettingsPage />} />
             <Route path="/guru/*" element={<TeacherPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
