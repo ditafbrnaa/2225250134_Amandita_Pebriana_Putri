@@ -38,6 +38,7 @@ def test_build_messages_memuat_aturan_soal_dan_petunjuk():
 
 
 def test_tutor_butuh_login_dan_kunci(monkeypatch):
+    monkeypatch.setattr(get_settings(), "anthropic_api_key", "")
     assert client.post(f"{API}/tutor/chat", json=_body()).status_code == 401
     monkeypatch.setattr(get_settings(), "ai_api_key", "")
     r = client.post(f"{API}/tutor/chat", json=_body(), headers=_student("Tutor Satu"))
@@ -80,6 +81,7 @@ class _Res:
 
 def test_model_penuh_langsung_pindah_ke_cadangan(monkeypatch):
     s = get_settings()
+    monkeypatch.setattr(s, "anthropic_api_key", "")
     monkeypatch.setattr(s, "ai_api_key", "k")
     monkeypatch.setattr(s, "ai_model", "a:free, b:free ,c:free")
     tried = []
@@ -96,6 +98,7 @@ def test_model_penuh_langsung_pindah_ke_cadangan(monkeypatch):
 
 def test_kunci_salah_berhenti_dan_semua_gagal(monkeypatch):
     s = get_settings()
+    monkeypatch.setattr(s, "anthropic_api_key", "")
     monkeypatch.setattr(s, "ai_api_key", "k")
     monkeypatch.setattr(s, "ai_model", "a,b")
     tried = []
@@ -112,3 +115,89 @@ def test_kunci_salah_berhenti_dan_semua_gagal(monkeypatch):
         raise AssertionError("harus gagal")
     except tutor.TutorUnavailable as e:
         assert "tidak bisa menjawab" in str(e)
+
+
+class _Block:
+    def __init__(self, type_: str, text: str = ""):
+        self.type = type_
+        self.text = text
+
+
+class _Msg:
+    def __init__(self, text: str, stop_reason: str = "end_turn"):
+        self.content = [_Block("thinking"), _Block("text", text)]
+        self.stop_reason = stop_reason
+
+
+def _fake_claude(monkeypatch, outcome):
+    """Mengganti klien Anthropic; `outcome` = _Msg atau exception yang dilempar."""
+    calls = []
+
+    class _Endpoint:
+        def create(self, **kw):
+            calls.append(kw)
+            if isinstance(outcome, Exception):
+                raise outcome
+            return outcome
+
+    class _Client:
+        def __init__(self, **kw):
+            self.messages = _Endpoint()
+            self.beta = type("B", (), {"messages": self.messages})()
+
+    monkeypatch.setattr(tutor.anthropic, "Anthropic", _Client)
+    return calls
+
+
+def test_claude_dipakai_lebih_dulu(monkeypatch):
+    s = get_settings()
+    monkeypatch.setattr(s, "anthropic_api_key", "sk-ant")
+    monkeypatch.setattr(s, "claude_model", "claude-opus-5-5")
+    calls = _fake_claude(monkeypatch, _Msg("TAHAP: 2\nCoba isi irisannya dulu."))
+    reply = tutor.ask_tutor(PROBLEM, [{"role": "user", "content": "hai"}], hint_level=2)
+    assert reply == ("Coba isi irisannya dulu.", 2)
+    kw = calls[0]
+    assert kw["model"] == "claude-opus-5-5" and kw["fallbacks"] == "default"
+    assert "JANGAN PERNAH" in kw["system"][0]["text"] and PROBLEM in kw["system"][1]["text"]
+    assert "LEVEL 2" in kw["system"][2]["text"]
+    assert all(m["role"] in ("user", "assistant") for m in kw["messages"])
+
+
+def test_claude_gagal_pindah_ke_openrouter(monkeypatch):
+    s = get_settings()
+    monkeypatch.setattr(s, "anthropic_api_key", "sk-ant")
+    monkeypatch.setattr(s, "ai_api_key", "sk-or")
+    monkeypatch.setattr(s, "ai_model", "x:free")
+    _fake_claude(monkeypatch, _Msg("", stop_reason="refusal"))
+    monkeypatch.setattr(tutor.httpx, "post", lambda url, json, **kw: _Res(200, "TAHAP: 1\nApa yang diketahui?"))
+    assert tutor.ask_tutor(PROBLEM, [{"role": "user", "content": "hai"}]) == ("Apa yang diketahui?", 1)
+
+
+def test_kunci_claude_salah_tanpa_cadangan(monkeypatch):
+    import httpx2
+
+    s = get_settings()
+    monkeypatch.setattr(s, "anthropic_api_key", "salah")
+    monkeypatch.setattr(s, "ai_api_key", "")
+    req = httpx2.Request("POST", "https://api.anthropic.com/v1/messages")
+    err = tutor.anthropic.AuthenticationError("x", response=httpx2.Response(401, request=req), body=None)
+    _fake_claude(monkeypatch, err)
+    try:
+        tutor.ask_tutor(PROBLEM, [{"role": "user", "content": "hai"}])
+        raise AssertionError("harus gagal")
+    except tutor.TutorUnavailable as e:
+        assert "ANTHROPIC_API_KEY" in str(e)
+
+
+def test_status_ai_untuk_guru(monkeypatch):
+    s = get_settings()
+    monkeypatch.setattr(s, "anthropic_api_key", "sk-ant-rahasia-1234")
+    monkeypatch.setattr(s, "ai_api_key", "sk-or-rahasia-9876")
+    monkeypatch.setattr(s, "ai_model", "a:free,b:free")
+    assert client.get(f"{API}/teacher/ai-status").status_code == 401
+    t = client.post(f"{API}/teacher/login", json={"pin": s.teacher_pin}).json()["token"]
+    r = client.get(f"{API}/teacher/ai-status", headers={"Authorization": f"Bearer {t}"})
+    data = r.json()
+    assert data["enabled"] and [p["name"] for p in data["providers"]] == ["Claude (Anthropic)", "OpenRouter"]
+    assert data["providers"][1]["models"] == ["a:free", "b:free"]
+    assert "rahasia" not in r.text and data["providers"][0]["key_hint"] == "…1234"

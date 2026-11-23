@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import problems from '@/data/tutorProblems.json';
@@ -7,6 +7,7 @@ import { useAppStore } from '@/store/useAppStore.js';
 import { api, backendEnabled } from '@/services/api.js';
 import { useOnline } from '@/hooks/useOnline.js';
 import { MAX_HINT_LEVEL, RMT_PHASES, nextHintLevel, tutorAccess } from '@/features/tutor/lib/tutorGuard.js';
+import { formatReply } from '@/features/tutor/lib/formatReply.js';
 
 const LOCKED = {
   'no-backend': 'Kak Venn butuh server sekolah. Versi ini belum terhubung ke server.',
@@ -17,30 +18,37 @@ const LOCKED = {
 const HINT_LABEL = ['', 'Pertanyaan pemantik', 'Petunjuk strategi', 'Petunjuk langkah', 'Contoh soal serupa'];
 const START_MESSAGE = 'Aku siap mengerjakan soal ini. Bimbing aku, ya.';
 
+/** Penanda tahapan RMT (bukan tombol): naik sendiri saat Kak Venn menilai siswa siap ke tahap berikutnya. */
 function PhaseBar({ phase }) {
+  const current = RMT_PHASES[phase - 1];
   return (
-    <ol className="flex gap-1" aria-label="Tahapan berpikir">
-      {RMT_PHASES.map((p) => {
-        const state = p.no < phase ? 'done' : p.no === phase ? 'now' : 'next';
-        return (
-          <li
+    <div className="rounded-2xl bg-white/70 px-3 py-2" role="status" aria-label={`Tahap ${phase} dari 3: ${current.name}`}>
+      <p className="flex items-baseline justify-between gap-2 text-xs text-ink/70">
+        <span>
+          Tahap {phase} dari {RMT_PHASES.length}
+        </span>
+        <span className="font-bold text-ink">{current.name}</span>
+      </p>
+      <div className="mt-1.5 flex gap-1" aria-hidden>
+        {RMT_PHASES.map((p) => (
+          <span key={p.no} className={`h-2 flex-1 rounded-full ${p.no <= phase ? 'bg-brand-pink' : 'bg-blush'}`} />
+        ))}
+      </div>
+      <p className="mt-1 flex justify-between gap-1 text-[11px] text-ink/60" aria-hidden>
+        {RMT_PHASES.map((p) => (
+          <span
             key={p.no}
-            aria-current={state === 'now' ? 'step' : undefined}
-            className={`flex-1 rounded-2xl px-2 py-1.5 text-center text-xs font-semibold cartoon-sm ${
-              state === 'now' ? 'bg-pop text-ink' : state === 'done' ? 'bg-mint text-ink' : 'bg-white text-ink/60'
-            }`}
+            className={`flex-1 ${p.no === 2 ? 'text-center' : p.no === 3 ? 'text-right' : ''} ${p.no === phase ? 'font-semibold text-ink' : ''}`}
           >
-            <span aria-hidden>{state === 'done' ? '✔ ' : `${p.no}. `}</span>
             {p.name}
-            <span className="block text-[10px] font-normal text-ink/70">{p.desc}</span>
-          </li>
-        );
-      })}
-    </ol>
+          </span>
+        ))}
+      </p>
+    </div>
   );
 }
 
-function Bubble({ role, children }) {
+function Bubble({ role, text }) {
   const mine = role === 'user';
   return (
     <motion.div
@@ -49,14 +57,24 @@ function Bubble({ role, children }) {
       transition={{ duration: 0.2 }}
       className={`flex ${mine ? 'justify-end' : 'justify-start'}`}
     >
-      <p
-        className={`max-w-[85%] whitespace-pre-wrap rounded-3xl px-4 py-2 text-[15px] leading-relaxed cartoon-sm ${
-          mine ? 'rounded-br-md bg-babyblue' : 'rounded-bl-md bg-white'
+      <div
+        className={`max-w-[85%] break-words rounded-3xl px-4 py-2 text-[15px] leading-relaxed cartoon-sm ${
+          mine ? 'whitespace-pre-wrap rounded-br-md bg-babyblue' : 'rounded-bl-md bg-white'
         }`}
       >
-        {!mine && <span className="mb-0.5 block text-xs font-bold text-brand">Kak Venn</span>}
-        {children}
-      </p>
+        {mine ? (
+          text
+        ) : (
+          <>
+            <span className="mb-0.5 block text-xs font-bold text-brand">Kak Venn</span>
+            {formatReply(text).map((line, i) => (
+              <p key={i} className={line.length ? '' : 'h-2'}>
+                {line.map((seg, j) => (seg.bold ? <strong key={j}>{seg.text}</strong> : <span key={j}>{seg.text}</span>))}
+              </p>
+            ))}
+          </>
+        )}
+      </div>
     </motion.div>
   );
 }
@@ -68,6 +86,7 @@ export default function TutorPage() {
 
   const [problem, setProblem] = useState(null); // { id?, title, text }
   const [custom, setCustom] = useState('');
+  const [customError, setCustomError] = useState(null);
   const [messages, setMessages] = useState([]); // [{ role, content }]
   const [phase, setPhase] = useState(1);
   const phaseRef = useRef(1); // nilai terbaru untuk dibandingkan di dalam send() (hindari closure basi)
@@ -76,8 +95,20 @@ export default function TutorPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const endRef = useRef(null);
+  const composerRef = useRef(null);
+  const inputRef = useRef(null);
 
-  useEffect(() => endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' }), [messages, busy]);
+  // Pesan terbaru harus terlihat DI ATAS kotak ketik yang menempel di bawah (dan navigasi bawah di HP).
+  useLayoutEffect(() => {
+    const end = endRef.current;
+    const composer = composerRef.current;
+    if (!end || !composer) return;
+    const frame = requestAnimationFrame(() => {
+      const overlap = end.getBoundingClientRect().bottom - (composer.getBoundingClientRect().top - 12);
+      if (overlap > 0) window.scrollBy({ top: overlap, behavior: 'smooth' });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [messages, busy, error]);
 
   if (!access.open) {
     return (
@@ -123,6 +154,8 @@ export default function TutorPage() {
     phaseRef.current = 1;
     setPhase(1);
     setHintLevel(0);
+    setError(null);
+    window.scrollTo({ top: 0 });
     send(START_MESSAGE, 0, [], p);
   }
 
@@ -137,6 +170,7 @@ export default function TutorPage() {
     const text = draft.trim();
     if (!text || busy) return;
     setDraft('');
+    inputRef.current?.focus(); // keyboard HP tetap terbuka
     send(text, 0);
   }
 
@@ -169,14 +203,29 @@ export default function TutorPage() {
           className="card space-y-2"
           onSubmit={(e) => {
             e.preventDefault();
-            if (custom.trim().length >= 10) start({ title: 'Soalku', text: custom.trim() });
+            if (custom.trim().length < 10) {
+              setCustomError('Tulis soal ceritanya dulu di kotak ini, minimal satu kalimat, ya.');
+              return;
+            }
+            start({ title: 'Soalku', text: custom.trim() });
           }}
         >
           <label htmlFor="custom-problem" className="label">
             Atau tulis soal cerita himpunan dari buku/guru:
           </label>
-          <textarea id="custom-problem" className="input min-h-24" maxLength={1500} value={custom} onChange={(e) => setCustom(e.target.value)} placeholder="Contoh: Dari 30 siswa, 18 suka …" />
-          <button type="submit" className="btn btn-primary" disabled={!online || custom.trim().length < 10}>
+          <textarea id="custom-problem" className="input min-h-24" maxLength={1500} value={custom} onChange={(e) => {
+              setCustom(e.target.value);
+              setCustomError(null);
+            }}
+            placeholder="Contoh: Dari 30 siswa, 18 suka futsal, 12 suka voli, dan 5 suka keduanya. Berapa siswa yang …"
+            aria-describedby={customError ? 'custom-error' : undefined}
+          />
+          {customError && (
+            <p id="custom-error" className="text-sm font-semibold text-brand-dark" role="alert">
+              {customError}
+            </p>
+          )}
+          <button type="submit" className="btn btn-primary w-full sm:w-auto" disabled={!online}>
             Mulai dengan soal ini
           </button>
         </form>
@@ -199,9 +248,7 @@ export default function TutorPage() {
       <div className="space-y-2" aria-live="polite">
         <AnimatePresence initial={false}>
           {messages.slice(1).map((m, i) => (
-            <Bubble key={i} role={m.role}>
-              {m.content}
-            </Bubble>
+            <Bubble key={i} role={m.role} text={m.content} />
           ))}
         </AnimatePresence>
         {busy && (
@@ -224,7 +271,7 @@ export default function TutorPage() {
         <div ref={endRef} />
       </div>
 
-      <div className="safe-bottom sticky bottom-20 z-20 space-y-2 rounded-3xl bg-white p-2 cartoon md:bottom-2">
+      <div ref={composerRef} className="safe-bottom sticky bottom-20 z-20 space-y-2 rounded-3xl bg-white p-2 cartoon md:bottom-2">
         <button
           type="button"
           className="btn btn-secondary w-full"
@@ -244,15 +291,18 @@ export default function TutorPage() {
             Tulis jawaban atau pertanyaanmu
           </label>
           <input
+            ref={inputRef}
             id="tutor-input"
-            className="input flex-1"
+            className="input min-w-0 flex-1"
             value={draft}
             maxLength={1200}
             onChange={(e) => setDraft(e.target.value)}
-            placeholder={online ? 'Tulis jawaban atau pertanyaanmu…' : 'Sedang offline…'}
-            disabled={busy || !online}
+            placeholder={online ? 'Tulis jawabanmu…' : 'Sedang offline…'}
+            enterKeyHint="send"
+            autoComplete="off"
+            disabled={!online}
           />
-          <button type="submit" className="btn btn-primary" disabled={busy || !online || !draft.trim()}>
+          <button type="submit" className="btn btn-primary shrink-0" disabled={busy || !online || !draft.trim()}>
             Kirim
           </button>
         </form>

@@ -154,6 +154,54 @@ function Grading({ token }) {
   );
 }
 
+/** Info layanan AI Tutor Kak Venn. Kunci tidak pernah ditampilkan utuh (hanya 4 karakter terakhir). */
+function AiStatus({ token }) {
+  const [status, setStatus] = useState(null);
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    request('/teacher/ai-status', { token }).then(setStatus).catch(() => setStatus(null));
+  }, [token]);
+  if (!status) return null;
+
+  return (
+    <div className="card space-y-2">
+      <button type="button" className="flex w-full items-center justify-between gap-2 text-left" onClick={() => setOpen((v) => !v)} aria-expanded={open}>
+        <span className="font-bold">🤖 Tutor AI Kak Venn</span>
+        <span className={`chip-pastel ${status.enabled ? 'bg-mint' : ''}`}>{status.enabled ? `Aktif · ${status.providers[0].name}` : 'Belum aktif'}</span>
+      </button>
+      {open && (
+        <div className="space-y-2 text-sm">
+          {status.enabled ? (
+            <>
+              <p className="text-ink/70">Layanan dicoba berurutan. Bila yang pertama gagal atau penuh, yang berikutnya dipakai otomatis.</p>
+              <ol className="space-y-2">
+                {status.providers.map((p, i) => (
+                  <li key={p.name} className="rounded-2xl bg-sky-soft p-3">
+                    <p className="font-semibold">
+                      {i + 1}. {p.name} {i > 0 && <span className="font-normal text-ink/60">(cadangan)</span>}
+                    </p>
+                    <p className="break-all text-ink/80">Model: {p.models.join(', ')}</p>
+                    <p className="text-ink/80">
+                      Kunci: <code>{p.env}</code> berakhiran <code>{p.key_hint}</code>
+                    </p>
+                    <a href={p.dashboard} target="_blank" rel="noreferrer" className="font-semibold text-brand-blue underline">
+                      Lihat pemakaian & saldo
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </>
+          ) : (
+            <p className="text-ink/70">
+              Isi <code>ANTHROPIC_API_KEY</code> (Claude) atau <code>AI_API_KEY</code> (OpenRouter) di Environment Variables Vercel, lalu Redeploy.
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function TeacherPage() {
   const [token, setToken] = useState(() => sessionStorage.getItem(TOKEN_KEY));
   const [tab, setTab] = useState('summary');
@@ -184,6 +232,7 @@ export default function TeacherPage() {
           Keluar
         </button>
       </div>
+      <AiStatus token={token} />
       <div className="flex gap-2">
         <button type="button" className={`btn ${tab === 'summary' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setTab('summary')} aria-pressed={tab === 'summary'}>
           Rekap semua siswa

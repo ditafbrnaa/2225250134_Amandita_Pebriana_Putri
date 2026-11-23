@@ -95,7 +95,14 @@ Menu **Tutor** berisi chatbot yang membimbing siswa memecahkan soal literasi sec
 - Nama/NIS siswa **tidak** dikirim ke layanan AI. Yang dikirim hanya teks soal dan isi percakapan.
 - Soal latihan tutor ada di `frontend/src/data/tutorProblems.json` (bukan soal instrumen).
 
-Cara mengaktifkan:
+Kak Venn bisa memakai **Claude (Anthropic)**, **OpenRouter**, atau keduanya. Bila keduanya diisi, Claude dipakai lebih dulu dan OpenRouter otomatis jadi cadangan saat Claude gagal.
+
+Cara mengaktifkan **Claude**:
+1. Buka **platform.claude.com**, daftar, isi kredit (*Billing*), lalu *API Keys* → *Create Key*. Langganan Claude.ai (Pro/Max) **tidak** termasuk API, jadi kreditnya terpisah.
+2. Di Vercel → Settings → Environment Variables, tambahkan `ANTHROPIC_API_KEY`. Opsional: `CLAUDE_MODEL` (bawaan `claude-opus-5-5`; `claude-haiku-5-5` jauh lebih murah).
+3. *Redeploy*.
+
+Cara mengaktifkan **OpenRouter**:
 1. Daftar di **openrouter.ai** → *Keys* → *Create Key*, lalu salin kuncinya (`sk-or-...`).
 2. Di Vercel → Settings → Environment Variables, tambahkan:
    | Nama | Isi |

@@ -21,7 +21,12 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
 
     # Tutor AI (opsional). Kunci HANYA disimpan di server, tidak pernah dikirim ke HP siswa.
-    # AI_MODEL berisi satu atau beberapa model (pisahkan koma). Bila model pertama penuh/gagal,
+    # Claude (Anthropic). Bila ANTHROPIC_API_KEY diisi, Claude dipakai lebih dulu dan OpenRouter jadi cadangan.
+    # Ambil kunci di https://platform.claude.com → API Keys. CLAUDE_MODEL bisa diganti, mis. claude-haiku-5-5 (lebih murah).
+    anthropic_api_key: str = ""
+    claude_model: str = "claude-opus-5-5"
+
+    # OpenRouter. AI_MODEL berisi satu atau beberapa model (pisahkan koma). Bila model pertama penuh/gagal,
     # model berikutnya langsung dicoba. Bawaan: deretan model gratis OpenRouter.
     # Paling andal (berbayar, murah): AI_MODEL=deepseek/deepseek-v4.1-flash,google/gemma-4-31b-it:free
     ai_api_key: str = ""

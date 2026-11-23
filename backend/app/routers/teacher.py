@@ -152,3 +152,38 @@ def export_csv(db: Session = Depends(get_db)) -> StreamingResponse:
 
 def _404():
     raise HTTPException(404, "Data tidak ditemukan.")
+
+
+def _key_hint(key: str) -> str | None:
+    """Hanya 4 karakter terakhir, cukup untuk mencocokkan dengan dashboard penyedia tanpa membocorkan kunci."""
+    return f"…{key[-4:]}" if key else None
+
+
+@router.get("/ai-status", dependencies=[Depends(require_teacher)])
+def ai_status() -> dict:
+    """Layanan AI yang dipakai Tutor Kak Venn (urutan = urutan dicoba). Kunci tidak pernah dikirim utuh."""
+    from ..services.tutor import model_list
+
+    s = get_settings()
+    providers = []
+    if s.anthropic_api_key:
+        providers.append(
+            {
+                "name": "Claude (Anthropic)",
+                "env": "ANTHROPIC_API_KEY",
+                "dashboard": "https://platform.claude.com",
+                "models": [s.claude_model],
+                "key_hint": _key_hint(s.anthropic_api_key),
+            }
+        )
+    if s.ai_api_key:
+        providers.append(
+            {
+                "name": "OpenRouter",
+                "env": "AI_API_KEY",
+                "dashboard": "https://openrouter.ai/settings/keys",
+                "models": model_list(s.ai_model),
+                "key_hint": _key_hint(s.ai_api_key),
+            }
+        )
+    return {"enabled": bool(providers), "providers": providers}
